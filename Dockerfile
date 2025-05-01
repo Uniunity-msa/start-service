@@ -12,7 +12,7 @@ RUN npm install
 COPY . .
 
 # 5. 앱이 사용하는 포트 열기 (ex: 3000)
-EXPOSE 3000
+EXPOSE 3001
 
 # 6. 서버 실행
 CMD ["node", "main.js"]
