@@ -99,7 +99,7 @@ app.use(errorController.logErrors);
 app.use(errorController.respondNoResourceFound);
 app.use(errorController.respondInternalEroor);
 
-const port = 3000
+const port = 3001
 app.listen(port, ()=> {
     console.log('running')
 })
