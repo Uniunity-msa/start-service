@@ -17,8 +17,8 @@ services:
       - "3001:3001"
     environment:
       - PORT=3001
-      - DB_HOST=start-service-db
-      - DB_NAME=start-service-db
+      - DBHOST=start-service-db
+      - DBNAME=start-service-db
     depends_on:
       - db
     restart: "no"
