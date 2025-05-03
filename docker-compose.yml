@@ -1,0 +1,13 @@
+version: '3'
+services:
+  start-service:
+    image: start-service
+    build: 
+      context: ./
+      dockerfile: Dockerfile
+    container_name: start-service
+    ports:
+     - "3001:3001"
+    environment:
+      - PORT=3001
+    restart: "no"
