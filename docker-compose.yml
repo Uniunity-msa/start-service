@@ -1,5 +1,12 @@
 version: '3'
 services:
+  db:
+    image: mysql:8.0
+    container_name: start-service-db
+    ports:
+      - "3306:3306"
+    restart: always
+    
   start-service:
     image: start-service
     build: 
@@ -7,7 +14,13 @@ services:
       dockerfile: Dockerfile
     container_name: start-service
     ports:
-     - "3001:3001"
+      - "3001:3001"
     environment:
       - PORT=3001
+      - DB_HOST=start-service-db
+      - DB_NAME=start-service-db
+    depends_on:
+      - db
     restart: "no"
+
+ 
