@@ -111,6 +111,18 @@
                                 class="bi bi-people m-auto "></i></div>
                         <h3>대학교와 인근 상권의 <br>커뮤니티</h3>
                         <p class="lead mb-0">재학생에게 소상공인 가게 정보를 제공하며, 재학생과 소상공인이 소통하는 커뮤니티 제공해요. </p>
+                        <div id="map" style="width:500px;height:400px;">
+                            <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=발급받은 APP KEY를 넣으시면 됩니다."></script>
+                            <script>
+                                var container = document.getElementById('map');
+                                var options = {
+                                    center: new kakao.maps.LatLng(33.450701, 126.570667),
+                                    level: 3
+                                };
+                                var map = new kakao.maps.Map(container, options);
+                            </script>
+                        
+                        </div>
                     </div>
                 </div>
 
