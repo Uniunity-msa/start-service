@@ -4,7 +4,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require('path');
-const mysql = require('mysql');
+//const mysql = require('mysql');
 
 const app = express();
 
@@ -34,12 +34,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-const db = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-  });
+// const db = mysql.createConnection({
+//     host: process.env.DB_HOST,
+//     user: process.env.DB_USER,
+//     password: process.env.DB_PASSWORD,
+//     database: process.env.DB_NAME,
+//   });
 
 
 app.use("/", require("./src/controllers/index.js")); //use -> 미들 웨어를 등록해주는 메서드
