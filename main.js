@@ -33,16 +33,13 @@ app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
+app.use("/", require("./src/controllers/index")); //use -> 미들 웨어를 등록해주는 메서드
 // const db = mysql.createConnection({
 //     host: process.env.DB_HOST,
 //     user: process.env.DB_USER,
 //     password: process.env.DB_PASSWORD,
 //     database: process.env.DB_NAME,
 //   });
-
-
-app.use("/", require("./src/controllers/index.js")); //use -> 미들 웨어를 등록해주는 메서드
 
 //에러처리를 위한 미들웨어 생성
 
@@ -51,6 +48,7 @@ app.use(errorController.respondNoResourceFound);
 app.use(errorController.respondInternalEroor);
 
 const port = process.env.PORT;
+// const port = 3001;
 app.listen(port, ()=> {
     console.log('running')
 })
