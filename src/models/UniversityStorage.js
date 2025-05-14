@@ -1,6 +1,28 @@
 "use strict"
-const { pool } = require("../../config/db");
+
+const { pool } = require("../config/db");
 class UniversityStorage {
+    //테스트용 메서드
+    static getUniversityNameAll() {
+        return new Promise(async (resolve, reject) => {
+
+            pool.getConnection((err, connection) => {
+                if (err) {
+                    console.error('MySQL 연결 오류: ', err);
+                    reject(err)
+                }
+
+                pool.query("SELECT university_name,university_id FROM University;", function (err, rows, fields) {
+                    pool.releaseConnection(connection);
+                    if (err) {
+                        console.error('Query 함수 오류', err);
+                        reject(err)
+                    }
+                    resolve({success:true,status:200,result:rows});
+                })
+            })
+        })
+    }
 
     // university_id받아 university_name반환하기
     static getUnversityName(university_id) {

@@ -4,14 +4,12 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require('path');
-const mysql = require('mysql');
-
+const db = require('./src/config/db.js');
 const app = express();
 
 //에러 라우팅
 const errorController = require("./src/controllers/errorControllers.js");
 require('dotenv').config();
-
 
 //const bcrypt = require('bcrypt');
 
@@ -34,7 +32,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-app.use("/", require("./src/controllers/index.js")); //use -> 미들 웨어를 등록해주는 메서드
+// app.use("/", require("./src/controllers/index.js")); //use -> 미들 웨어를 등록해주는 메서드
+app.use("/", require("./src/routes/startRoute.js")); //use -> 미들 웨어를 등록해주는 메서드
 
 //에러처리를 위한 미들웨어 생성
 
@@ -42,7 +41,8 @@ app.use(errorController.logErrors);
 app.use(errorController.respondNoResourceFound);
 app.use(errorController.respondInternalEroor);
 
-const port = process.env.PORT;
+// const port = process.env.PORT;
+const port = 3000;
 app.listen(port, ()=> {
     console.log('running')
 })
