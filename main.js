@@ -4,7 +4,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require('path');
-const db = require('./src/config/db.js');
+// const db = require('./src/config/db.js');
 const app = express();
 
 //에러 라우팅
@@ -41,8 +41,42 @@ app.use(errorController.logErrors);
 app.use(errorController.respondNoResourceFound);
 app.use(errorController.respondInternalEroor);
 
+// //rabbitMQ test
+// const amqp = require("amqplib");
+// const RABBIT = process.env.RABBIT;
+// function connectRabbit() {
+
+//     console.log(`Connecting to RabbitMQ server at ${RABBIT}.`);
+
+//     return amqp.connect(RABBIT) // Connect to the RabbitMQ server.
+//         .then(messagingConnection => {
+//             console.log("Connected to RabbitMQ.");
+
+//             return messagingConnection.createChannel(); // Create a RabbitMQ messaging channel.
+//         });
+// }
+
+// function main() {
+//     console.log("Hello world!");
+
+//     return connectDb()                                          // Connect to the database...
+//         .then(db => {                                           // then...
+//             return connectRabbit()                              // connect to RabbitMQ...
+//                 .then(messageChannel => {                       // then...
+//                     return startHttpServer(db, messageChannel); // start the HTTP server.
+//                 });
+//         });
+// }
+// main()
+//     .then(() => console.log("Microservice online."))
+//     .catch(err => {
+//         console.error("Microservice failed to start.");
+//         console.error(err && err.stack || err);
+//     });
+//rabbitMQ test
+
 // const port = process.env.PORT;
-const port = 3000;
+const port = 3001;
 app.listen(port, ()=> {
     console.log('running')
 })
