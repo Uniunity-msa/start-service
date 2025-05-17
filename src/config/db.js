@@ -20,6 +20,8 @@
 const mysql = require('mysql2');
 require("dotenv").config();
 
+console.log("mysql 연결시도");
+
 const pool = mysql.createPool({
   connectionLimit: 10,
   host: process.env.START_SERVICE_DB_HOST,

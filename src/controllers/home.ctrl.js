@@ -3,8 +3,9 @@
 //const Partner = require("../models/Partner");
 // const User = require("../models/User");
 // const Council = require("../models/Council");
-// const Post = require("../models/Post");
 const University = require("../models/University");
+// const Post = require("../models/Post");
+// const University = require("../models/University");
 // const sendEmailWithAuthorization = require("../../mailer");
 // const bcrypt = require('bcrypt');
 // const Comment = require('../models/Comment');
@@ -17,9 +18,18 @@ const output = {
     council: (req, res) => {
         res.render('../views/council.html');
     }, 
+}
+
+const mainpage = {
+    //테스트용
+    home: async (req, res) => {
+        res.render("mainpage.html");
+    },
+
     showUniversityNameList: async (req, res) => {
-        const university_name = new University();
-        const response = await university_name.showUniversityNameList();
+        console.log("home.ctrl의 showUniversityNameList 실행\n");
+        const university = new University(); //testGetUnversity
+        const response = await university.testGetUnversity();
         return res.json(response);
     }
 }
@@ -28,6 +38,12 @@ const output = {
 const result = {
     council: async (req, res) => {
         res.render("council/council.html");
+    },
+
+    showUniversityNameList: async (req, res) => {
+        const university_name = new University();
+        const response = await university_name.showUniversityNameList();
+        return res.json(response);
     },
 
     getUniversityName: async (req, res) => {
@@ -60,4 +76,5 @@ module.exports = {
     // post,
     // retailer,
     // comment
+    mainpage
 };

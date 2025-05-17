@@ -14,6 +14,7 @@ class University{
             return{success:false,msg:err};
         }
     }
+
     async getUnversityIdToName(university_id){
         try{
             const response=await UniversityStorage.getUnversityName(university_id);

@@ -13,7 +13,7 @@ class UniversityStorage {
                     reject(err)
                 }
 
-                pool.query("SELECT university_name,university_id FROM University;", function (err, rows, fields) {
+                pool.query("SELECT university_name FROM University;", function (err, rows, fields) {
                     pool.releaseConnection(connection);
                     if (err) {
                         console.error('Query 함수 오류', err);
