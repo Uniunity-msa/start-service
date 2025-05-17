@@ -4,6 +4,16 @@ class University{
     constructor(body){
         this.body=body;
     }
+    //테스트용
+    async testGetUnversity(university_id){
+        console.log("University.js의 testGetUnversity\n");
+        try{
+            const response=await UniversityStorage.getUniversityNameAll();
+            return response;
+        }catch(err){
+            return{success:false,msg:err};
+        }
+    }
     async getUnversityIdToName(university_id){
         try{
             const response=await UniversityStorage.getUnversityName(university_id);

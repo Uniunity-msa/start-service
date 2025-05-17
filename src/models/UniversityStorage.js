@@ -4,6 +4,7 @@ const { pool } = require("../config/db");
 class UniversityStorage {
     //테스트용 메서드
     static getUniversityNameAll() {
+        console.log("UniversityStorage.js의 getUniversityNameAll\n");
         return new Promise(async (resolve, reject) => {
 
             pool.getConnection((err, connection) => {

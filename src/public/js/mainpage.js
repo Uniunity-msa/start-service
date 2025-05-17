@@ -41,6 +41,7 @@ const searchUniversityName = (suggestArr) => {
 }
 
 const loadloginData = async() => {
+    console.log("loadloginData 실행\n");
     const url = `${apiUrl}/loginStatus`;
     await fetch(url,{
         headers:{
@@ -56,6 +57,7 @@ const loadloginData = async() => {
 
 
 const setLoginHeader=(res)=>{
+    console.log("setLoginHeader 실행\n");
     navBar.setAttribute("href", `${apiUrl}`);
     if(res.loginStatus==true){
         loginStatusBtn.setAttribute("href", `${apiUrl}/logout`);
@@ -75,11 +77,13 @@ const setLoginHeader=(res)=>{
 //mainpage 로드 후 loadData()실행
 window.addEventListener('DOMContentLoaded', function()
 {
+    console.log("window.addEventListener 실행\n");
     loadData();
     loadloginData();
 });
 
 const checkInput = () => {
+    console.log("checkInput 실행\n");
 
     const input = searchInput.value;
     while(ul.hasChildNodes()){
@@ -112,6 +116,7 @@ searchInput.addEventListener("keyup", checkInput);
 
  //input이 빈 문자열일 경우에 모든 학교리스트 반환(mousedown)
 searchInput.addEventListener("mousedown", (event) => {
+    console.log("searchInput.addEventListener 실행\n");
     while(ul.hasChildNodes()){
         ul.removeChild(ul.firstChild);
     }
