@@ -134,3 +134,4 @@ searchInput.addEventListener("mousedown", (event) => {
             a.href=`/council/${el.university_url}`;
     })
 });
+

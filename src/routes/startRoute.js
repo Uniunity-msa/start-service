@@ -6,6 +6,6 @@ const ctrl = require("../controllers/home.ctrl");
 router.get("/mainPage",ctrl.output.home);
 router.get("/council",ctrl.output.council);
 
-router.get("/showUniversityNameList", ctrl.result.showUniversityNameList);
+router.get("/showUniversityNameList", ctrl.mainpage.showUniversityNameList);
 
 module.exports = router;

@@ -32,5 +32,13 @@ const pool = mysql.createPool({
   charset: 'utf8mb4'
 });
 
+
+console.log(process.env.START_SERVICE_DB_HOST);
+console.log(process.env.START_SERVICE_DB_USER);
+console.log(process.env.START_SERVICE_DB_PASSWORD);
+console.log(process.env.START_SERVICE_DB_NAME);
+console.log(process.env.START_SERVICE_DB_PORT);
+
 module.exports = { pool };
+
 
