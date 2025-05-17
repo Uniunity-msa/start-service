@@ -4,7 +4,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require('path');
-// const db = require('./src/config/db.js');
+const db = require('./src/config/db.js');
 const app = express();
 
 //에러 라우팅
