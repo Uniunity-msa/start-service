@@ -2,7 +2,6 @@
 
 const { pool } = require("../config/db");
 class UniversityStorage {
-    //테스트용 메서드
     static getUniversityNameAll() {
         return new Promise(async (resolve, reject) => {
 
