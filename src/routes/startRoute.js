@@ -8,7 +8,7 @@ router.get("/mainPage",ctrl.output.home);
 router.get("/showUniversityNameList", ctrl.mainpage.showUniversityNameList);
 
 //council 페이지
-router.get("/council/:university_url",ctrl.output.council);
+router.get("/council/:university_url",ctrl.output.council, ctrl.mainpage.getUniversityName);
 
 
 module.exports = router;

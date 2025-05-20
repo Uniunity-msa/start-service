@@ -8,7 +8,7 @@ class University{
     async showUniversityNameList(university_id){
         console.log("University.js의 showUniversityNameList\n");
         try{
-            const response=await UniversityStorage.getUniversityNameAll();
+            const response=await UniversityStorage.getUniversityName();
             return response;
         }catch(err){
             return{success:false,msg:err};

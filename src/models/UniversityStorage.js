@@ -2,7 +2,8 @@
 
 const { pool } = require("../config/db");
 class UniversityStorage {
-    static getUniversityNameAll() {
+    //모든 대학 정보 가져오기
+    static getUniversityName() {
         return new Promise(async (resolve, reject) => {
 
             pool.getConnection((err, connection) => {
@@ -22,25 +23,27 @@ class UniversityStorage {
             })
         })
     }
-    // static getUniversityNameAll() {
-    //     console.log("UniversityStorage.js의 getUniversityNameAll\n");
-    //     return new Promise(async (resolve,reject)=> {
-    //         pool.getConnection((err,connection)=>{
-    //             if(err){
-    //                 console.error('getUniversityNameAll에서 MySQL 연결 오류: ',err);
-    //                 reject(err)
-    //             }
-    //             pool.query("SELECT university_name FROM University;",[university_url],function(err,rows){
-    //                 connection.release();
-    //                 if(err){
-    //                     console.error('Query 함수 오류',err);
-    //                     reject(err)
-    //                 }
-    //                 resolve(rows[0].university_id);
-    //             });
-    //         });     
-    //     });
-    // }
+
+    //university_url받아 university_name 반환하기
+    static getUnversityName(university_id) {
+        return new Promise(async (resolve, reject) => {
+            pool.getConnection((err, connection) => {
+                if (err) {
+                    console.error('getUnversityName MySQL 연결 오류: ', err);
+                    reject(err)
+                }
+                const query = "SELECT university_name FROM University WHERE university_id =?;";
+                pool.query(query, [university_id], (err, data) => {
+                    connection.release();
+                    if (err) reject(`${err}`);
+
+                    else {
+                        resolve(data[0].university_name);
+                    }
+                });
+            })
+        })
+    }
 
     // university_id받아 university_name반환하기
     // static getUnversityName(university_id) {
@@ -62,6 +65,7 @@ class UniversityStorage {
     //         })
     //     })
     // }
+
     // // university_id받아 university_url반환하기
     // static getUnversityUrl(university_id) {
     //     return new Promise(async (resolve, reject) => {
