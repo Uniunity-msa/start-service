@@ -1,2 +1,2 @@
 // config.js
-const apiUrl = 'http://34.64.174.81:3001'; 
+const apiUrl = 'http://34.47.84.123:3001';
