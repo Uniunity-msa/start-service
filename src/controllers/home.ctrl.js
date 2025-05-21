@@ -15,6 +15,7 @@ const output = {
         res.render('../views/mainpage.html');
     },
     council: (req, res) => {
+        mainpage.getUniversityName;
         res.render('../views/council.html');
     }, 
 }
@@ -25,24 +26,18 @@ const mainpage = {
         const university = new University();
         const response = await university.showUniversityNameList();
         return res.json(response);
-    }, 
-
-    getUniversityName: async (req, res) => {
-        const council = new Council();
-        const response = await council.getUniversityName(req.body.university_url);
-        console.log("home.ctrl의 getUniversityName ");
-        console.log(response);
-        return res.json(response);
-    },
+    }
 }
 
 //council 페이지
 const council = {
-    // showUniversityNameList: async (req, res) => {
-    //     const university_name = new University();
-    //     const response = await university_name.showUniversityNameList();
-    //     return res.json(response);
-    // },
+    getUniversityName: async (req, res) => {
+        console.log("home.ctrl의 getUniversityName ");
+        const council = new Council();
+        const response = await council.getUniversityName(req.body.university_url);
+        console.log(response);
+        return res.json(response);
+    }
 }
 
 // const result = {
