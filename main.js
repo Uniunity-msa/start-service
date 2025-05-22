@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const path = require('path');
 const db = require('./src/config/db.js');
 const app = express();
+const rabbitmq = require("./src/rabbit/rabbitmq.js")
 
 //에러 라우팅
 const errorController = require("./src/controllers/errorControllers.js");
@@ -45,7 +46,8 @@ app.use(errorController.respondInternalEroor);
 //app.post("/send_msg", mq.send_message);
 //app.get("/get_msg", mq.recv_message);
 
-// const port = process.env.PORT;
+//const port = process.env.PORT;
+console.log("process.env.PORT: ", process.env.PORT);
 const port = 3001;
 app.listen(port, ()=> {
     console.log('running')

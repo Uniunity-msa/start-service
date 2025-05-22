@@ -1,6 +1,7 @@
 "use strict"
 
 const University = require("../models/University");
+const { sendUniversityURL, receiveUniversityData } = require('../rabbit/rabbitmq');
 //const Partner = require("../models/Partner");
 // const User = require("../models/User");
 // const Council = require("../models/Council");
@@ -26,7 +27,23 @@ const mainpage = {
         const university = new University();
         const response = await university.showUniversityNameList();
         return res.json(response);
-    }
+    }, 
+
+
+    getUniversityName: async (req, res) => {
+        console.log("home.ctrl의 getUniversityName ");
+        console.log("req.body:", req.body);
+
+        if (!req.body || !req.body.university_url) {
+            console.error("❌ university_url이 전달되지 않았습니다.");
+            return res.status(400).json({ error: "university_url이 필요합니다." });
+        }
+
+        const university = new University();
+        const response = await university.getUniversityName(req.body.university_url);
+        console.log(response);
+        return res.json(response);
+    }, 
 }
 
 //council 페이지
@@ -34,9 +51,33 @@ const council = {
     getUniversityName: async (req, res) => {
         console.log("home.ctrl의 getUniversityName ");
         const university = new University();
-        const response = await university.getUniversityName(req.body.university_url);
+	
+        if (!req.body || !req.body.university_url) {
+            console.error("❌ university_url이 전달되지 않았습니다.");
+            return res.status(400).json({ error: "university_url이 필요합니다." });
+        }
+
+        const response = await university.getUnversityUrlToName(req.body.university_url);
         console.log(response);
         return res.json(response);
+    },
+
+    getUniversityLocation: async (req, res) => {
+        console.log("home.ctrl의 getUniversityLocation");
+        console.log("req.body:", req.body);
+	try {
+            const university_url = req.body.university_url;
+
+            // RabbitMQ로 university_location 요청 및 수신
+            await sendUniversityURL(university_url, 'SendUniversityLocation');
+            const university_location = await receiveUniversityData('RecvUniversityLocation');
+
+            return res.json(university_location);
+
+        } catch (err) {
+            console.error('getUniversityLocation error:', err);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
     }
 }
 

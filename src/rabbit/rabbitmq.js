@@ -1,74 +1,76 @@
 const amqp = require("amqplib");
 
-class RabbitmqWrapper {
-  constructor(url, queueName, options) {
-    // 객체 초기화
-    this._url = url;
-    this._queueName = queueName;
-    this._options = options || {};
+const RECV_QUEUES = [
+  'RecvUniversityName', 
+  'RecvUniversityLocation'
+]
 
-    // public
-    this.channel = undefined;
-    this.queue = undefined;
+const SEND_QUEUES = [
+  'SendUniversityName', 
+  'SendUniversityLocation'
+]
+
+let channel;
+
+async function connectRabbitMQ() {
+  console.log("Rabbit: ", process.env.RABBIT);
+  const rabbitUrl = process.env.RABBIT || 'amqp://localhost'; // env 변수 사용, 없으면 localhost 기본
+  const connection = await amqp.connect(rabbitUrl);
+  channel = await connection.createChannel();
+
+  // 모든 RECV 큐 선언
+  for (const queue of RECV_QUEUES) {
+    await channel.assertQueue(queue, { durable: false });
   }
 
-  // 커넥트 생성하고 채널 연결
-  async setup() {
-    const connect = await amqp.connect(this._url); //mysqlconnect
-    const channel = await connect.createChannel(); //mysql-database
-    this.channel = channel;
-  }
-
-  // 채널에다가 queue 만들어주기 queue는 메세지를 수신 받을 수 있는 이름
-  async assertQueue() {
-    const queue = await this.channel.assertQueue(this._queueName, {
-      durable: false, // false는 볼 때까지 보관, true는 일정시간이 지나면 사라짐
-    });
-    this.queue = queue;
-  }
-
-  // queue에 데이터보내기
-  async sendToQueue(msg) {
-    const sending = await this.channel.sendToQueue(
-      this._queueName,
-      this.encode(msg),
-      {
-        persistent: true,
-      }
-    );
-    return sending;
-  }
-
-    // queue에 있는 데이터 가져오기
-  async recvFromQueue() {
-    const message = await this.channel.get(this._queueName, {});
-    if (message) {
-      this.channel.ack(message);
-      console.log(message.content);
-      console.log(message.content.toString())
-      return message.content.toString();
-    } else {
-      return null;
-    }
-  }
-
-  // 문자를 Buffer로 바꿈
-  encode(doc) {
-    return Buffer.from(JSON.stringify(doc));
-  }
-
-  // 메세지보내기
-  async send_message(msg) {
-    await this.setup(); //레빗엠큐 연결
-    await this.assertQueue(); //큐생성
-    await this.sendToQueue(msg); //생성큐메세지전달
-  }
-
-  // 메세지 가져오기
-  async recv_message() {
-    await this.setup();
-    return await this.recvFromQueue();
-  }
+  return channel;
 }
 
-module.exports = RabbitmqWrapper;
+// university_url을 전송
+async function sendUniversityURL(university_url, sendQueueName) {
+  if (!channel) await connectRabbitMQ();
+  let recvQueueName;
+  if(sendQueueName == 'SendUniversityName'){
+    recvQueueName = 'RecvUniversityName';
+  } else if(sendQueueName == 'SendUniversityLocation'){
+    recvQueueName = 'RecvUniversityLocation'
+  } else {
+    console.log("명시되지 않은 sendQueueName 입니다.");
+  }
+
+  channel.sendToQueue(
+    sendQueueName,  // 올바르게 인자로 받은 큐 이름 사용
+    Buffer.from(JSON.stringify({ university_url })),
+    {
+      replyTo: recvQueueName,
+    }
+  );
+  console.log(`[start-service] university_url 전송: ${university_url} → ${sendQueueName}`);
+}
+
+// university data 수신
+async function receiveUniversityData(queueName) {
+  if (!channel) await connectRabbitMQ();
+
+  if (!RECV_QUEUES.includes(queueName)) {
+    throw new Error(`알 수 없는 수신 큐: ${queueName}`);
+  }
+
+  return new Promise((resolve, reject) => {
+    channel.consume(queueName, (msg) => {
+      if (msg) {
+        const data = JSON.parse(msg.content.toString());
+        console.log(`[start-service] ${queueName} 수신:`, data);
+        channel.ack(msg);  // 메시지 확인(ack)해서 큐에서 제거
+        resolve(data);
+      } else {
+        reject(new Error('메시지를 받지 못했습니다.'));
+      }
+    }, { noAck: false });  // noAck: false 로 ack를 직접 호출하게 함
+  });
+}
+
+module.exports = {
+  sendUniversityURL,
+  receiveUniversityData
+};

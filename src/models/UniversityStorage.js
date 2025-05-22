@@ -33,7 +33,7 @@ class UniversityStorage {
                     reject(err)
                 }
                 const query = "SELECT university_name FROM University WHERE university_url =?;";
-                pool.query(query, [university_id], (err, data) => {
+                pool.query(query, [university_url], (err, data) => {
                     connection.release();
                     if (err) reject(`${err}`);
 

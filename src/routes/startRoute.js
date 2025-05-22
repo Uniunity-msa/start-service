@@ -10,6 +10,7 @@ router.get("/showUniversityNameList", ctrl.mainpage.showUniversityNameList);
 //council 페이지
 router.get("/council/:university_url", ctrl.output.council);
 router.post("/getUniversityName", ctrl.council.getUniversityName);
+router.post("/getUniversityLocation", ctrl.council.getUniversityLocation);
 
 // council 라우터
 // router.get("/council/:universityname",ctrl.result.council);
