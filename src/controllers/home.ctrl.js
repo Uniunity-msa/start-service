@@ -26,24 +26,15 @@ const mainpage = {
         const university = new University();
         const response = await university.showUniversityNameList();
         return res.json(response);
-<<<<<<< Updated upstream
     }
-=======
-    } 
->>>>>>> Stashed changes
 }
 
 //council 페이지
 const council = {
     getUniversityName: async (req, res) => {
         console.log("home.ctrl의 getUniversityName ");
-<<<<<<< Updated upstream
-        const council = new Council();
-        const response = await council.getUniversityName(req.body.university_url);
-=======
         const university = new University();
         const response = await university.getUniversityName(req.body.university_url);
->>>>>>> Stashed changes
         console.log(response);
         return res.json(response);
     }
