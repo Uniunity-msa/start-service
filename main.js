@@ -41,6 +41,18 @@ app.use(errorController.logErrors);
 app.use(errorController.respondNoResourceFound);
 app.use(errorController.respondInternalEroor);
 
+//----------
+// CORS 설정
+app.use(cors({
+  origin: "*", // 모든 도메인 허용 (개발 중에는 괜찮음. 배포 시에는 특정 도메인만 허용하도록 변경)
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true // 필요한 경우 (쿠키 전달 등)
+}));
+
+// 나머지 설정
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 //래빗mq
 const mq = require("./src/rabbit/rabbitmq-api.js");
 app.post("/send_msg", mq.send_message);
