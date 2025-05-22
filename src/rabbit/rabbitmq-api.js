@@ -1,5 +1,5 @@
 const Rabbitmq = require("./rabbitmq.js");
-const url = "amqp://34.47.84.123:15672"; //rabbitmq url
+const url = "amqp://34.47.84.123:5672"; //rabbitmq url
 const queue = "web_msg"; //임시 queue이름이고 필요한 상황에 맞게 이름 따로 지정해줘야 한다.
 module.exports = {
   send_message: async (req, res) => {

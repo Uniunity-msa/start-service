@@ -1,5 +1,5 @@
-import loadKakaoMap from '/js/kakaomapLoader.js';
-import apiKeys from './apiKey.js';
+//import loadKakaoMap from '/js/kakaomapLoader.js';
+//import apiKeys from './apiKey.js';
 
 console.log("council.js 시작1"); //테스트용 로그
 
