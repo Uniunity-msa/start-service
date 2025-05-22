@@ -24,15 +24,15 @@ class UniversityStorage {
         })
     }
 
-    //university_url받아 university_name 반환하기
-    static getUnversityName(university_id) {
-        return new Promise(async (resolve, reject) => {
+    static getUnversityUrlToName(university_url) {
+        console.log("UniversityStorage.js의 getUnversityUrlToName")
+	return new Promise(async (resolve, reject) => {
             pool.getConnection((err, connection) => {
                 if (err) {
                     console.error('getUnversityName MySQL 연결 오류: ', err);
                     reject(err)
                 }
-                const query = "SELECT university_name FROM University WHERE university_id =?;";
+                const query = "SELECT university_name FROM University WHERE university_url =?;";
                 pool.query(query, [university_id], (err, data) => {
                     connection.release();
                     if (err) reject(`${err}`);
@@ -44,6 +44,7 @@ class UniversityStorage {
             })
         })
     }
+
 
     // university_id받아 university_name반환하기
     // static getUnversityName(university_id) {

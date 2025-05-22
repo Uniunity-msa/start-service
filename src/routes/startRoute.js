@@ -9,7 +9,11 @@ router.get("/showUniversityNameList", ctrl.mainpage.showUniversityNameList);
 
 //council 페이지
 router.get("/council/:university_url", ctrl.output.council);
+<<<<<<< Updated upstream
 router.get("/council/:university_url/getUniversityName", ctrl.council.getUniversityName);
+=======
+router.post("/getUniversityName", ctrl.council.getUniversityName);
+>>>>>>> Stashed changes
 
 // council 라우터
 // router.get("/council/:universityname",ctrl.result.council);

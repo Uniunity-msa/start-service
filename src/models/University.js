@@ -15,6 +15,16 @@ class University{
         }
     }
 
+    async getUnversityUrlToName(university_url){
+        console.log("University.js의 getUnversityUrlToName\n");
+	try{
+            const response=await UniversityStorage.getUnversityUrlToName(university_id);
+            return response;
+        }catch(err){
+            return{success:false,msg:err};
+        }
+    }
+
     // async getUnversityIdToName(university_id){
     //     try{
     //         const response=await UniversityStorage.getUnversityName(university_id);
