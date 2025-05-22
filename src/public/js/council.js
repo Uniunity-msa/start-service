@@ -1,5 +1,7 @@
-import loadKakaoMap from '../js/kakaomapLoader.js';
-import apiKeys from './apiKey.js';
+//import loadKakaoMap from '/js/kakaomapLoader.js';
+//import apiKeys from './apiKey.js';
+
+console.log("council.js 시작1"); //테스트용 로그
 
 //로그인(로그아웃), 회원가입(마이페이지)버튼
 const loginStatusBtn = document.getElementById("loginStatusBtn");
@@ -12,39 +14,41 @@ const user_name = document.getElementById("user_name");
 const university_name = document.getElementById("university_name");
 const navBar=document.getElementById("navbar");
 
+console.log("council.js 시작"); //테스트용 로그
+
 //회원로그인 정보 불러오기
-const loadloginData = () => {
-  const url = `${apiUrl}/loginStatus`;
-  fetch(url)
-      .then((res) => res.json())
-      .then(res => {
-          userInfo=res;
-          setLoginHeader(res);
-      }
-      )
-}
+// const loadloginData = () => {
+//   const url = `${apiUrl}/loginStatus`;
+//   fetch(url)
+//       .then((res) => res.json())
+//       .then(res => {
+//           userInfo=res;
+//           setLoginHeader(res);
+//       }
+//       )
+// }
 
-const setLoginHeader = (res) => {
-  navBar.setAttribute("href", `${apiUrl}`);
-  if (res.loginStatus) {
-      loginStatusBtn.setAttribute("href", `${apiUrl}/logout`);
-      loginStatusBtn.innerText = "로그아웃"
-      signUpBtn.setAttribute("href", `${apiUrl}/mypage`);
-      signUpBtn.innerText = "마이페이지"
-  }
-  else {
-      loginStatusBtn.setAttribute("href", `${apiUrl}/login`);
-      loginStatusBtn.innerText = "로그인"
-      signUpBtn.setAttribute("href", `${apiUrl}/signup/agreement`);
-      signUpBtn.innerText = "회원가입"
-  }
+// const setLoginHeader = (res) => {
+//   navBar.setAttribute("href", `${apiUrl}`);
+//   if (res.loginStatus) {
+//       loginStatusBtn.setAttribute("href", `${apiUrl}/logout`);
+//       loginStatusBtn.innerText = "로그아웃"
+//       signUpBtn.setAttribute("href", `${apiUrl}/mypage`);
+//       signUpBtn.innerText = "마이페이지"
+//   }
+//   else {
+//       loginStatusBtn.setAttribute("href", `${apiUrl}/login`);
+//       loginStatusBtn.innerText = "로그인"
+//       signUpBtn.setAttribute("href", `${apiUrl}/signup/agreement`);
+//       signUpBtn.innerText = "회원가입"
+//   }
 
-}
+// }
 
 // 로드 후 loadData()실행
-window.addEventListener('DOMContentLoaded', function () {
-  loadloginData();
-});
+// window.addEventListener('DOMContentLoaded', function () {
+//   loadloginData();
+// });
 
 
 // university_url 값을 받아오는 함수
@@ -55,6 +59,7 @@ function getUniversityUrl() {
   // 경로에서 universityUrl 값을 추출
   const pathParts = path.split('/');
   const universityUrl = pathParts[pathParts.length - 1];
+  console.log("universityUrl: ", universityUrl);
   return universityUrl;
 }
 var university_url = getUniversityUrl();
@@ -141,6 +146,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // 슬라이더 정보
 var mySwiper;
 function setSwiper() {
+  console.log("setSwiper 시작"); //테스트용 로그
   mySwiper = new Swiper('.swiper-container', {
   wrapperClass: 'swiper-wrapper',
   slideClass: 'swiper-slide',
@@ -207,6 +213,7 @@ async function fetchImageUrls(imageData) {
 }
 
 function councilLoad() {
+  console.log("councilLoad 시작"); //테스트용 로그
   const universityUrl = getUniversityUrl();
   const req = {
     university_url: universityUrl
@@ -221,32 +228,33 @@ function councilLoad() {
   })
     .then((res) => res.json())
     .then(res => {
+      console.log("universityName: ", res.universityName); //테스트용 로그
       Uniname.push(res.university_name);
       universityName.innerHTML = Uniname[0];
-    })
-    .then(() => {
-    return fetch(`${apiUrl}/getCardNewsImageUrl`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(req),
     });
-  })
-  .then((res) => res.json())
-  .then((imageData) => { // 이미지 데이터를 변수 imageData로 받아옴
-    fetchImageUrls(imageData); // 이미지 데이터를 fetchImageUrls 함수의 인자로 전달
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
+  //   .then(() => {
+  //   return fetch(`${apiUrl}/getCardNewsImageUrl`, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(req),
+  //   });
+  // })
+  // .then((res) => res.json())
+  // .then((imageData) => { // 이미지 데이터를 변수 imageData로 받아옴
+  //   fetchImageUrls(imageData); // 이미지 데이터를 fetchImageUrls 함수의 인자로 전달
+  // })
+  // .catch(error => {
+  //   console.error('Error:', error);
+  // });
 }
 
 window.addEventListener('DOMContentLoaded', function() {
   setSwiper();
   updateDynamicLinks();
   councilLoad();
-  retailerLoad();
+  // retailerLoad();
 });
 
 
@@ -333,11 +341,13 @@ function generateDynamicURL(linkId, userschool) {
 
 // 새로운 url로 업데이트
 async function updateDynamicLinks() {
+  console.log("updateDynamicLinks 시작"); //테스트용 로그
   var userschool = getDynamicValueFromURL();
   if (!userschool) {
     console.log("영어 문자열이 URL에서 추출되지 않았습니다.");
     return;
   }
+  console.log("userschool: ", userschool); //테스트용 로그
 
   var link1 = document.getElementById("main_retailer");
   var link2 = document.getElementById("partner");

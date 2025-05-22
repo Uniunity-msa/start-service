@@ -1,11 +1,10 @@
 "use strict"
 
+const University = require("../models/University");
 //const Partner = require("../models/Partner");
 // const User = require("../models/User");
 // const Council = require("../models/Council");
-const University = require("../models/University");
 // const Post = require("../models/Post");
-// const University = require("../models/University");
 // const sendEmailWithAuthorization = require("../../mailer");
 // const bcrypt = require('bcrypt');
 // const Comment = require('../models/Comment');
@@ -16,30 +15,30 @@ const output = {
         res.render('../views/mainpage.html');
     },
     council: (req, res) => {
+        mainpage.getUniversityName;
         res.render('../views/council.html');
     }, 
 }
 
 const mainpage = {
-    //테스트용
-    home: async (req, res) => {
-        res.render("mainpage.html");
-    },
-
     showUniversityNameList: async (req, res) => {
         console.log("home.ctrl의 showUniversityNameList 실행\n");
-        const university = new University(); //testGetUnversity
-        const response = await university.testGetUnversity();
+        const university = new University();
+        const response = await university.showUniversityNameList();
         return res.json(response);
     }
 }
 
 //council 페이지
-// const result = {
-//     council: async (req, res) => {
-//         res.render("council/council.html");
-//     },
-
+const council = {
+    getUniversityName: async (req, res) => {
+        console.log("home.ctrl의 getUniversityName ");
+        const university = new University();
+        const response = await university.getUniversityName(req.body.university_url);
+        console.log(response);
+        return res.json(response);
+    }
+}
 
 //     showUniversityNameList: async (req, res) => {
 //         const university_name = new University();
@@ -71,11 +70,6 @@ const mainpage = {
 
 module.exports = {
     output,
-    // process,
-    // result,
-    // partner,
-    // post,
-    // retailer,
-    // comment
-    mainpage
+    mainpage, 
+    council
 };
