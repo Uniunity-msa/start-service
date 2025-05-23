@@ -1,6 +1,8 @@
 "use strict"
 
 const { pool } = require("../config/db");
+const { uploadImageToGCS } = require("../utils/gcsUploader");
+
 class UniversityStorage {
     //모든 대학 정보 가져오기
     static getUniversityName() {
