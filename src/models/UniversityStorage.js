@@ -47,6 +47,64 @@ class UniversityStorage {
         })
     }
 
+    //클라우드 스토리지에서 이미지 가져오기
+    static async loadImages(postId) {
+        return new Promise((resolve, reject) => {
+            pool.getConnection(async (err, connection) => {
+                if(err) return reject(err);
+
+                try {
+                    const post_id = postId;
+                    console.log("post_id: ", post_id);
+                } catch (err) {
+                    connection.release();
+                    reject({ result: false, status: 500, err: `${err}` });
+                }
+            });
+        });
+    }
+
+    //게시글 등록시 post이미지 저장(클라우드 스토리지 사용방식으로 변경)
+    static async saveImagePost(postId, postInfo, formattedDateTime) {
+        return new Promise((resolve, reject) => {
+        pool.getConnection(async (err, connection) => {
+            if (err) return reject(err);
+    
+            try {
+            const post_id = postId;
+    
+            // src="data:image/..." 태그에서 base64 이미지 추출
+            const regex = /<img\s+src="([^"]+)"\s+alt="[^"]+"\s+contenteditable="false">/gi;
+            const matches = postInfo.match(regex);
+    
+            if (!matches || matches.length === 0) {
+                connection.release();
+                return resolve({ result: true, status: 201 });
+            }
+    
+            // 첫 번째 이미지만 처리 (여러 개 저장 원하면 반복문으로 확장 가능)
+            const base64Image = matches[0].match(/src="([^"]+)"/)[1];
+            const base64Data = base64Image.replace(/^data:image\/\w+;base64,/, "");
+            const buffer = Buffer.from(base64Data, "base64");
+    
+            const uploadedUrl = await uploadImageToGCS(buffer, `post_${post_id}.jpg`);
+    
+            const imageQuery = 'INSERT INTO PostImage(image_id, post_id, image_url, image_date) VALUES (?, ?, ?, ?);';
+            connection.query(imageQuery, [null, post_id, uploadedUrl, formattedDateTime], (imageErr) => {
+                connection.release();
+                if (imageErr) {
+                return reject({ result: false, status: 500, err: `${imageErr}` });
+                }
+                return resolve({ result: true, status: 201 });
+            });
+            } catch (err) {
+            connection.release();
+            reject({ result: false, status: 500, err: `${err}` });
+            }
+        });
+        });
+    }
+
 
     // university_id받아 university_name반환하기
     // static getUnversityName(university_id) {

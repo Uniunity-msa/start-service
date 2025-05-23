@@ -212,6 +212,27 @@ async function fetchImageUrls(imageData) {
   }
 }
 
+function imagesLoad() {
+  console.log("imagesLoad 시작"); //테스트용 로그
+  const universityUrl = getUniversityUrl();
+  const req = {
+    university_url: universityUrl
+  };
+  
+  console.log("apiUrl: ", `${apiUrl}`); //테스트용 로그
+  fetch(`${apiUrl}/getUniversityName`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(req),
+  })
+    .then((res) => res.json())
+    .then(res => {
+      console.log("여기서 이미지 받아와야 함!"); //테스트용 로그
+    })
+}
+
 function councilLoad() {
   console.log("councilLoad 시작"); //테스트용 로그
   const universityUrl = getUniversityUrl();
@@ -256,6 +277,7 @@ function councilLoad() {
 window.addEventListener('DOMContentLoaded', function() {
   setSwiper();
   updateDynamicLinks();
+  imagesLoad(); //포스트 이미지를 가져오는 함수
   councilLoad();
   // retailerLoad();
 });

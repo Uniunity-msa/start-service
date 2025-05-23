@@ -48,6 +48,21 @@ const mainpage = {
 
 //council 페이지
 const council = {
+    getImages: async (req, res) => {
+        console.log("home.ctrl의 getImages");
+        try {
+            console.log("university_url: ", university_url);
+            const response = await University.getImages(req.body.university_url);
+            return res.json(response);
+            //1. post-service랑 통신해서 post_img_id, img_url 가져오기
+            //2. post_img_id로 클라우드 스토리지에서 이미지 가져오기
+
+        } catch (err) {
+            console.log("getImages error", err);
+            return res.status(500).json({ error: 'Internal Server Error' }); 
+        }
+    },
+
     getUniversityName: async (req, res) => {
         console.log("home.ctrl의 getUniversityName ");
         const university = new University();

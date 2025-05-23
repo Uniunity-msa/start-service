@@ -1,19 +1,19 @@
 const amqp = require("amqplib");
 
 const RECV_QUEUES = [
-  'RecvUniversityName', 
-  'RecvUniversityLocation'
-]
-
+  'RecvStartUniversityName',
+  'RecvStartUniversityID',
+  'RecvStartUniversityLocation'
+];
 const SEND_QUEUES = [
-  'SendUniversityName', 
+  'SendUniversityName',
+  'SendUniversityID',
   'SendUniversityLocation'
-]
+];
 
 let channel;
 
 async function connectRabbitMQ() {
-  console.log("Rabbit: ", process.env.RABBIT);
   const rabbitUrl = process.env.RABBIT || 'amqp://localhost'; // env 변수 사용, 없으면 localhost 기본
   const connection = await amqp.connect(rabbitUrl);
   channel = await connection.createChannel();
@@ -31,10 +31,12 @@ async function sendUniversityURL(university_url, sendQueueName) {
   if (!channel) await connectRabbitMQ();
   let recvQueueName;
   if(sendQueueName == 'SendUniversityName'){
-    recvQueueName = 'RecvUniversityName';
+    recvQueueName = 'RecvStartUniversityName';
+  } else if(sendQueueName == 'SendUniversityID'){
+    recvQueueName = 'RecvStartUniversityID';
   } else if(sendQueueName == 'SendUniversityLocation'){
-    recvQueueName = 'RecvUniversityLocation'
-  } else {
+    recvQueueName = 'RecvStartUniversityLocation'
+  } else{
     console.log("명시되지 않은 sendQueueName 입니다.");
   }
 
@@ -45,7 +47,6 @@ async function sendUniversityURL(university_url, sendQueueName) {
       replyTo: recvQueueName,
     }
   );
-  console.log(`[start-service] university_url 전송: ${university_url} → ${sendQueueName}`);
 }
 
 // university data 수신
@@ -56,20 +57,20 @@ async function receiveUniversityData(queueName) {
     throw new Error(`알 수 없는 수신 큐: ${queueName}`);
   }
 
-  return new Promise((resolve, reject) => {
-    channel.consume(queueName, (msg) => {
-      if (msg) {
-        const data = JSON.parse(msg.content.toString());
-        console.log(`[start-service] ${queueName} 수신:`, data);
-        channel.ack(msg);  // 메시지 확인(ack)해서 큐에서 제거
-        resolve(data);
-      } else {
-        reject(new Error('메시지를 받지 못했습니다.'));
-      }
-    }, { noAck: false });  // noAck: false 로 ack를 직접 호출하게 함
-  });
-}
+  // 최대 10번까지, 300ms 간격으로 메시지 수신 시도
+  for (let i = 0; i < 10; i++) {
+    const msg = await channel.get(queueName, { noAck: false });
+    if (msg) {
+      const data = JSON.parse(msg.content.toString());
+      channel.ack(msg);
+      return data;
+    }
+    // 메시지가 없으면 300ms 대기 후 재시도
+    await new Promise(resolve => setTimeout(resolve, 300));
+  }
 
+  throw new Error(`${queueName} 큐에서 메시지를 받지 못했습니다.`);
+}
 module.exports = {
   sendUniversityURL,
   receiveUniversityData

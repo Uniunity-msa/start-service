@@ -46,9 +46,7 @@ app.use(errorController.respondInternalEroor);
 //app.post("/send_msg", mq.send_message);
 //app.get("/get_msg", mq.recv_message);
 
-//const port = process.env.PORT;
-console.log("process.env.PORT: ", process.env.PORT);
-const port = 3001;
+const port = process.env.PORT;
 app.listen(port, ()=> {
     console.log('running')
 })
