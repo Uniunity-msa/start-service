@@ -47,7 +47,7 @@ class UniversityStorage {
     }
 
     //이미지 정보 넘기
-    static async loadI기mages(postId) {
+    static async loadImages(postId) {
 	console.log("UniversityStorage의 loadImages");
         return new Promise((resolve, reject) => {
             pool.getConnection(async (err, connection) => {
@@ -59,6 +59,14 @@ class UniversityStorage {
                         {
                             image_url: "https://storage.googleapis.com/uniunity_bucket/고양이이미지.png", 
                             post_id: 1
+                        }, 
+                        {
+                            image_url: "https://storage.googleapis.com/uniunity_bucket/고양이이미지.png", 
+                            post_id: 2
+                        }, 
+                        {
+                            image_url: "https://storage.googleapis.com/uniunity_bucket/고양이이미지.png", 
+                            post_id: 3
                         }
                     ];
                     resolve(imageData);
