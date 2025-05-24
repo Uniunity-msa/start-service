@@ -1,7 +1,6 @@
 "use strict"
 
 const { pool } = require("../config/db");
-const { uploadImageToGCS } = require("../utils/gcsUploader");
 
 class UniversityStorage {
     //모든 대학 정보 가져오기
@@ -47,14 +46,15 @@ class UniversityStorage {
         })
     }
 
-    //클라우드 스토리지에서 이미지 가져오기
-    static async loadImages(postId) {
+    //이미지 정보 넘기
+    static async loadI기mages(postId) {
 	console.log("UniversityStorage의 loadImages");
         return new Promise((resolve, reject) => {
             pool.getConnection(async (err, connection) => {
                 if(err) return reject(err);
                     
                 try {
+                    //post랑 통신해서 post_id, img_url 받아와야 해서 일단 하드코딩 해뒀음
                     const imageData = [
                         {
                             image_url: "https://storage.googleapis.com/uniunity_bucket/고양이이미지.png", 
