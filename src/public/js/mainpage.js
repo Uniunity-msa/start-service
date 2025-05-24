@@ -8,11 +8,36 @@ const signUpBtn=document.getElementById("signUpBtn");
 const navBar=document.getElementById("navbar-brand");
 
 let universitySearchList = [];
+const userApiUrl = "http://34.47.84.123:3004";
 
 console.log("mainpage.js 시작");
+// const loadData = async () => {
+//     console.log("loadData 실행");
+//     const url = `${apiUrl}/showUniversityNameList`;
+//     console.log(url, "\n");
+//     try {
+//         const res = await fetch(url);
+//         const data = await res.json();
+//         console.log(data);
+
+//         if (data.success === true) {
+//             console.log("data.success!\n");
+//             searchUniversityName(data.result);  // 리스트 저장
+//             console.log("universitySearchList: \n");
+//             console.log(universitySearchList);
+//         } else {
+//             ul.innerHTML = "<li>서버 오류로 점검 중입니다. 잠시 후 이용해주세요.</li>";
+//         }
+//     } catch (err) {
+//         console.error("데이터 로드 중 에러 발생:", err);
+//         ul.innerHTML = "<li>데이터 로드 실패</li>";
+//     }
+// };
+
+
 const loadData = async () => {
     console.log("loadData 실행");
-    const url = `${apiUrl}/showUniversityNameList`;
+    const url = `${userApiUrl}/university/SendAllUniversityName`;
     console.log(url, "\n");
     try {
         const res = await fetch(url);

@@ -13,8 +13,19 @@ const user_type = document.getElementById("user_type");
 const user_name = document.getElementById("user_name");
 const university_name = document.getElementById("university_name");
 const navBar=document.getElementById("navbar");
+const universityName = document.querySelector("#universityName");
 
 console.log("council.js 시작"); //테스트용 로그
+
+// map을 전역 변수로 선언
+let map;
+
+// university_url 값을 받아오는 함수
+function getUniversityUrl() {
+  const url = new URL(window.location.href);
+  const universityUrl = url.pathname.split('/').pop();
+  return universityUrl;
+}
 
 //회원로그인 정보 불러오기
 // const loadloginData = () => {
@@ -51,18 +62,33 @@ console.log("council.js 시작"); //테스트용 로그
 // });
 
 
-// university_url 값을 받아오는 함수
-function getUniversityUrl() {
-  // 현재 페이지의 URL에서 경로(pathname) 부분을 추출
-  const path = window.location.pathname;
-
-  // 경로에서 universityUrl 값을 추출
-  const pathParts = path.split('/');
-  const universityUrl = pathParts[pathParts.length - 1];
-  console.log("universityUrl: ", universityUrl);
-  return universityUrl;
+function getUniversityName() {
+  const universityUrl = getUniversityUrl();
+  const req = {
+    university_url: universityUrl
+  };
+  fetch(`${apiUrl}/getUniversityName`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(req),
+  })
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return res.json();
+    })
+    .then(res => {
+      console.log(res);
+      // Uniname.push(res);
+      universityName.textContent = res;
+    })
+    .catch((error) => {
+      console.error('There has been a problem with your fetch operation:', error);
+    });
 }
-var university_url = getUniversityUrl();
 
 function setCenter(map,latitude,longitude){            
   // 이동할 위도 경도 위치를 생성합니다 
@@ -70,6 +96,25 @@ function setCenter(map,latitude,longitude){
                   
   // 지도 중심을 이동 시킵니다
   map.setCenter(moveLatLon);
+}
+
+// 학교별로 중심좌표 이동시키기
+function centerChange(){
+    const universityUrl = getUniversityUrl();
+    const req = {
+        university_url:universityUrl
+    };
+
+    fetch(`${apiUrl}/getUniversityLocation`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(req),
+    }).then((res) => res.json())
+    .then(res => {
+        setCenter(map, parseFloat(res.latitude), parseFloat(res.longitude));
+    })
 }
 
 const serviceKey = apiKeys.SERVICE_KEY;
@@ -80,12 +125,12 @@ document.addEventListener("DOMContentLoaded", () => {
       const container = document.getElementById('map');
       if (!container) return console.error('#map 요소가 없습니다.');
   
-      const map = new kakao.maps.Map(container, {
+      map = new kakao.maps.Map(container, {
         center: new kakao.maps.LatLng(37.59169598260442, 127.02220971655647), // 초기 위치
         level: 3
       });
       
-      // setCenter();
+      centerChange();
       // bounds_changed 이벤트 등록
       kakao.maps.event.addListener(map, 'bounds_changed', () => {
         const bounds = map.getBounds();
@@ -160,8 +205,6 @@ function setSwiper() {
   spaceBetween: 20,
 });
 }
-
-const universityName = document.querySelector("#universityName");
 
 var Uniname = [];
 var university_id;
@@ -251,6 +294,7 @@ function councilLoad() {
 }
 
 window.addEventListener('DOMContentLoaded', function() {
+  getUniversityName();
   setSwiper();
   updateDynamicLinks();
   councilLoad();
