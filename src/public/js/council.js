@@ -165,6 +165,7 @@ var imageUrls = [];
 
 // 카드뉴스 이미지 추가 함수
 async function fetchImageUrls(imageData) {
+  console.log('fetchImageUrls 시작');
   try {
     const swiperWrapper = document.querySelector('.swiper-wrapper');
 
@@ -224,10 +225,8 @@ function imagesLoad() {
     body: JSON.stringify(req),
   })
     .then((res) => res.json())
-    .then(res => {
-      console.log("imagesLoad res: ", res);
-      console.log("여기서 이미지 받아와야 함!"); //테스트용 로그
-      //fetchImageUrls로 화면에 띄우기
+    .then((imageData) => {
+      fetchImageUrls(imageData);
     })
 }
 
@@ -275,7 +274,7 @@ function councilLoad() {
 window.addEventListener('DOMContentLoaded', function() {
   setSwiper();
   updateDynamicLinks();
-  imagesLoad(); //포스트 이미지를 가져오는 함수
+  imagesLoad(); //포스트 이미지를 가져오는 함수, 임시라서 나중에 councilLoad랑 합치기
   councilLoad();
   // retailerLoad();
 });
