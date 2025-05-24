@@ -84,8 +84,7 @@ const setLoginHeader=(res)=>{
 window.addEventListener('DOMContentLoaded', function()
 {
     console.log("window.addEventListener 실행\n");
-    loadData();
-    // loadloginData();
+    loadUnivesrsityData();
 });
 
 const checkInput = () => {
