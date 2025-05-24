@@ -38,7 +38,7 @@ const council = {
             // RabbitMQ로 university_location 요청 및 수신
             await sendUniversityURL(university_url, 'SendUniversityLocation');
             const university_location = await receiveUniversityData('RecvStartUniversityLocation');
-            console.log("partnerUpload university_location: ", university_location);
+            console.log("university_location: ", university_location);
             return res.json(university_location);
 
         } catch (err) {
@@ -53,7 +53,7 @@ const council = {
                 await sendUniversityURL(university_url, 'SendUniversityName');
                 const data = await receiveUniversityData('RecvStartUniversityName')
 
-                console.log("partnerUpload university_name: ", data.university_name);
+                console.log("university_name: ", data.university_name);
                 return res.json(data.university_name);
         }catch (err) {
                 console.error('getUniversityName error:', err);
