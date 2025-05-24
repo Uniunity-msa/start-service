@@ -4,14 +4,12 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require('path');
-//const mysql = require('mysql');
-
+const db = require('./src/config/db.js');
 const app = express();
 
 //에러 라우팅
 const errorController = require("./src/controllers/errorControllers.js");
 require('dotenv').config();
-
 
 //const bcrypt = require('bcrypt');
 
@@ -33,13 +31,9 @@ app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use("/", require("./src/controllers/index")); //use -> 미들 웨어를 등록해주는 메서드
-// const db = mysql.createConnection({
-//     host: process.env.DB_HOST,
-//     user: process.env.DB_USER,
-//     password: process.env.DB_PASSWORD,
-//     database: process.env.DB_NAME,
-//   });
+
+// app.use("/", require("./src/controllers/index.js")); //use -> 미들 웨어를 등록해주는 메서드
+app.use("/", require("./src/routes/startRoute.js")); //use -> 미들 웨어를 등록해주는 메서드
 
 //에러처리를 위한 미들웨어 생성
 
@@ -47,8 +41,25 @@ app.use(errorController.logErrors);
 app.use(errorController.respondNoResourceFound);
 app.use(errorController.respondInternalEroor);
 
-const port = process.env.PORT;
-// const port = 3001;
+//----------
+// CORS 설정
+app.use(cors({
+  origin: "*", // 모든 도메인 허용 (개발 중에는 괜찮음. 배포 시에는 특정 도메인만 허용하도록 변경)
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true // 필요한 경우 (쿠키 전달 등)
+}));
+
+// 나머지 설정
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+//래빗mq
+const mq = require("./src/rabbit/rabbitmq-api.js");
+app.post("/send_msg", mq.send_message);
+app.get("/get_msg", mq.recv_message);
+
+// const port = process.env.PORT;
+const port = 3001;
 app.listen(port, ()=> {
     console.log('running')
 })

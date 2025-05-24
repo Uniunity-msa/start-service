@@ -4,6 +4,8 @@ FROM node:18
 # 2. 컨테이너 내부 작업 디렉토리 지정
 WORKDIR /app
 
+RUN apt-get update && apt-get install -y netcat-openbsd && rm -rf /var/lib/apt/lists/*
+
 # 3. package.json 복사 후 의존성 설치
 COPY package*.json ./
 RUN npm install
@@ -15,4 +17,5 @@ COPY . .
 EXPOSE 3001
 
 # 6. 서버 실행
-CMD ["node", "main.js"]
+# CMD ["node", "main.js"]
+CMD ["./wait-for.sh", "mysql_host", "3306", "node", "main.js"]]

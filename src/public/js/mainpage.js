@@ -9,26 +9,29 @@ const navBar=document.getElementById("navbar-brand");
 
 let universitySearchList = [];
 
-
-const loadData = async() => {
+console.log("mainpage.js 시작");
+const loadData = async () => {
+    console.log("loadData 실행");
     const url = `${apiUrl}/showUniversityNameList`;
-    await fetch(url,{
-        headers:{
-            'Cookie': `connect.sid=${document.cookie}` // connect.sid 쿠키를 요청 헤더에 포함
+    console.log(url, "\n");
+    try {
+        const res = await fetch(url);
+        const data = await res.json();
+        console.log(data);
+
+        if (data.success === true) {
+            console.log("data.success!\n");
+            searchUniversityName(data.result);  // 리스트 저장
+            console.log("universitySearchList: \n");
+            console.log(universitySearchList);
+        } else {
+            ul.innerHTML = "<li>서버 오류로 점검 중입니다. 잠시 후 이용해주세요.</li>";
         }
-    })
-        .then((res) => res.json())
-        .then(res => {
-            if(res.success==true){
-                searchUniversityName(res.result);
-            }
-            else{
-                ul.appendChild("서버 오류로 점검 중 입니다. 잠시 후 이용해주세요");
-            }
-         
-        }
-    )
-}
+    } catch (err) {
+        console.error("데이터 로드 중 에러 발생:", err);
+        ul.innerHTML = "<li>데이터 로드 실패</li>";
+    }
+};
 
 const searchUniversityName = (suggestArr) => {
     ul.innerHTML = "";
@@ -40,22 +43,24 @@ const searchUniversityName = (suggestArr) => {
     )
 }
 
-const loadloginData = async() => {
-    const url = `${apiUrl}/loginStatus`;
-    await fetch(url,{
-        headers:{
-            'Cookie': `connect.sid=${document.cookie}` // connect.sid 쿠키를 요청 헤더에 포함
-    }})
-        .then((res) => res.json())
-        .then(res => {
+// const loadloginData = async() => {
+//     console.log("loadloginData 실행\n");
+//     const url = `${apiUrl}/loginStatus`;
+//     await fetch(url,{
+//         headers:{
+//             'Cookie': `connect.sid=${document.cookie}` // connect.sid 쿠키를 요청 헤더에 포함
+//     }})
+//         .then((res) => res.json())
+//         .then(res => {
 
-            setLoginHeader(res);
-        }
-    )
-}
+//             setLoginHeader(res);
+//         }
+//     )
+// }
 
 
 const setLoginHeader=(res)=>{
+    console.log("setLoginHeader 실행\n");
     navBar.setAttribute("href", `${apiUrl}`);
     if(res.loginStatus==true){
         loginStatusBtn.setAttribute("href", `${apiUrl}/logout`);
@@ -75,11 +80,13 @@ const setLoginHeader=(res)=>{
 //mainpage 로드 후 loadData()실행
 window.addEventListener('DOMContentLoaded', function()
 {
+    console.log("window.addEventListener 실행\n");
     loadData();
-    loadloginData();
+    // loadloginData();
 });
 
 const checkInput = () => {
+    console.log("checkInput 실행\n");
 
     const input = searchInput.value;
     while(ul.hasChildNodes()){
@@ -112,9 +119,12 @@ searchInput.addEventListener("keyup", checkInput);
 
  //input이 빈 문자열일 경우에 모든 학교리스트 반환(mousedown)
 searchInput.addEventListener("mousedown", (event) => {
+    console.log("searchInput.addEventListener 실행\n");
     while(ul.hasChildNodes()){
         ul.removeChild(ul.firstChild);
     }
+    console.log("universitySearchList: \n");
+    console.log(universitySearchList);
     universitySearchList.forEach((el)=>{
         const li=document.createElement("li");
             const a = document.createElement("a");
@@ -124,3 +134,4 @@ searchInput.addEventListener("mousedown", (event) => {
             a.href=`/council/${el.university_url}`;
     })
 });
+

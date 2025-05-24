@@ -1,4 +1,7 @@
-import loadKakaoMap from '../js/kakaomapLoader.js';
+import loadKakaoMap from '/js/kakaomapLoader.js';
+import apiKeys from './apiKey.js';
+
+console.log("council.js 시작1"); //테스트용 로그
 
 //로그인(로그아웃), 회원가입(마이페이지)버튼
 const loginStatusBtn = document.getElementById("loginStatusBtn");
@@ -11,42 +14,42 @@ const user_name = document.getElementById("user_name");
 const university_name = document.getElementById("university_name");
 const navBar=document.getElementById("navbar");
 
+console.log("council.js 시작"); //테스트용 로그
+
 //회원로그인 정보 불러오기
-const loadloginData = () => {
-  const url = `${apiUrl}/loginStatus`;
-  fetch(url)
-      .then((res) => res.json())
-      .then(res => {
-          userInfo=res;
-          setLoginHeader(res);
-      }
-      )
-}
+// const loadloginData = () => {
+//   const url = `${apiUrl}/loginStatus`;
+//   fetch(url)
+//       .then((res) => res.json())
+//       .then(res => {
+//           userInfo=res;
+//           setLoginHeader(res);
+//       }
+//       )
+// }
 
-const setLoginHeader = (res) => {
-  navBar.setAttribute("href", `${apiUrl}`);
-  if (res.loginStatus) {
-      loginStatusBtn.setAttribute("href", `${apiUrl}/logout`);
-      loginStatusBtn.innerText = "로그아웃"
-      signUpBtn.setAttribute("href", `${apiUrl}/mypage`);
-      signUpBtn.innerText = "마이페이지"
-  }
-  else {
-      loginStatusBtn.setAttribute("href", `${apiUrl}/login`);
-      loginStatusBtn.innerText = "로그인"
-      signUpBtn.setAttribute("href", `${apiUrl}/signup/agreement`);
-      signUpBtn.innerText = "회원가입"
-  }
+// const setLoginHeader = (res) => {
+//   navBar.setAttribute("href", `${apiUrl}`);
+//   if (res.loginStatus) {
+//       loginStatusBtn.setAttribute("href", `${apiUrl}/logout`);
+//       loginStatusBtn.innerText = "로그아웃"
+//       signUpBtn.setAttribute("href", `${apiUrl}/mypage`);
+//       signUpBtn.innerText = "마이페이지"
+//   }
+//   else {
+//       loginStatusBtn.setAttribute("href", `${apiUrl}/login`);
+//       loginStatusBtn.innerText = "로그인"
+//       signUpBtn.setAttribute("href", `${apiUrl}/signup/agreement`);
+//       signUpBtn.innerText = "회원가입"
+//   }
 
-}
+// }
 
 // 로드 후 loadData()실행
-window.addEventListener('DOMContentLoaded', function () {
-  loadloginData();
-});
+// window.addEventListener('DOMContentLoaded', function () {
+//   loadloginData();
+// });
 
-const serviceKey = 'p0%2BHQGnCYhn4J%2BB0BJpY5cOD0thCQ29az7PS9MQ4gLwPqbZrSns3eFy4VZ%2BUSc95PAkZUjK%2FGiir%2FcMk1FAq4A%3D%3D';
-const endPoint = 'http://apis.data.go.kr/B553077/api/open/sdsc2/';
 
 // university_url 값을 받아오는 함수
 function getUniversityUrl() {
@@ -56,28 +59,10 @@ function getUniversityUrl() {
   // 경로에서 universityUrl 값을 추출
   const pathParts = path.split('/');
   const universityUrl = pathParts[pathParts.length - 1];
+  console.log("universityUrl: ", universityUrl);
   return universityUrl;
 }
 var university_url = getUniversityUrl();
-
-// 고정 지도 코드
-// ===========================================================================================
-document.addEventListener("DOMContentLoaded", async () => {
-  try {
-    await loadKakaoMap(); // kakao SDK 로드 및 초기화
-    const container = document.getElementById('map');
-    const options = {
-      center: new kakao.maps.LatLng(37.59169598260442, 127.02220971655647), // 서울 중심
-      level: 3
-    };
-    const map = new kakao.maps.Map(container, options);
-  } catch (error) {
-    console.error("Kakao 지도 로딩 실패:", error);
-  }
-});
-// ===========================================================================================
-
-var map = new kakao.maps.Map(mapContainer, mapOption); // 지도 생성
 
 function setCenter(map,latitude,longitude){            
   // 이동할 위도 경도 위치를 생성합니다 
@@ -87,68 +72,81 @@ function setCenter(map,latitude,longitude){
   map.setCenter(moveLatLon);
 }
 
-kakao.maps.event.addListener(map, 'bounds_changed', function () {
-  // 지도 영역정보를 얻어옵니다 
-  var bounds = map.getBounds();
+const serviceKey = apiKeys.SERVICE_KEY;
+const endPoint = apiKeys.ENDPOINT;
 
-  // 영역정보의 남서쪽 정보를 얻어옵니다 
-  // swLatlng.La = 서쪽 경도좌표값 = minx
-  // swLatlng.Ma = 남쪽 경도좌표값 = miny
-  var swLatlng = bounds.getSouthWest();
-  var minx = swLatlng.La.toString(),
-    miny = swLatlng.Ma.toString();
-
-  // 영역정보의 북동쪽 정보를 얻어옵니다 
-  // neLatlng.La = 동쪽 경도좌표값 = maxx
-  // neLatlng.Ma = 북쪽 경도좌표값 = maxy
-  var neLatlng = bounds.getNorthEast();
-  var maxx = neLatlng.La.toString(),
-    maxy = neLatlng.Ma.toString();
-
-  var url = endPoint + 'storeListInRectangle' + '?serviceKey=' + serviceKey + '&pageNo=1' + '&numOfRows=10' +
-    '&minx=' + minx + '&miny=' + miny + '&maxx=' + maxx + '&maxy=' + maxy + '&type=json';
-
-  fetch(url)
-    .then((res) => res.json())
-    .then(res => {
-      var positions = [];
-      for (let i = 0; i < res.body.items.length; i++) {
-        positions.push(new kakao.maps.LatLng(res.body.items[i].lat, res.body.items[i].lon));
-      }
-
-      for (let i = 0; i < positions.length; i++) {
-        // 마커를 생성합니다
-        let marker = new kakao.maps.Marker({
-          map: map, // 마커를 표시할 지도
-          position: positions[i] // 마커의 위치
-        });
-      }
-    })
-    .catch(error => {
-      console.log('Error:', error);
+document.addEventListener("DOMContentLoaded", () => {
+    loadKakaoMap().then(() => {
+      const container = document.getElementById('map');
+      if (!container) return console.error('#map 요소가 없습니다.');
+  
+      const map = new kakao.maps.Map(container, {
+        center: new kakao.maps.LatLng(37.59169598260442, 127.02220971655647), // 초기 위치
+        level: 3
+      });
+      
+      // setCenter();
+      // bounds_changed 이벤트 등록
+      kakao.maps.event.addListener(map, 'bounds_changed', () => {
+        const bounds = map.getBounds();
+        const swLatlng = bounds.getSouthWest();
+        const neLatlng = bounds.getNorthEast();
+  
+        const minx = swLatlng.La.toString();
+        const miny = swLatlng.Ma.toString();
+        const maxx = neLatlng.La.toString();
+        const maxy = neLatlng.Ma.toString();
+  
+        const url = `${endPoint}storeListInRectangle?serviceKey=${serviceKey}&pageNo=1&numOfRows=10&minx=${minx}&miny=${miny}&maxx=${maxx}&maxy=${maxy}&type=json`;
+  
+        const stores = [];
+        const positions = [];
+  
+        fetch(url)
+          .then(res => res.json())
+          .then(res => {
+            for (let i = 0; i < res.body.items.length; i++) {
+              const item = res.body.items[i];
+              stores.push({
+                storeName: item.bizesNm,
+                store_location: item.rdnmAdr,
+                storeClass: item.indsLclsNm,
+                storeItem: item.indsSclsNm,
+                ksicNm: item.ksicNm
+              });
+              positions.push(new kakao.maps.LatLng(item.lat, item.lon));
+            }
+  
+            for (let i = 0; i < positions.length; i++) {
+              const marker = new kakao.maps.Marker({
+                map: map,
+                position: positions[i]
+              });
+  
+              kakao.maps.event.addListener(marker, 'click', () => {
+                for (let i = 0; i < storeInfoTextBox.length; i++) {
+                  storeInfoTextBox[i].style.display = "block";
+                }
+                storeName.innerHTML = stores[i].storeName;
+                storeAdr.innerHTML = stores[i].store_location;
+                storeClass.innerHTML = `${stores[i].storeClass} ${stores[i].storeItem}`;
+                storeItem.innerHTML = stores[i].ksicNm;
+              });
+            }
+          })
+          .catch(err => {
+            console.error("API 요청 실패", err);
+          });
+      });
+    }).catch((err) => {
+      console.error("Kakao Map 로드 실패", err);
     });
-})
-
-function retailerLoad(){
-  const universityUrl = getUniversityUrl();
-  const req = {
-      university_url:universityUrl
-  };
-  fetch(`${apiUrl}/getUniversityLocation`, {
-      method: "POST",
-      headers: {
-          "Content-Type": "application/json",
-      },
-      body: JSON.stringify(req),
-  }).then((res) => res.json())
-  .then(res => {
-      setCenter(map,parseFloat(res.latitude),parseFloat(res.longitude));
-  })
-}
+  });
 
 // 슬라이더 정보
 var mySwiper;
 function setSwiper() {
+  console.log("setSwiper 시작"); //테스트용 로그
   mySwiper = new Swiper('.swiper-container', {
   wrapperClass: 'swiper-wrapper',
   slideClass: 'swiper-slide',
@@ -215,6 +213,7 @@ async function fetchImageUrls(imageData) {
 }
 
 function councilLoad() {
+  console.log("councilLoad 시작"); //테스트용 로그
   const universityUrl = getUniversityUrl();
   const req = {
     university_url: universityUrl
@@ -229,32 +228,33 @@ function councilLoad() {
   })
     .then((res) => res.json())
     .then(res => {
+      console.log("universityName: ", res.universityName); //테스트용 로그
       Uniname.push(res.university_name);
       universityName.innerHTML = Uniname[0];
-    })
-    .then(() => {
-    return fetch(`${apiUrl}/getCardNewsImageUrl`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(req),
     });
-  })
-  .then((res) => res.json())
-  .then((imageData) => { // 이미지 데이터를 변수 imageData로 받아옴
-    fetchImageUrls(imageData); // 이미지 데이터를 fetchImageUrls 함수의 인자로 전달
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
+  //   .then(() => {
+  //   return fetch(`${apiUrl}/getCardNewsImageUrl`, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(req),
+  //   });
+  // })
+  // .then((res) => res.json())
+  // .then((imageData) => { // 이미지 데이터를 변수 imageData로 받아옴
+  //   fetchImageUrls(imageData); // 이미지 데이터를 fetchImageUrls 함수의 인자로 전달
+  // })
+  // .catch(error => {
+  //   console.error('Error:', error);
+  // });
 }
 
 window.addEventListener('DOMContentLoaded', function() {
   setSwiper();
   updateDynamicLinks();
   councilLoad();
-  retailerLoad();
+  // retailerLoad();
 });
 
 
@@ -341,11 +341,13 @@ function generateDynamicURL(linkId, userschool) {
 
 // 새로운 url로 업데이트
 async function updateDynamicLinks() {
+  console.log("updateDynamicLinks 시작"); //테스트용 로그
   var userschool = getDynamicValueFromURL();
   if (!userschool) {
     console.log("영어 문자열이 URL에서 추출되지 않았습니다.");
     return;
   }
+  console.log("userschool: ", userschool); //테스트용 로그
 
   var link1 = document.getElementById("main_retailer");
   var link2 = document.getElementById("partner");
