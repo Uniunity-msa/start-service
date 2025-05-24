@@ -27,7 +27,12 @@ class University{
 
     async getImages(university_url) {
         console.log("University.js의 getImages\n");
-
+	try {
+            const response = await UniversityStorage.loadImages(university_url);
+            return response;
+        } catch (err) {
+            return{success:false,msg:err};
+        }
     }
 
     // async getUnversityIdToName(university_id){

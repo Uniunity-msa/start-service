@@ -1,8 +1,6 @@
 import loadKakaoMap from '/js/kakaomapLoader.js';
 import apiKeys from './apiKey.js';
 
-console.log("council.js 시작1"); //테스트용 로그
-
 //로그인(로그아웃), 회원가입(마이페이지)버튼
 const loginStatusBtn = document.getElementById("loginStatusBtn");
 const signUpBtn = document.getElementById("signUpBtn");
@@ -13,8 +11,6 @@ const user_type = document.getElementById("user_type");
 const user_name = document.getElementById("user_name");
 const university_name = document.getElementById("university_name");
 const navBar=document.getElementById("navbar");
-
-console.log("council.js 시작"); //테스트용 로그
 
 //회원로그인 정보 불러오기
 // const loadloginData = () => {
@@ -220,7 +216,7 @@ function imagesLoad() {
   };
   
   console.log("apiUrl: ", `${apiUrl}`); //테스트용 로그
-  fetch(`${apiUrl}/getUniversityName`, {
+  fetch(`${apiUrl}/getImages`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -229,19 +225,21 @@ function imagesLoad() {
   })
     .then((res) => res.json())
     .then(res => {
+      console.log("imagesLoad res: ", res);
       console.log("여기서 이미지 받아와야 함!"); //테스트용 로그
+      //fetchImageUrls로 화면에 띄우기
     })
 }
 
 function councilLoad() {
-  console.log("councilLoad 시작"); //테스트용 로그
+  // console.log("councilLoad 시작"); //테스트용 로그
   const universityUrl = getUniversityUrl();
   const req = {
     university_url: universityUrl
   };
-  console.log("req:", req);//테스트용 로그
+  // console.log("req:", req);//테스트용 로그
 
-  console.log("apiUrl: ", `${apiUrl}`); //테스트용 로그
+  // console.log("apiUrl: ", `${apiUrl}`); //테스트용 로그
   fetch(`${apiUrl}/getUniversityName`, {
     method: "POST",
     headers: {
@@ -253,8 +251,8 @@ function councilLoad() {
     .then(res => {
       Uniname.push(res.university_name);
       universityName.innerHTML = Uniname[0];
-    console.log("council의 Uniname[0]: ", Uniname[0]); //테스트용 로그
-    console.log("council의 universityName: ", universityName.innerHTML); //테스트용 로그
+    // console.log("council의 Uniname[0]: ", Uniname[0]); //테스트용 로그
+    // console.log("council의 universityName: ", universityName.innerHTML); //테스트용 로그
     });
   //   .then(() => {
   //   return fetch(`${apiUrl}/getCardNewsImageUrl`, {
@@ -366,13 +364,13 @@ function generateDynamicURL(linkId, userschool) {
 
 // 새로운 url로 업데이트
 async function updateDynamicLinks() {
-  console.log("updateDynamicLinks 시작"); //테스트용 로그
+  // console.log("updateDynamicLinks 시작"); //테스트용 로그
   var userschool = getDynamicValueFromURL();
   if (!userschool) {
     console.log("영어 문자열이 URL에서 추출되지 않았습니다.");
     return;
   }
-  console.log("userschool: ", userschool); //테스트용 로그
+  // console.log("userschool: ", userschool); //테스트용 로그
 
   var link1 = document.getElementById("main_retailer");
   var link2 = document.getElementById("partner");
@@ -410,3 +408,4 @@ async function updateDynamicLinks() {
     window.location.href = link;
   });
 }
+

@@ -49,6 +49,7 @@ class UniversityStorage {
 
     //클라우드 스토리지에서 이미지 가져오기
     static async loadImages(postId) {
+	console.log("UniversityStorage의 loadImages");
         return new Promise((resolve, reject) => {
             pool.getConnection(async (err, connection) => {
                 if(err) return reject(err);
