@@ -25,26 +25,27 @@ class UniversityStorage {
         })
     }
 
-    static getUnversityUrlToName(university_url) {
-        console.log("UniversityStorage.js의 getUnversityUrlToName")
-	return new Promise(async (resolve, reject) => {
-            pool.getConnection((err, connection) => {
-                if (err) {
-                    console.error('getUnversityName MySQL 연결 오류: ', err);
-                    reject(err)
-                }
-                const query = "SELECT university_name FROM University WHERE university_url =?;";
-                pool.query(query, [university_url], (err, data) => {
-                    connection.release();
-                    if (err) reject(`${err}`);
+    // rabbitMQ로 대체
+    // static getUnversityUrlToName(university_url) {
+    //     console.log("UniversityStorage.js의 getUnversityUrlToName")
+	// return new Promise(async (resolve, reject) => {
+    //         pool.getConnection((err, connection) => {
+    //             if (err) {
+    //                 console.error('getUnversityName MySQL 연결 오류: ', err);
+    //                 reject(err)
+    //             }
+    //             const query = "SELECT university_name FROM University WHERE university_url =?;";
+    //             pool.query(query, [university_url], (err, data) => {
+    //                 connection.release();
+    //                 if (err) reject(`${err}`);
 
-                    else {
-                        resolve(data[0].university_name);
-                    }
-                });
-            })
-        })
-    }
+    //                 else {
+    //                     resolve(data[0].university_name);
+    //                 }
+    //             });
+    //         })
+    //     })
+    // }
 
     //이미지 정보 넘기
     static async loadImages(postId) {

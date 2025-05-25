@@ -15,15 +15,16 @@ class University{
         }
     }
 
-    async getUnversityUrlToName(university_url){
-        console.log("University.js의 getUnversityUrlToName\n");
-	    try{
-            const response=await UniversityStorage.getUnversityUrlToName(university_url);
-            return response;
-        }catch(err){
-            return{success:false,msg:err};
-        }
-    }
+    // rabbitMQ로 대체
+    // async getUnversityUrlToName(university_url){
+    //     console.log("University.js의 getUnversityUrlToName\n");
+	//     try{
+    //         const response=await UniversityStorage.getUnversityUrlToName(university_url);
+    //         return response;
+    //     }catch(err){
+    //         return{success:false,msg:err};
+    //     }
+    // }
 
     async getImages(university_url) {
         console.log("University.js의 getImages\n");

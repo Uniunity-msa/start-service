@@ -153,7 +153,6 @@ document.addEventListener("DOMContentLoaded", () => {
 // 슬라이더 정보
 var mySwiper;
 function setSwiper() {
-  console.log("setSwiper 시작"); //테스트용 로그
   mySwiper = new Swiper('.swiper-container', {
   wrapperClass: 'swiper-wrapper',
   slideClass: 'swiper-slide',
@@ -242,14 +241,11 @@ function imagesLoad() {
 }
 
 function councilLoad() {
-  // console.log("councilLoad 시작"); //테스트용 로그
   const universityUrl = getUniversityUrl();
   const req = {
     university_url: universityUrl
   };
-  // console.log("req:", req);//테스트용 로그
 
-  // console.log("apiUrl: ", `${apiUrl}`); //테스트용 로그
   fetch(`${apiUrl}/getUniversityName`, {
     method: "POST",
     headers: {
@@ -259,6 +255,7 @@ function councilLoad() {
   })
     .then((res) => res.json())
     .then(res => {
+      console.log("councilLoad universityInfo: ", res);
       Uniname.push(res.university_name);
       universityName.innerHTML = Uniname[0];
     // console.log("council의 Uniname[0]: ", Uniname[0]); //테스트용 로그
@@ -374,13 +371,11 @@ function generateDynamicURL(linkId, userschool) {
 
 // 새로운 url로 업데이트
 async function updateDynamicLinks() {
-  // console.log("updateDynamicLinks 시작"); //테스트용 로그
   var userschool = getDynamicValueFromURL();
   if (!userschool) {
     console.log("영어 문자열이 URL에서 추출되지 않았습니다.");
     return;
   }
-  // console.log("userschool: ", userschool); //테스트용 로그
 
   var link1 = document.getElementById("main_retailer");
   var link2 = document.getElementById("partner");
