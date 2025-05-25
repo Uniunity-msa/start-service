@@ -219,8 +219,8 @@ async function fetchImageUrls(imageData) {
   }
 }
 
-function imagesLoad() {
-  console.log("imagesLoad 시작"); //테스트용 로그
+function imagesLoadTest() {
+  console.log("imagesLoadTest 시작"); //테스트용 로그
   const universityUrl = getUniversityUrl();
   const req = {
     university_url: universityUrl
@@ -285,7 +285,6 @@ function nameLoad() {
   const universityUrl = getUniversityUrl();
   const req = {
     university_url: universityUrl
-    
   };
 
   fetch(`${apiUrl}/getUniversityName`, {
@@ -302,14 +301,38 @@ function nameLoad() {
       universityName.innerHTML = Uniname[0];
     });
 }
-//2. id -> post_id, img_url
-//3. url -> location
+//2. url -> id
+function idLoad() {
+  const universityUrl = getUniversityUrl();
+  const req = {
+    university_url: universityUrl
+  };
+
+  fetch(`${apiUrl}/getUniversityID`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(req),
+  })
+    .then((res) => res.json())
+    .then(res => {
+      console.log("idLoad univ_id: ", res);
+    });
+}
+
+//3. id -> post_id, img_url
+function imageLoad() {
+  
+}
+
+//4. url -> location
 //-------------------
 
 window.addEventListener('DOMContentLoaded', function() {
   setSwiper();
   updateDynamicLinks();
-  imagesLoad(); //포스트 이미지를 가져오는 함수, 임시라서 나중에 councilLoad랑 합치기
+  imagesLoadTest(); //포스트 이미지를 가져오는 함수, 임시라서 나중에 councilLoad랑 합치기
   //councilLoad();
   nameLoad();
 });
