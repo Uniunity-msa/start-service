@@ -33,7 +33,7 @@ const council = {
             //데이터 수신
             const university_id = await receiveUniversityData('RecvStartUniversityID');
             console.log("home: university id:", university_id);
-            return res.json(university_name);
+            return res.json(university_id);
         } catch (err) {
             console.log("getUniversityID error", err);
             return res.status(500).json({ error: 'Internal Server Error' }); 

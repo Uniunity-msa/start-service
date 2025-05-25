@@ -335,6 +335,7 @@ window.addEventListener('DOMContentLoaded', function() {
   imagesLoadTest(); //포스트 이미지를 가져오는 함수, 임시라서 나중에 councilLoad랑 합치기
   //councilLoad();
   nameLoad();
+  idLoad();
 });
 
 
