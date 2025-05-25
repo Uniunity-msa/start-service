@@ -69,7 +69,7 @@ function getUniversityUrl() {
   console.log("universityUrl: ", universityUrl);
   return universityUrl;
 }
-var university_url = getUniversityUrl();
+var current_university_url = getUniversityUrl();
 
 function setCenter(map,latitude,longitude){            
   // 이동할 위도 경도 위치를 생성합니다 
@@ -221,9 +221,9 @@ async function fetchImageUrls(imageData) {
 
 function imagesLoadTest() {
   console.log("imagesLoadTest 시작"); //테스트용 로그
-  const universityUrl = getUniversityUrl();
+  //const universityUrl = getUniversityUrl();
   const req = {
-    university_url: universityUrl
+    university_url: current_university_url
   };
   
   console.log("apiUrl: ", `${apiUrl}`); //테스트용 로그
@@ -241,9 +241,9 @@ function imagesLoadTest() {
 }
 
 function councilLoad() { //-> nameLoad
-  const universityUrl = getUniversityUrl();
+  //const universityUrl = getUniversityUrl();
   const req = {
-    university_url: universityUrl
+    university_url: current_university_url
   };
 
   fetch(`${apiUrl}/getUniversityName`, {
@@ -282,9 +282,9 @@ function councilLoad() { //-> nameLoad
 //-------------------
 //1. url -> name
 function nameLoad() {
-  const universityUrl = getUniversityUrl();
+  //const universityUrl = getUniversityUrl();
   const req = {
-    university_url: universityUrl
+    university_url: current_university_url
   };
 
   fetch(`${apiUrl}/getUniversityName`, {
@@ -301,11 +301,11 @@ function nameLoad() {
       universityName.innerHTML = Uniname[0];
     });
 }
-//2. url -> id
-function idLoad() {
-  const universityUrl = getUniversityUrl();
+//2. url -> id -> post_id, img_url
+function imageLoad() {
+  //const universityUrl = getUniversityUrl();
   const req = {
-    university_url: universityUrl
+    university_url: current_university_url
   };
 
   fetch(`${apiUrl}/getUniversityID`, {
@@ -317,25 +317,34 @@ function idLoad() {
   })
     .then((res) => res.json())
     .then(res => {
-      console.log("idLoad univ_id: ", res);
-    });
+      console.log("idLoad univ_id: ", res); //테스트용 로그
+      req = {
+        university_id: current_university_id
+      }
+    })
+    .then(() => {
+      return fetch(`${apiUrl}/getCardNewsImageUrl`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(req),
+      })
+    }
+
+    );
 }
 
-//3. id -> post_id, img_url
-function imageLoad() {
-  
-}
-
-//4. url -> location
+//3. url -> location
 //-------------------
 
 window.addEventListener('DOMContentLoaded', function() {
   setSwiper();
   updateDynamicLinks();
-  imagesLoadTest(); //포스트 이미지를 가져오는 함수, 임시라서 나중에 councilLoad랑 합치기
+  //imagesLoadTest(); //포스트 이미지를 가져오는 함수, 임시라서 나중에 councilLoad랑 합치기
   //councilLoad();
   nameLoad();
-  idLoad();
+  imageLoad();
 });
 
 
