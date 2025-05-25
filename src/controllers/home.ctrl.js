@@ -1,7 +1,7 @@
 "use strict"
 
 const University = require("../models/University");
-const { sendUniversityURL, receiveUniversityData } = require('../rabbit/rabbitmq');
+const { sendUniversityURL, receiveUniversityData } = require('../rabbit/rabbitMQ');
 //const Partner = require("../models/Partner");
 // const User = require("../models/User");
 // const Council = require("../models/Council");

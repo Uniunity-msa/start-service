@@ -6,7 +6,7 @@ const bodyParser = require("body-parser");
 const path = require('path');
 const db = require('./src/config/db.js');
 const app = express();
-const rabbitmq = require("./src/rabbit/rabbitmq.js")
+const rabbitmq = require("./src/rabbit/rabbitMQ.js")
 
 //에러 라우팅
 const errorController = require("./src/controllers/errorControllers.js");
@@ -40,11 +40,6 @@ app.use("/", require("./src/routes/startRoute.js")); //use -> 미들 웨어를 �
 app.use(errorController.logErrors);
 app.use(errorController.respondNoResourceFound);
 app.use(errorController.respondInternalEroor);
-
-//래빗mq
-//const mq = require("./src/rabbit/rabbitmq-api.js");
-//app.post("/send_msg", mq.send_message);
-//app.get("/get_msg", mq.recv_message);
 
 const port = process.env.PORT;
 app.listen(port, ()=> {
