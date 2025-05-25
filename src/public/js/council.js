@@ -12,6 +12,22 @@ const user_name = document.getElementById("user_name");
 const university_name = document.getElementById("university_name");
 const navBar=document.getElementById("navbar");
 
+//auth 로그인 정보 가져오기
+let userInfo;
+
+const loadloginData = async () => {
+  const res = await fetch("/auth/me", {
+    credentials: "include", // 쿠키 포함
+  });
+
+  userInfo = await res.json(); // 유저 정보가 저장되는 변수
+};
+
+// 페이지 로드 후 로그인 정보 획득
+window.addEventListener('DOMContentLoaded', function () {
+    loadloginData();
+});
+
 //회원로그인 정보 불러오기
 // const loadloginData = () => {
 //   const url = `${apiUrl}/loginStatus`;
@@ -40,11 +56,6 @@ const navBar=document.getElementById("navbar");
 //   }
 
 // }
-
-// 로드 후 loadData()실행
-// window.addEventListener('DOMContentLoaded', function () {
-//   loadloginData();
-// });
 
 
 // university_url 값을 받아오는 함수
