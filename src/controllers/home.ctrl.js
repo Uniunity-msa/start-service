@@ -40,11 +40,14 @@ const council = {
         }
     },
 
-    getCardNewsImageUrl: async (req, res) => {
+    getImages: async (req, res) => {
         console.log("home.ctrl의 getImages");
         const university = new University();
         try {
-            //간접통신으로 바꾸기
+            //1. url로 id 얻어오기
+            //2. post-service랑 통신해서 post_img_id, img_url 가져오기
+            
+            //-------
             const university_url = req.body.university_url;
             console.log("university_url: ", university_url);
 
