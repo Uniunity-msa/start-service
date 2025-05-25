@@ -45,16 +45,14 @@ const council = {
     getUniversityName: async (req, res) => {
         try {
             console.log("home.ctrl의 getUniversityName ");
-            const universtiy_url = req.body.university_url;
+            const university_url = req.body.university_url;
             //rabbitMQ로 user-service에 university_name, id 요청
-            await sendUniversityURL(universtiy_url, 'SendUniversityName');
-            await sendUniversityURL(universtiy_url, 'SendUniversityID');
+            await sendUniversityURL(university_url, 'SendUniversityName');
 
             //데이터 수신
             const university_name = await receiveUniversityData('RecvStartUniversityName');
-            const university_id = await receiveUniversityData('RecvStartUniversityID');
-            console.log("home: university name:", university_name);
-            return res.json({university_name, university_id});
+            console.log("home: university name:", university_name.university_name);
+            return res.json(university_name);
 
         } catch (err) {
             console.error('getUniversityName error:', err);
