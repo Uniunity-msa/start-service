@@ -240,7 +240,7 @@ function imagesLoad() {
     })
 }
 
-function councilLoad() {
+function councilLoad() { //-> nameLoad
   const universityUrl = getUniversityUrl();
   const req = {
     university_url: universityUrl
@@ -279,12 +279,39 @@ function councilLoad() {
   // });
 }
 
+//-------------------
+//1. url -> name
+function nameLoad() {
+  const universityUrl = getUniversityUrl();
+  const req = {
+    university_url: universityUrl
+    
+  };
+
+  fetch(`${apiUrl}/getUniversityName`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(req),
+  })
+    .then((res) => res.json())
+    .then(res => {
+      console.log("councilLoad universityInfo: ", res);
+      Uniname.push(res.university_name);
+      universityName.innerHTML = Uniname[0];
+    });
+}
+//2. id -> post_id, img_url
+//3. url -> location
+//-------------------
+
 window.addEventListener('DOMContentLoaded', function() {
   setSwiper();
   updateDynamicLinks();
   imagesLoad(); //포스트 이미지를 가져오는 함수, 임시라서 나중에 councilLoad랑 합치기
-  councilLoad();
-  // retailerLoad();
+  //councilLoad();
+  nameLoad();
 });
 
 

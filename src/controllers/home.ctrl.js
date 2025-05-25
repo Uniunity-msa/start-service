@@ -1,7 +1,7 @@
 "use strict"
 
 const University = require("../models/University");
-const { sendUniversityURL, receiveUniversityData } = require('../rabbit/rabbitMQ');
+const { sendUniversityURL, sendUniversityID, receiveUniversityData } = require('../rabbit/rabbitMQ');
 
 const output = {
     home: (req, res) => {
@@ -24,18 +24,35 @@ const mainpage = {
 
 //council 페이지
 const council = {
+    getUniversityID: async (req, res) => {
+        try {
+            console.log("home.ctrl의 getUniversityID ");
+            const university_url = req.body.university_url;
+            await sendUniversityURL(university_url, 'SendUniversityID');
+
+            //데이터 수신
+            const university_id = await receiveUniversityData('RecvStartUniversityID');
+            console.log("home: university id:", university_name.university_id);
+            return university_id;
+        } catch (err) {
+            console.log("getUniversityID error", err);
+            return res.status(500).json({ error: 'Internal Server Error' }); 
+        }
+    },
+
     getImages: async (req, res) => {
         console.log("home.ctrl의 getImages");
         const university = new University();
-	try {
-	    const university_url = req.body.university_url;
+        try {
+            //1. url로 id 얻어오기
+            //2. post-service랑 통신해서 post_img_id, img_url 가져오기
+            
+            //-------
+            const university_url = req.body.university_url;
             console.log("university_url: ", university_url);
 
             const response = await university.getImages(university_url);
             return res.json(response);
-            //1. post-service랑 통신해서 post_img_id, img_url 가져오기
-            //2. post_img_id로 클라우드 스토리지에서 이미지 가져오기
-
         } catch (err) {
             console.log("getImages error", err);
             return res.status(500).json({ error: 'Internal Server Error' }); 
