@@ -2,14 +2,6 @@
 
 const University = require("../models/University");
 const { sendUniversityURL, receiveUniversityData } = require('../rabbit/rabbitMQ');
-//const Partner = require("../models/Partner");
-// const User = require("../models/User");
-// const Council = require("../models/Council");
-// const Post = require("../models/Post");
-// const sendEmailWithAuthorization = require("../../mailer");
-// const bcrypt = require('bcrypt');
-// const Comment = require('../models/Comment');
-// const { getLatestPosts } = require("../public/js/post/post");
 
 const output = {
     home: (req, res) => {
@@ -27,23 +19,7 @@ const mainpage = {
         const university = new University();
         const response = await university.showUniversityNameList();
         return res.json(response);
-    }, 
-
-
-    getUniversityName: async (req, res) => {
-        console.log("home.ctrl의 getUniversityName ");
-        console.log("req.body:", req.body);
-
-        if (!req.body || !req.body.university_url) {
-            console.error("❌ university_url이 전달되지 않았습니다.");
-            return res.status(400).json({ error: "university_url이 필요합니다." });
-        }
-
-        const university = new University();
-        const response = await university.getUniversityName(req.body.university_url);
-        console.log(response);
-        return res.json(response);
-    }, 
+    }
 }
 
 //council 페이지
@@ -67,17 +43,31 @@ const council = {
     },
 
     getUniversityName: async (req, res) => {
-        console.log("home.ctrl의 getUniversityName ");
-        const university = new University();
-	
-        if (!req.body || !req.body.university_url) {
-            console.error("❌ university_url이 전달되지 않았습니다.");
-            return res.status(400).json({ error: "university_url이 필요합니다." });
+        try {
+            console.log("home.ctrl의 getUniversityName ");
+            const universtiy_url = req.body.university_url;
+            await sendUniversityURL(universtiy_url, 'SendUniversityName')
+            const university_name = await receiveUniversityData('RecvStartUniversityName');
+            console.log("home: university name:", university_name);
+            return res.json(university_name);
+
+        } catch (err) {
+            console.error('getUniversityName error:', err);
+            return res.status(500).json({ error: 'Internal Server Error' });
         }
 
-        const response = await university.getUnversityUrlToName(req.body.university_url);
-        console.log(response);
-        return res.json(response);
+        //rabbitmq 적용 전 코드
+        // console.log("home.ctrl의 getUniversityName ");
+        // const university = new University();
+	
+        // if (!req.body || !req.body.university_url) {
+        //     console.error("❌ university_url이 전달되지 않았습니다.");
+        //     return res.status(400).json({ error: "university_url이 필요합니다." });
+        // }
+
+        // const response = await university.getUnversityUrlToName(req.body.university_url);
+        // console.log(response);
+        // return res.json(response);
     },
 
     getUniversityLocation: async (req, res) => {
