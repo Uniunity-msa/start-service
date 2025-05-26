@@ -318,6 +318,21 @@ function idLoad() {
     .then((res) => res.json())
     .then(res => {
       console.log("idLoad univ_id: ", res);
+      current_university_id = res.university_id;
+      console.log("current_id: ", current_university_id); //테스트용 로그
+    })
+    .then(() => {
+      return fetch(`${apiUrl}/getCardNewsImageUrl`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ university_id: current_university_id })
+      });
+    })
+    .then((res) => res.json())
+    .then((res) => {
+      console.log("getimage: ", res);
     });
 }
 
@@ -332,7 +347,7 @@ function imageLoad() {
 window.addEventListener('DOMContentLoaded', function() {
   setSwiper();
   updateDynamicLinks();
-  imagesLoadTest(); //포스트 이미지를 가져오는 함수, 임시라서 나중에 councilLoad랑 합치기
+  //imagesLoadTest(); //포스트 이미지를 가져오는 함수, 임시라서 나중에 councilLoad랑 합치기
   //councilLoad();
   nameLoad();
   idLoad();

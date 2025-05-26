@@ -33,7 +33,7 @@ const council = {
             //데이터 수신
             const university_id = await receiveUniversityData('RecvStartUniversityID');
             console.log("home: university id:", university_id);
-            return res.json(university_id);
+            return res.json({university_id});
         } catch (err) {
             console.log("getUniversityID error", err);
             return res.status(500).json({ error: 'Internal Server Error' }); 
@@ -42,7 +42,10 @@ const council = {
 
     getCardNewsImageUrl: async (req, res) => {
         console.log("home.ctrl의 getImages");
-        const university = new University();
+	console.log("받은 데이터:", req.body);
+        return res.json({ result: 1 });
+
+	const university = new University();
         try {
             //1. url로 id 얻어오기
             //2. post-service랑 통신해서 post_img_id, img_url 가져오기
