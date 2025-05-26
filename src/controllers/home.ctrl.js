@@ -40,7 +40,7 @@ const council = {
         }
     },
 
-    getImages: async (req, res) => {
+    getCardNewsImageUrl: async (req, res) => {
         console.log("home.ctrl의 getImages");
         const university = new University();
         try {

@@ -170,7 +170,7 @@ function setSwiper() {
 const universityName = document.querySelector("#universityName");
 
 var Uniname = [];
-var university_id;
+var current_university_id;
 var imageUrls = [];
 
 // 카드뉴스 이미지 추가 함수

@@ -11,7 +11,7 @@ router.get("/showUniversityNameList", ctrl.mainpage.showUniversityNameList);
 router.get("/council/:university_url", ctrl.output.council);
 router.post("/getUniversityName", ctrl.council.getUniversityName);
 router.post("/getUniversityID", ctrl.council.getUniversityID);
-router.post("/getImages", ctrl.council.getImages);
+router.post("/getCardNewsImageUrl", ctrl.council.getCardNewsImageUrl);
 
 router.post("/getUniversityLocation", ctrl.council.getUniversityLocation);
 
