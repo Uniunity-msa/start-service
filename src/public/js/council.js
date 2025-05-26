@@ -302,7 +302,7 @@ function nameLoad() {
     });
 }
 //2. url -> id
-function idLoad() {
+function imageLoad() {
   const universityUrl = getUniversityUrl();
   const req = {
     university_url: universityUrl
@@ -336,11 +336,6 @@ function idLoad() {
     });
 }
 
-//3. id -> post_id, img_url
-function imageLoad() {
-  
-}
-
 //4. url -> location
 //-------------------
 
@@ -350,7 +345,7 @@ window.addEventListener('DOMContentLoaded', function() {
   //imagesLoadTest(); //포스트 이미지를 가져오는 함수, 임시라서 나중에 councilLoad랑 합치기
   //councilLoad();
   nameLoad();
-  idLoad();
+  imageLoad();
 });
 
 
