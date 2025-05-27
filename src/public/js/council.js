@@ -1,5 +1,7 @@
 import loadKakaoMap from '/js/kakaomapLoader.js';
 import apiKeys from './apiKey.js';
+import { apiUrl } from '/js/apiUrl.js';
+import { baseUrls } from 'js/apiUrl.js';
 
 //로그인(로그아웃), 회원가입(마이페이지)버튼
 const loginStatusBtn = document.getElementById("loginStatusBtn");
@@ -14,9 +16,10 @@ const navBar=document.getElementById("navbar");
 
 //auth 로그인 정보 가져오기
 let userInfo;
+const userApiUrl = baseUrls.user;
 
 const loadloginData = async () => {
-  const res = await fetch("/auth/me", {
+  const res = await fetch(`${userApiUrl}/auth/logout`, {
     credentials: "include", // 쿠키 포함
   });
 
@@ -417,17 +420,22 @@ function generateDynamicURL(linkId, userschool) {
   // linkId에 따라 동적 값을 할당하는 로직을 구현합니다.
   if (linkId === "retailer") {
     dynamicValue = "retailer/" + userschool;
+    url = baseUrls.partner;
   } else if (linkId === "partner") {
     dynamicValue = "partner/" + userschool;
+    url = baseUrls.partner;
   } else if (linkId === "more_news") {
     dynamicValue = "showPostListAll/" + userschool;
+    url = baseUrls.post;
   } else if (linkId === "more_retailer") {
     dynamicValue = "retailer/" + userschool;
+    url = baseUrls.partner;
   } else if (linkId === "news") {
     dynamicValue = "showPostListAll/" + userschool;
+    url = baseUrls.post;
   }
 
-  return `${apiUrl}/` + dynamicValue;
+  return `${url}/` + dynamicValue;
 }
 
 // 새로운 url로 업데이트
