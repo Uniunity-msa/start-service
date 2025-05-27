@@ -42,16 +42,10 @@ const council = {
 
     getCardNewsImageUrl: async (req, res) => {
         console.log("home.ctrl의 getImages");
-        const university_id = req.body.university_id;
-        await sendUniversityID(university_id.body);
+	console.log("받은 데이터:", req.body);
+        return res.json({ result: 1 });
 
-        const post_info = await receiveUniversityData('RecvStartPostInfo');
-        console.log("home: post info:", post_info);
-        return res.json({post_info});
-        //return res.json({ result: 1 });
-        
-        // rabbitmq로 바꾸기 전 코드
-        const university = new University();
+	const university = new University();
         try {
             //1. url로 id 얻어오기
             //2. post-service랑 통신해서 post_img_id, img_url 가져오기

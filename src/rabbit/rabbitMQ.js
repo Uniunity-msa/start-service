@@ -74,11 +74,10 @@ async function receiveUniversityData(queueName) {
   throw new Error(`${queueName} 큐에서 메시지를 받지 못했습니다.`);
 }
 
-//post-service로 university_id 수신
-async function sendUniversityID(university_id) {
+async function sendUniversityID(university_id, sendQueueName) {
   if (!channel) await connectRabbitMQ();
   channel.sendToQueue(
-    SendPostInfo,
+    sendQueueName,  // 올바르게 인자로 받은 큐 이름 사용
     Buffer.from(JSON.stringify({ university_id })),
     {
       replyTo: 'RecvStartPostInfo',
@@ -86,9 +85,9 @@ async function sendUniversityID(university_id) {
   );
 }
 
-// async function receivePostInfo(queueName) {
-//   if (!channel) await connectRabbitMQ();
-// }
+async function receivePostInfo(queueName) {
+  if (!channel) await connectRabbitMQ();
+}
 
 module.exports = {
   sendUniversityURL,
