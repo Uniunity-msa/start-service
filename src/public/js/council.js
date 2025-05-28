@@ -62,14 +62,25 @@ window.addEventListener('DOMContentLoaded', function () {
 
 
 // university_url 값을 받아오는 함수
-function getUniversityUrl() {
-  // 현재 페이지의 URL에서 경로(pathname) 부분을 추출
-  const path = window.location.pathname;
+// function getUniversityUrl() {
+//   // 현재 페이지의 URL에서 경로(pathname) 부분을 추출
+//   const path = window.location.pathname;
 
-  // 경로에서 universityUrl 값을 추출
-  const pathParts = path.split('/');
-  const universityUrl = pathParts[pathParts.length - 1];
-  console.log("universityUrl: ", universityUrl);
+//   // 경로에서 universityUrl 값을 추출
+//   const pathParts = path.split('/');
+//   const universityUrl = pathParts[pathParts.length - 1];
+//   console.log("universityUrl: ", universityUrl);
+//   return universityUrl;
+// }
+// var current_university_url = getUniversityUrl();
+
+//const url = new URL(window.location.href);
+//  const universityUrl = url.pathname.split('/').pop();
+//  return universityUrl;
+// university_url 값을 받아오는 함수
+function getUniversityUrl() {
+  const url = new URL(window.location.href);
+  const universityUrl = url.pathname.split('/').pop();
   return universityUrl;
 }
 var current_university_url = getUniversityUrl();
@@ -333,7 +344,6 @@ function idLoad() {
         body: JSON.stringify({ university_id: current_university_id })
       });
     })
-    .then((res) => res.json())
     .then((res) => {
       console.log("getimage: ", res);
     });
@@ -355,12 +365,12 @@ const directIdData = async () => {
 
 window.addEventListener('DOMContentLoaded', function() {
   setSwiper();
-  updateDynamicLinks();
+  //updateDynamicLinks();
   //imagesLoadTest(); //포스트 이미지를 가져오는 함수, 임시라서 나중에 councilLoad랑 합치기
   //councilLoad();
   nameLoad();
   idLoad();
-  directIdData();
+  //directIdData();
 });
 
 

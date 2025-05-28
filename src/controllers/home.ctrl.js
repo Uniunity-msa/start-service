@@ -47,7 +47,7 @@ const council = {
 
         const post_info = await receiveUniversityData('RecvPostList');
 	console.log("home: post info:", post_info);
-        return res.json({post_info});
+        return post_info;
 	//return res.json({ result: 1 });
 
 	const university = new University();
