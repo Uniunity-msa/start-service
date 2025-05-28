@@ -42,8 +42,13 @@ const council = {
 
     getCardNewsImageUrl: async (req, res) => {
         console.log("home.ctrl의 getImages");
-	console.log("받은 데이터:", req.body);
-        return res.json({ result: 1 });
+        const university_id = req.body.university_id;
+        await sendUniversityID(university_id, 'SendPostList');
+
+        const post_info = await receiveUniversityData('RecvPostList');
+	console.log("home: post info:", post_info);
+        return res.json({post_info});
+	//return res.json({ result: 1 });
 
 	const university = new University();
         try {

@@ -4,13 +4,13 @@ const RECV_QUEUES = [
   'RecvStartUniversityName',
   'RecvStartUniversityID',
   'RecvStartUniversityLocation', 
-  'RecvStartPostInfo'
+  'RecvPostList'
 ];
 const SEND_QUEUES = [
   'SendUniversityName',
   'SendUniversityID',
   'SendUniversityLocation',
-  'SendPostInfo'
+  'SendPostList'
 ];
 
 let channel;
@@ -74,19 +74,19 @@ async function receiveUniversityData(queueName) {
   throw new Error(`${queueName} 큐에서 메시지를 받지 못했습니다.`);
 }
 
+//post-service로 university_id 수신
 async function sendUniversityID(university_id, sendQueueName) {
   if (!channel) await connectRabbitMQ();
+  let recvQueueName = 'RecvPostList';
+  
+  console.log('rabbit의 sendUniversityID 실행');
   channel.sendToQueue(
     sendQueueName,  // 올바르게 인자로 받은 큐 이름 사용
-    Buffer.from(JSON.stringify({ university_id })),
+    Buffer.from(JSON.stringify({university_id})),
     {
-      replyTo: 'RecvStartPostInfo',
+      replyTo: recvQueueName,
     }
   );
-}
-
-async function receivePostInfo(queueName) {
-  if (!channel) await connectRabbitMQ();
 }
 
 module.exports = {
@@ -94,3 +94,4 @@ module.exports = {
   sendUniversityID,
   receiveUniversityData
 };
+
