@@ -344,7 +344,6 @@ function idLoad() {
         body: JSON.stringify({ university_id: current_university_id })
       });
     })
-    .then((res) => res.json())
     .then((res) => {
       console.log("getimage: ", res);
     });
@@ -370,7 +369,7 @@ window.addEventListener('DOMContentLoaded', function() {
   //imagesLoadTest(); //포스트 이미지를 가져오는 함수, 임시라서 나중에 councilLoad랑 합치기
   //councilLoad();
   nameLoad();
-  //idLoad();
+  idLoad();
   //directIdData();
 });
 
