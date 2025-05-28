@@ -72,7 +72,7 @@ function getUniversityUrl() {
   console.log("universityUrl: ", universityUrl);
   return universityUrl;
 }
-var university_url = getUniversityUrl();
+var current_university_url = getUniversityUrl();
 
 function setCenter(map,latitude,longitude){            
   // 이동할 위도 경도 위치를 생성합니다 
@@ -224,7 +224,7 @@ async function fetchImageUrls(imageData) {
 
 function imagesLoadTest() {
   console.log("imagesLoadTest 시작"); //테스트용 로그
-  const universityUrl = getUniversityUrl();
+  const universityUrl = current_university_url;
   const req = {
     university_url: universityUrl
   };
@@ -244,7 +244,7 @@ function imagesLoadTest() {
 }
 
 function councilLoad() { //-> nameLoad
-  const universityUrl = getUniversityUrl();
+  const universityUrl = current_university_url;
   const req = {
     university_url: universityUrl
   };
@@ -285,7 +285,7 @@ function councilLoad() { //-> nameLoad
 //-------------------
 //1. url -> name
 function nameLoad() {
-  const universityUrl = getUniversityUrl();
+  const universityUrl = current_university_url;
   const req = {
     university_url: universityUrl
   };
@@ -306,7 +306,7 @@ function nameLoad() {
 }
 //2. url -> id
 function idLoad() {
-  const universityUrl = getUniversityUrl();
+  const universityUrl = current_university_url;
   const req = {
     university_url: universityUrl
   };
