@@ -428,6 +428,7 @@ function getDynamicValueFromURL() {
 // 새로운 url 만들기
 function generateDynamicURL(linkId, userschool) {
   var dynamicValue;
+  var url;
 
   // linkId에 따라 동적 값을 할당하는 로직을 구현합니다.
   if (linkId === "retailer") {
