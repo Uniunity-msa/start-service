@@ -69,8 +69,8 @@ function getUniversityUrl() {
   // 경로에서 universityUrl 값을 추출
   const pathParts = path.split('/');
   const universityUrl = pathParts[pathParts.length - 1];
-  console.log("universityUrl: ", universityUrl.universityUrl);
-  return universityUrl.universityUrl;
+  console.log("universityUrl: ", universityUrl);
+  return universityUrl;
 }
 var current_university_url = getUniversityUrl();
 
