@@ -428,6 +428,7 @@ function getDynamicValueFromURL() {
 // 새로운 url 만들기
 function generateDynamicURL(linkId, userschool) {
   var dynamicValue;
+  var url;
 
   // linkId에 따라 동적 값을 할당하는 로직을 구현합니다.
   if (linkId === "retailer") {
@@ -457,8 +458,6 @@ async function updateDynamicLinks() {
     console.log("영어 문자열이 URL에서 추출되지 않았습니다.");
     return;
   }
-
-  //var userschool = current_university_url;
 
   var link1 = document.getElementById("main_retailer");
   var link2 = document.getElementById("partner");
