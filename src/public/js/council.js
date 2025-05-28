@@ -69,8 +69,8 @@ function getUniversityUrl() {
   // 경로에서 universityUrl 값을 추출
   const pathParts = path.split('/');
   const universityUrl = pathParts[pathParts.length - 1];
-  console.log("universityUrl: ", universityUrl);
-  return universityUrl;
+  console.log("universityUrl: ", universityUrl.universityUrl);
+  return universityUrl.universityUrl;
 }
 var current_university_url = getUniversityUrl();
 
@@ -458,8 +458,6 @@ async function updateDynamicLinks() {
     console.log("영어 문자열이 URL에서 추출되지 않았습니다.");
     return;
   }
-
-  //var userschool = current_university_url;
 
   var link1 = document.getElementById("main_retailer");
   var link2 = document.getElementById("partner");
