@@ -339,10 +339,16 @@ function idLoad() {
     });
 }
 
-//3. id -> post_id, img_url
-function imageLoad() {
-  
+const directIdData = async () => {
+  console.log('directIdload 실행');
+  const url = `${userApiUrl}/university/university-id`;
+  const res = await fetch(url);
+  const data = await res.json();
+  console.log("directIdData: ", data);
 }
+
+//3. id -> post_id, img_url
+
 
 //4. url -> location
 //-------------------
@@ -354,6 +360,7 @@ window.addEventListener('DOMContentLoaded', function() {
   //councilLoad();
   nameLoad();
   idLoad();
+  directIdData();
 });
 
 
@@ -450,6 +457,8 @@ async function updateDynamicLinks() {
     console.log("영어 문자열이 URL에서 추출되지 않았습니다.");
     return;
   }
+
+  //var userschool = current_university_url;
 
   var link1 = document.getElementById("main_retailer");
   var link2 = document.getElementById("partner");
