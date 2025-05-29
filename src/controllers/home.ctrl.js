@@ -29,11 +29,14 @@ const council = {
             console.log("home.ctrl의 getUniversityID ");
             const university_url = req.body.university_url;
             await sendUniversityURL(university_url, 'SendUniversityID');
-
-            //데이터 수신
             const university_id = await receiveUniversityData('RecvStartUniversityID');
-            console.log("home: university id:", university_id);
-            return res.json({university_id});
+	    console.log("home: university id:", university_id);
+            
+	    await sendUniversityID(university_id, 'SendPostList');
+            const post_info = await receiveUniversityData('RecvPostList');
+            console.log('home post_info: ', post_info);
+
+	    return res.json({post_info});
         } catch (err) {
             console.log("getUniversityID error", err);
             return res.status(500).json({ error: 'Internal Server Error' }); 

@@ -76,6 +76,8 @@ async function receiveUniversityData(queueName) {
 
 //post-service로 university_id 수신
 async function sendUniversityID(university_id, sendQueueName) {
+  await channel.assertQueue(sendQueueName, { durable: false });
+
   if (!channel) await connectRabbitMQ();
   let recvQueueName = 'RecvPostList';
   
