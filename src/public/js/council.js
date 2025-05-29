@@ -144,6 +144,24 @@ const serviceKey = apiKeys.SERVICE_KEY;
 const endPoint = apiKeys.ENDPOINT;
 
 document.addEventListener("DOMContentLoaded", () => {
+    
+    const universityUrl = current_university_url;
+    const req = {
+      university_url: universityUrl
+    };
+
+    fetch(`${apiUrl}/getUniversityLocation`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(req),
+    })
+    .then((res) => res.json())
+    .then(res => {
+      console.log("kakao map: ", res);
+    });
+
     loadKakaoMap().then(() => {
       const container = document.getElementById('map');
       if (!container) return console.error('#map 요소가 없습니다.');

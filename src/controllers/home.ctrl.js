@@ -51,25 +51,8 @@ const council = {
         await sendUniversityID(university_id, 'SendPostList');
 
         const post_info = await receiveUniversityData('RecvPostList');
-	console.log("home: post info:", post_info);
+	    console.log("home: post info:", post_info);
         return post_info;
-	//return res.json({ result: 1 });
-
-	const university = new University();
-        try {
-            //1. url로 id 얻어오기
-            //2. post-service랑 통신해서 post_img_id, img_url 가져오기
-            
-            //-------
-            const university_url = req.body.university_url;
-            console.log("university_url: ", university_url);
-
-            const response = await university.getImages(university_url);
-            return res.json(response);
-        } catch (err) {
-            console.log("getImages error", err);
-            return res.status(500).json({ error: 'Internal Server Error' }); 
-        }
     },
 
     getUniversityName: async (req, res) => {
@@ -88,67 +71,23 @@ const council = {
             console.error('getUniversityName error:', err);
             return res.status(500).json({ error: 'Internal Server Error' });
         }
-
-        //rabbitmq 적용 전 코드
-        // console.log("home.ctrl의 getUniversityName ");
-        // const university = new University();
-	
-        // if (!req.body || !req.body.university_url) {
-        //     console.error("❌ university_url이 전달되지 않았습니다.");
-        //     return res.status(400).json({ error: "university_url이 필요합니다." });
-        // }
-
-        // const response = await university.getUnversityUrlToName(req.body.university_url);
-        // console.log(response);
-        // return res.json(response);
     },
 
     getUniversityLocation: async (req, res) => {
-        console.log("home.ctrl의 getUniversityLocation");
-        console.log("req.body:", req.body);
-	try {
+        try { 
+            console.log("home.ctrl의 getUniversityLocation ");
             const university_url = req.body.university_url;
-
-            // RabbitMQ로 university_location 요청 및 수신
             await sendUniversityURL(university_url, 'SendUniversityLocation');
-            const university_location = await receiveUniversityData('RecvUniversityLocation');
+            const university_location = await receiveUniversityData('RecvStartUniversityLocation');
 
+            console.log("home: university location:", university_location);
             return res.json(university_location);
-
         } catch (err) {
             console.error('getUniversityLocation error:', err);
             return res.status(500).json({ error: 'Internal Server Error' });
         }
     }
 }
-
-//     showUniversityNameList: async (req, res) => {
-//         const university_name = new University();
-//         const response = await university_name.showUniversityNameList();
-//         return res.json(response);
-//     },
-
-//     getUniversityName: async (req, res) => {
-//         const council = new Council();
-//         const response = await council.getUniversityName(req.body.university_url);
-//         return res.json(response);
-//     },
-
-//     getCardNewsImageUrl: async (req, res) => {
-//         const council = new Council();
-//         const response = await council.getUniversityID(req.body.university_url);
-//         const response2 = await council.getCardNewsImageUrl(response);
-//         return res.json(response2);
-//     },
-
-//     getUniversityLocation: async (req, res) => {
-//         const partner = new Partner();
-//         const university_id = await partner.getUniversityID(req.body.university_url);
-//         const response = await partner.getUniversityLocation(university_id);
-//         return res.json(response);
-//     },
-// }
-
 
 module.exports = {
     output,

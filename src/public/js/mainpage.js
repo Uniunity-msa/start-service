@@ -127,8 +127,7 @@ const loadloginData = async () => {
 // }
 
 //mainpage 로드 후 loadData()실행
-window.addEventListener('DOMContentLoaded', function()
-{
+window.addEventListener('DOMContentLoaded', function() {
     //console.log("window.addEventListener 실행\n");
     loadloginData();
     //loadData();
