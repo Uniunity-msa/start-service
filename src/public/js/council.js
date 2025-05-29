@@ -17,6 +17,7 @@ const navBar=document.getElementById("navbar");
 //auth 로그인 정보 가져오기
 let userInfo;
 const userApiUrl = baseUrls.user;
+const postReactionApiUrl = baseUrls.postReaction;
 
 // 로그아웃 처리 함수
 const handleLogout = async () => {
@@ -51,12 +52,12 @@ const loadloginData = async () => {
       e.preventDefault(); // 링크 동작 막기
       handleLogout();     // 로그아웃 요청
     });
-    signUpBtn.setAttribute("href", `${userApiUrl}/mypage`);
+    signUpBtn.setAttribute("href", `${postReactionApiUrl}/mypage`);
     signUpBtn.innerText = "마이페이지"
   } else {
-    loginStatusBtn.setAttribute("href", `${userApiUrl}/login`);
+    loginStatusBtn.setAttribute("href", `${userApiUrl}/auth/login`);
     loginStatusBtn.innerText = "로그인"
-    signUpBtn.setAttribute("href", `${userApiUrl}/signup/agreement`);
+    signUpBtn.setAttribute("href", `${userApiUrl}/user/agreement`);
     signUpBtn.innerText = "회원가입"
   }
   const data = await res.json();
