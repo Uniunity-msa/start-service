@@ -17,6 +17,7 @@ const navBar=document.getElementById("navbar");
 //auth 로그인 정보 가져오기
 let userInfo;
 const userApiUrl = baseUrls.user;
+const postApiUrl = baseUrls.post;
 const postReactionApiUrl = baseUrls.postReaction;
 
 // 로그아웃 처리 함수
@@ -279,7 +280,7 @@ async function fetchImageUrls(imageData) {
           imgContainer.classList.add('swiper-slide');
 
           const imgLink = document.createElement('a');
-          imgLink.href = `${apiUrl}/postviewer/${currentData.post_id}`; // 이미지 클릭 시 postviewer 페이지로 이동하는 URL 생성
+          imgLink.href = `${postApiUrl}/postviewer/${currentData.post_id}`; // 이미지 클릭 시 postviewer 페이지로 이동하는 URL 생성
           imgLink.target = '_self';
 
           const imgElement = document.createElement('img');
