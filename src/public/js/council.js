@@ -18,18 +18,63 @@ const navBar=document.getElementById("navbar");
 let userInfo;
 const userApiUrl = baseUrls.user;
 
-const loadloginData = async () => {
-  const res = await fetch(`${userApiUrl}/auth/logout`, {
-    credentials: "include", // 쿠키 포함
-  });
+// 로그아웃 처리 함수
+const handleLogout = async () => {
+  try {
+    const res = await fetch(`${userApiUrl}/auth/logout`, {
+      method: "POST",
+      credentials: "include"
+    });
 
-  userInfo = await res.json(); // 유저 정보가 저장되는 변수
+    if (res.ok) {
+      // 로그아웃 성공 시 페이지 새로고침
+      window.location.reload(); // 또는 window.location.href = "/";
+    } else {
+      const data = await res.json();
+      alert(data.message || "로그아웃에 실패했습니다.");
+    }
+  } catch (err) {
+    console.error("로그아웃 요청 중 오류 발생:", err);
+    alert("서버 오류로 로그아웃에 실패했습니다.");
+  }
 };
 
+// 작성자 회원 정보 불러오기
+const loadloginData = async () => {
+  const res = await fetch(`${userApiUrl}/auth/me`, {
+    credentials: "include", // 쿠키 포함
+  });
+  if (res.ok == true){
+    loginStatusBtn.innerText = "로그아웃"
+    loginStatusBtn.removeAttribute("href"); // 기본 링크 제거
+    loginStatusBtn.addEventListener("click", (e) => {
+      e.preventDefault(); // 링크 동작 막기
+      handleLogout();     // 로그아웃 요청
+    });
+    signUpBtn.setAttribute("href", `${userApiUrl}/mypage`);
+    signUpBtn.innerText = "마이페이지"
+  } else {
+    loginStatusBtn.setAttribute("href", `${userApiUrl}/login`);
+    loginStatusBtn.innerText = "로그인"
+    signUpBtn.setAttribute("href", `${userApiUrl}/signup/agreement`);
+    signUpBtn.innerText = "회원가입"
+  }
+  const data = await res.json();
+  userInfo = data; 
+};
+
+// const loadloginData = async () => {
+//   const res = await fetch(`${userApiUrl}/auth/logout`, {
+//     credentials: "include", // 쿠키 포함
+//   });
+
+//   userInfo = await res.json(); // 유저 정보가 저장되는 변수
+// };
+
 // 페이지 로드 후 로그인 정보 획득
-window.addEventListener('DOMContentLoaded', function () {
-    loadloginData();
-});
+// window.addEventListener('DOMContentLoaded', function () {
+//     loadloginData();
+// });
 
 //회원로그인 정보 불러오기
 // const loadloginData = () => {
@@ -77,6 +122,7 @@ window.addEventListener('DOMContentLoaded', function () {
 //const url = new URL(window.location.href);
 //  const universityUrl = url.pathname.split('/').pop();
 //  return universityUrl;
+
 // university_url 값을 받아오는 함수
 function getUniversityUrl() {
   const url = new URL(window.location.href);
@@ -281,6 +327,7 @@ function imageLoad() {
 window.addEventListener('DOMContentLoaded', function() {
   setSwiper();
   updateDynamicLinks();
+  loadloginData();
   nameLoad();
   imageLoad();
 });
