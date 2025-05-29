@@ -280,6 +280,7 @@ function imageLoad() {
 
 window.addEventListener('DOMContentLoaded', function() {
   setSwiper();
+  updateDynamicLinks();
   nameLoad();
   imageLoad();
 });
@@ -349,27 +350,27 @@ function getDynamicValueFromURL() {
 // 새로운 url 만들기
 function generateDynamicURL(linkId, userschool) {
   var dynamicValue;
-  var url;
+  var next_url;
 
   // linkId에 따라 동적 값을 할당하는 로직을 구현합니다.
   if (linkId === "retailer") {
     dynamicValue = "retailer/" + userschool;
-    url = baseUrls.partner;
+    next_url = baseUrls.partner;
   } else if (linkId === "partner") {
     dynamicValue = "partner/" + userschool;
-    url = baseUrls.partner;
+    next_url = baseUrls.partner;
   } else if (linkId === "more_news") {
     dynamicValue = "showPostListAll/" + userschool;
-    url = baseUrls.post;
+    next_url = baseUrls.post;
   } else if (linkId === "more_retailer") {
     dynamicValue = "retailer/" + userschool;
-    url = baseUrls.partner;
+    next_url = baseUrls.partner;
   } else if (linkId === "news") {
     dynamicValue = "showPostListAll/" + userschool;
-    url = baseUrls.post;
+    next_url = baseUrls.post;
   }
 
-  return `${url}/` + dynamicValue;
+  return `${next_url}/` + dynamicValue;
 }
 
 // 새로운 url로 업데이트
