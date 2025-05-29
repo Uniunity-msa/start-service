@@ -349,7 +349,7 @@ function idLoad() {
     });
 }
 
-function idLoad2() {
+function imageLoad() {
   const universityUrl = current_university_url;
   const req = {
     university_url: universityUrl
@@ -365,8 +365,8 @@ function idLoad2() {
   .then((res) => res.json())
   .then((data) => {
       console.log("getimage: ", data);
-      console.log("idLoad2 test1: ", data.result);
-      console.log("idLoad2 test2: ", data.result[0].img_url);
+      console.log("imageLoad test1: ", data.result);
+      console.log("imageLoad test2: ", data.result[0].img_url);
       fetchImageUrls(data.result);
   });
 }
@@ -391,7 +391,7 @@ window.addEventListener('DOMContentLoaded', function() {
   //imagesLoadTest(); //포스트 이미지를 가져오는 함수, 임시라서 나중에 councilLoad랑 합치기
   //councilLoad();
   nameLoad();
-  idLoad2();
+  imageLoad();
   //directIdData();
 });
 
