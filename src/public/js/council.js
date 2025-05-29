@@ -233,67 +233,6 @@ async function fetchImageUrls(imageData) {
   }
 }
 
-function imagesLoadTest() {
-  console.log("imagesLoadTest 시작"); //테스트용 로그
-  const universityUrl = current_university_url;
-  const req = {
-    university_url: universityUrl
-  };
-  
-  console.log("apiUrl: ", `${apiUrl}`); //테스트용 로그
-  fetch(`${apiUrl}/getImages`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(req),
-  })
-    .then((res) => res.json())
-    .then((imageData) => {
-      fetchImageUrls(imageData);
-    })
-}
-
-function councilLoad() { //-> nameLoad
-  const universityUrl = current_university_url;
-  const req = {
-    university_url: universityUrl
-  };
-
-  fetch(`${apiUrl}/getUniversityName`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(req),
-  })
-    .then((res) => res.json())
-    .then(res => {
-      console.log("councilLoad universityInfo: ", res);
-      Uniname.push(res.university_name);
-      universityName.innerHTML = Uniname[0];
-    // console.log("council의 Uniname[0]: ", Uniname[0]); //테스트용 로그
-    // console.log("council의 universityName: ", universityName.innerHTML); //테스트용 로그
-    });
-  //   .then(() => {
-  //   return fetch(`${apiUrl}/getCardNewsImageUrl`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(req),
-  //   });
-  // })
-  // .then((res) => res.json())
-  // .then((imageData) => { // 이미지 데이터를 변수 imageData로 받아옴
-  //   fetchImageUrls(imageData); // 이미지 데이터를 fetchImageUrls 함수의 인자로 전달
-  // })
-  // .catch(error => {
-  //   console.error('Error:', error);
-  // });
-}
-
-//-------------------
 //1. url -> name
 function nameLoad() {
   const universityUrl = current_university_url;
@@ -315,40 +254,8 @@ function nameLoad() {
       universityName.innerHTML = Uniname[0];
     });
 }
-//2. url -> id
-function idLoad() {
-  const universityUrl = current_university_url;
-  const req = {
-    university_url: universityUrl
-  };
 
-  fetch(`${apiUrl}/getUniversityID`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(req),
-  })
-    .then((res) => res.json())
-    .then(res => {
-      console.log("idLoad univ_id: ", res);
-      current_university_id = res.university_id;
-      console.log("current_id: ", current_university_id); //테스트용 로그
-    })
-    .then(() => {
-      return fetch(`${apiUrl}/getCardNewsImageUrl`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ university_id: current_university_id })
-      });
-    })
-    .then((res) => {
-      console.log("getimage: ", res);
-    });
-}
-
+//url -> id -> image
 function imageLoad() {
   const universityUrl = current_university_url;
   const req = {
@@ -371,28 +278,10 @@ function imageLoad() {
   });
 }
 
-const directIdData = async () => {
-  console.log('directIdload 실행');
-  const url = `${userApiUrl}/university/university-id`;
-  const res = await fetch(url);
-  const data = await res.json();
-  console.log("directIdData: ", data);
-}
-
-//3. id -> post_id, img_url
-
-
-//4. url -> location
-//-------------------
-
 window.addEventListener('DOMContentLoaded', function() {
   setSwiper();
-  //updateDynamicLinks();
-  //imagesLoadTest(); //포스트 이미지를 가져오는 함수, 임시라서 나중에 councilLoad랑 합치기
-  //councilLoad();
   nameLoad();
   imageLoad();
-  //directIdData();
 });
 
 
