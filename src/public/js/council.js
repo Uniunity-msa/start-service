@@ -144,7 +144,7 @@ const serviceKey = apiKeys.SERVICE_KEY;
 const endPoint = apiKeys.ENDPOINT;
 
 document.addEventListener("DOMContentLoaded", () => {
-    
+    var university_location;
     const universityUrl = current_university_url;
     const req = {
       university_url: universityUrl
@@ -160,7 +160,11 @@ document.addEventListener("DOMContentLoaded", () => {
     .then((res) => res.json())
     .then(res => {
       console.log("kakao map: ", res);
+      res = university_location;
     });
+
+    console.log("latitude: ", university_location.latitude);
+    console.log("longitude: ",university_location.longitude);
 
     loadKakaoMap().then(() => {
       const container = document.getElementById('map');
