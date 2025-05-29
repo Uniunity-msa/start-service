@@ -1,6 +1,8 @@
 const ul = document.querySelector(".pop_rel_keywords");
 const searchInput = document.querySelector(".search_input");
 const relContainer = document.querySelector(".rel_search");
+import { apiUrl } from '/js/apiUrl.js';
+import { baseUrls } from './apiUrl.js';
 
 //로그인(로그아웃), 회원가입(마이페이지)버튼
 const loginStatusBtn=document.getElementById("loginStatusBtn");
@@ -8,7 +10,8 @@ const signUpBtn=document.getElementById("signUpBtn");
 const navBar=document.getElementById("navbar-brand");
 
 let universitySearchList = [];
-const userApiUrl = "http://34.47.84.123:3004";
+//const userApiUrl = "http://34.47.84.123:3004";
+const userApiUrl = baseUrls.user;
 
 console.log("mainpage.js 시작");
 
@@ -25,11 +28,11 @@ const searchUniversityName = (suggestArr) => {
 
 const loadUnivesrsityData = async () => {
     console.log("loadUnivesrsityData 실행");
-    const url = `${userApiUrl}/university/SendAllUniversityName`;
-    const res = await fetch(url);
+    //const url = "http://34.47.84.123:3004/university/SendAllUniversityName";
+    const res = await fetch(`${userApiUrl}/university/FindAllUniversityName`);
     const data = await res.json();
     console.log(data);
-    if (!res.ok) {
+    if (res.ok) {
         searchUniversityName(data.result);  // 리스트 저장
         console.log("universitySearchList: \n");
         console.log(universitySearchList);
