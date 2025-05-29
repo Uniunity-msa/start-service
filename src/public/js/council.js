@@ -202,9 +202,9 @@ async function fetchImageUrls(imageData) {
         for (let i = 0; i <= imageData.length - 1; i++) {
         const currentData = imageData[i]; // 현재 이미지 데이터
         // 이미지 데이터의 형태가 객체인지 확인
-        if (currentData && currentData.image_url) {
+        if (currentData && currentData.img_url) {
           //console.log(imageUrls.length);
-          imageUrls.push(currentData.image_url); // 이미지를 배열에 추가
+          imageUrls.push(currentData.img_url); // 이미지를 배열에 추가
 
           const imgContainer = document.createElement('div');
           imgContainer.classList.add('swiper-slide');
@@ -215,7 +215,7 @@ async function fetchImageUrls(imageData) {
 
           const imgElement = document.createElement('img');
           imgElement.classList.add('news');
-          imgElement.src = currentData.image_url;
+          imgElement.src = currentData.img_url;
           imgElement.alt = 'no_image' + imageUrls.length;
 
           imgLink.appendChild(imgElement);
@@ -362,6 +362,13 @@ function idLoad2() {
     },
     body: JSON.stringify(req),
   })
+  .then((res) => res.json())
+  .then((data) => {
+      console.log("getimage: ", data);
+      console.log("idLoad2 test1: ", data.result);
+      console.log("idLoad2 test2: ", data.result[0].img_url);
+      fetchImageUrls(data.result);
+  });
 }
 
 const directIdData = async () => {
