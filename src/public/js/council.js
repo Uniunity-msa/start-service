@@ -144,40 +144,49 @@ function setCenter(map,latitude,longitude){
 const serviceKey = apiKeys.SERVICE_KEY;
 const endPoint = apiKeys.ENDPOINT;
 
-document.addEventListener("DOMContentLoaded", () => {
-    var university_location;
+document.addEventListener("DOMContentLoaded", async () => {
+    var university_location = [];
     const universityUrl = current_university_url;
     const req = {
       university_url: universityUrl
     };
 
-    fetch(`${apiUrl}/getUniversityLocation`, {
+    try {
+      const res = await fetch(`${apiUrl}/getUniversityLocation`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(req),
-    })
-    .then((res) => res.json())
-    .then(res => {
-      console.log("kakao map: ", res);
-      res = university_location;
-    });
+        body: JSON.stringify(req),
+      });
 
-    console.log("latitude: ", university_location.latitude);
-    console.log("longitude: ",university_location.longitude);
-
+      const data = await res.json();
+      university_location[0] = data.latitude;
+      university_location[1] = data.longitude;
+    } catch (err) {
+      console.error("지도 정보 요청 중 에러:", err);
+    }
+    console.log("university_location[0]: ", university_location[0]);
+    console.log("university_location[1]: ", university_location[1]);
+    
     loadKakaoMap().then(() => {
       const container = document.getElementById('map');
       if (!container) return console.error('#map 요소가 없습니다.');
   
-      const map = new kakao.maps.Map(container, {
-        center: new kakao.maps.LatLng(37.59169598260442, 127.02220971655647), // 초기 위치
-        level: 3
-      });
+      let map;
+      if (university_location.length == 0) {
+        map = new kakao.maps.Map(container, {
+          center: new kakao.maps.LatLng(37.59169598260442, 127.02220971655647), // 초기 위치
+          level: 3
+        });
+      }
+      else {
+        map = new kakao.maps.Map(container, {
+          center: new kakao.maps.LatLng(university_location[0], university_location[1]), // 초기 위치
+          level: 3
+        });
+      }
       
-      // setCenter();
-      // bounds_changed 이벤트 등록
       kakao.maps.event.addListener(map, 'bounds_changed', () => {
         const bounds = map.getBounds();
         const swLatlng = bounds.getSouthWest();
