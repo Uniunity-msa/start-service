@@ -20,15 +20,6 @@ const output = {
     }, 
 }
 
-const mainpage = {
-    showUniversityNameList: async (req, res) => {
-        console.log("home.ctrl의 showUniversityNameList 실행\n");
-        const university = new University();
-        const response = await university.showUniversityNameList();
-        return res.json(response);
-    }
-}
-
 //council 페이지
 //const council = {
 //    getUniversityLocation: async (req, res) => {
@@ -92,6 +83,5 @@ const mainpage = {
 
 module.exports = {
     output,
-    mainpage, 
 //    council
 };
