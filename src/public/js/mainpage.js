@@ -10,12 +10,11 @@ const signUpBtn=document.getElementById("signUpBtn");
 const navBar=document.getElementById("navbar-brand");
 
 let universitySearchList = [];
-//const userApiUrl = "http://34.47.84.123:3004";
 const userApiUrl = baseUrls.user;
 
 console.log("mainpage.js 시작");
 
-
+//============학교 이름들을 화면에 띄우기============
 const searchUniversityName = (suggestArr) => {
     ul.innerHTML = "";
     suggestArr.forEach((el, idx) => {
@@ -28,7 +27,6 @@ const searchUniversityName = (suggestArr) => {
 
 const loadUnivesrsityData = async () => {
     console.log("loadUnivesrsityData 실행");
-    //const url = "http://34.47.84.123:3004/university/SendAllUniversityName";
     const res = await fetch(`${userApiUrl}/university/FindAllUniversityName`);
     const data = await res.json();
     console.log(data);
@@ -37,36 +35,61 @@ const loadUnivesrsityData = async () => {
         console.log("universitySearchList: \n");
         console.log(universitySearchList);
         return;
-    }else {
-            ul.innerHTML = "<li>서버 오류로 점검 중입니다. 잠시 후 이용해주세요.</li>";
-        }
+    } else {
+        ul.innerHTML = "<li>서버 오류로 점검 중입니다. 잠시 후 이용해주세요.</li>";
+    }
 };
 
+//============ 로그인 로그아웃 ============
+const handleLogout = async () => {
+    try {
+        const res = await fetch(`${userApiUrl}/auth/logout`, {
+        method: "POST",
+        credentials: "include"
+        });
 
+        if (res.ok) {
+        // 로그아웃 성공 시 페이지 새로고침
+        window.location.reload(); // 또는 window.location.href = "/";
+        } else {
+            const data = await res.json();
+            alert(data.message || "로그아웃에 실패했습니다.");
+        }
+    } catch (err) {
+        console.error("로그아웃 요청 중 오류 발생:", err);
+        alert("서버 오류로 로그아웃에 실패했습니다.");
+    }
+};
 
-const setLoginHeader=(res)=>{
-    console.log("setLoginHeader 실행\n");
-    navBar.setAttribute("href", `${apiUrl}`);
-    if(res.loginStatus==true){
-        loginStatusBtn.setAttribute("href", `${apiUrl}/logout`);
-        loginStatusBtn.innerText="로그아웃"
-        signUpBtn.setAttribute("href", `${apiUrl}/mypage`);
-        signUpBtn.innerText="마이페이지"
-    }
-    else{
-        loginStatusBtn.setAttribute("href", `${apiUrl}/login`);
-        loginStatusBtn.innerText="로그인"
-        signUpBtn.setAttribute("href", `${apiUrl}/signup/agreement`);
-        signUpBtn.innerText="회원가입"
-    }
-    
-}
+// 작성자 회원 정보 불러오기
+const loadloginData = async () => {
+  const res = await fetch(`${userApiUrl}/auth/me`, {
+    credentials: "include", // 쿠키 포함
+  });
+  if (res.ok == true){
+    loginStatusBtn.innerText = "로그아웃"
+    loginStatusBtn.removeAttribute("href"); // 기본 링크 제거
+    loginStatusBtn.addEventListener("click", (e) => {
+      e.preventDefault(); // 링크 동작 막기
+      handleLogout();     // 로그아웃 요청
+    });
+    signUpBtn.setAttribute("href", `${postReactionApiUrl}/mypage`);
+    signUpBtn.innerText = "마이페이지"
+  } else {
+    loginStatusBtn.setAttribute("href", `${userApiUrl}/auth/login`);
+    loginStatusBtn.innerText = "로그인"
+    signUpBtn.setAttribute("href", `${userApiUrl}/user/agreement`);
+    signUpBtn.innerText = "회원가입"
+  }
+  const data = await res.json();
+  userInfo = data; 
+};
+//============ 로그인 로그아웃 ============
 
 //mainpage 로드 후 loadData()실행
-window.addEventListener('DOMContentLoaded', function()
-{
-    console.log("window.addEventListener 실행\n");
+window.addEventListener('DOMContentLoaded', function() {
     loadUnivesrsityData();
+    loadloginData();
 });
 
 const checkInput = () => {
