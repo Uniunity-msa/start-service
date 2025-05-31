@@ -209,11 +209,8 @@ var imageUrls = [];
 
 // 카드뉴스 이미지 추가 함수
 async function fetchImageUrls(imageData) {
-  console.log('fetchImageUrls 시작');
   try {
     const swiperWrapper = document.querySelector('.swiper-wrapper');
-
-    //console.log('Received imageData:', imageData);
 
     // 이미지 데이터 배열인지 확인
     if (Array.isArray(imageData)) {
@@ -223,7 +220,6 @@ async function fetchImageUrls(imageData) {
         const currentData = imageData[i]; // 현재 이미지 데이터
         // 이미지 데이터의 형태가 객체인지 확인
         if (currentData && currentData.img_url) {
-          //console.log(imageUrls.length);
           imageUrls.push(currentData.img_url); // 이미지를 배열에 추가
 
           const imgContainer = document.createElement('div');
@@ -243,8 +239,6 @@ async function fetchImageUrls(imageData) {
           swiperWrapper.appendChild(imgContainer);
         }
       }
-
-      //console.log('Image URLs:', imageUrls);
     } else {
       console.error('Error: imageData is not an array or is empty.');
     }
@@ -269,7 +263,6 @@ function nameLoad() {
   })
     .then((res) => res.json())
     .then(res => {
-      console.log("councilLoad universityInfo: ", res);
       Uniname.push(res.university_name);
       universityName.innerHTML = Uniname[0];
     });
@@ -291,9 +284,6 @@ function imageLoad() {
   })
   .then((res) => res.json())
   .then((data) => {
-      console.log("getimage: ", data);
-      console.log("imageLoad test1: ", data.result);
-      console.log("imageLoad test2: ", data.result[0].img_url);
       fetchImageUrls(data.result);
   });
 }
@@ -321,14 +311,12 @@ function updateSwiper() {
 
 // 다음 버튼 클릭시
 nextButton.addEventListener('click', function () {
-  console.log("다음 버튼");
   slideToNext();
   updateSwiper();
 });
 
 // 이전 버튼 클릭시
 prevButton.addEventListener('click', function () {
-  console.log("이전 버튼");
   slideToPrev();
   updateSwiper();
 });

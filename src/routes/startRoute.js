@@ -9,5 +9,6 @@ router.get("/mainPage",ctrl.output.home);
 router.get("/council/:university_url", ctrl.output.council);
 router.post("/getUniversityName", ctrl.council.getUniversityName);
 router.post("/getUniversityID", ctrl.council.getUniversityID);
+router.post("/getUniversityLocation", ctrl.council.getUniversityLocation);
 
 module.exports = router;
