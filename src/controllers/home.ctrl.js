@@ -47,6 +47,21 @@ const council = {
             return res.status(500).json({ error: 'Internal Server Error' }); 
         }
     },
+
+    getUniversityLocation: async (req, res) => {
+        try { 
+            console.log("home.ctrl의 getUniversityLocation ");
+            const university_url = req.body.university_url;
+            await sendUniversityURL(university_url, 'SendUniversityLocation');
+            const university_location = await receiveUniversityData('RecvStartUniversityLocation');
+
+            console.log("home: university location:", university_location);
+            return res.json(university_location);
+        } catch (err) {
+            console.error('getUniversityLocation error:', err);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+    }
 }
 
 
