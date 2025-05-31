@@ -7,7 +7,6 @@ const output = {
         res.render('../views/mainpage.html');
     },
     council: (req, res) => {
-        mainpage.getUniversityName;
         res.render('../views/council.html');
     }, 
 }
