@@ -11,6 +11,7 @@ const navBar=document.getElementById("navbar-brand");
 
 let universitySearchList = [];
 const userApiUrl = baseUrls.user;
+const postReactionApiUrl = baseUrls.postReaction;
 
 //========== 학교 이름들을 화면에 띄우기 ==========
 const searchUniversityName = (suggestArr) => {
