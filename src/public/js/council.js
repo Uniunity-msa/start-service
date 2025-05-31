@@ -117,23 +117,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (!container) return console.error('#map 요소가 없습니다.');
   
       let map;
-      // if (university_location.length == 0) {
-      //   map = new kakao.maps.Map(container, {
-      //     center: new kakao.maps.LatLng(37.59169598260442, 127.02220971655647), // 초기 위치
-      //     level: 3
-      //   });
-      // }
-      // else {
-      //   map = new kakao.maps.Map(container, {
-      //     center: new kakao.maps.LatLng(university_location[0], university_location[1]), // 초기 위치
-      //     level: 3
-      //   });
-      // }
       map = new kakao.maps.Map(container, {
           center: new kakao.maps.LatLng(university_location[0], university_location[1]), // 초기 위치
           level: 3
         });
-      
+      console.log("kakao test1");
+
       kakao.maps.event.addListener(map, 'bounds_changed', () => {
         const bounds = map.getBounds();
         const swLatlng = bounds.getSouthWest();
@@ -148,10 +137,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   
         const stores = [];
         const positions = [];
-  
+        
+        console.log("kakao test2");
         fetch(url)
           .then(res => res.json())
           .then(res => {
+            console.log("kakao test3");
             for (let i = 0; i < res.body.items.length; i++) {
               const item = res.body.items[i];
               stores.push({
@@ -162,14 +153,17 @@ document.addEventListener("DOMContentLoaded", async () => {
                 ksicNm: item.ksicNm
               });
               positions.push(new kakao.maps.LatLng(item.lat, item.lon));
+              console.log("kakao test4");
             }
   
+            console.log("kakao test5");
             for (let i = 0; i < positions.length; i++) {
               const marker = new kakao.maps.Marker({
                 map: map,
                 position: positions[i]
               });
   
+              console.log("kakao test6");
               kakao.maps.event.addListener(marker, 'click', () => {
                 for (let i = 0; i < storeInfoTextBox.length; i++) {
                   storeInfoTextBox[i].style.display = "block";
@@ -178,6 +172,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 storeAdr.innerHTML = stores[i].store_location;
                 storeClass.innerHTML = `${stores[i].storeClass} ${stores[i].storeItem}`;
                 storeItem.innerHTML = stores[i].ksicNm;
+                console.log("kakao test7");
               });
             }
           })
