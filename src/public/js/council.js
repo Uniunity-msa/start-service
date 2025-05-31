@@ -106,6 +106,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       university_location[1] = data.longitude;
     } catch (err) {
       console.error("지도 정보 요청 중 에러:", err);
+      university_location[0] = 37.59169598260442; //초기위치
+      university_location[1] = 127.02220971655647;
     }
     console.log("university_location[0]: ", university_location[0]);
     console.log("university_location[1]: ", university_location[1]);
@@ -115,18 +117,22 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (!container) return console.error('#map 요소가 없습니다.');
   
       let map;
-      if (university_location.length == 0) {
-        map = new kakao.maps.Map(container, {
-          center: new kakao.maps.LatLng(37.59169598260442, 127.02220971655647), // 초기 위치
-          level: 3
-        });
-      }
-      else {
-        map = new kakao.maps.Map(container, {
+      // if (university_location.length == 0) {
+      //   map = new kakao.maps.Map(container, {
+      //     center: new kakao.maps.LatLng(37.59169598260442, 127.02220971655647), // 초기 위치
+      //     level: 3
+      //   });
+      // }
+      // else {
+      //   map = new kakao.maps.Map(container, {
+      //     center: new kakao.maps.LatLng(university_location[0], university_location[1]), // 초기 위치
+      //     level: 3
+      //   });
+      // }
+      map = new kakao.maps.Map(container, {
           center: new kakao.maps.LatLng(university_location[0], university_location[1]), // 초기 위치
           level: 3
         });
-      }
       
       kakao.maps.event.addListener(map, 'bounds_changed', () => {
         const bounds = map.getBounds();
