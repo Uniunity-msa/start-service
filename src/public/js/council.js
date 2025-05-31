@@ -14,6 +14,8 @@ const user_name = document.getElementById("user_name");
 const university_name = document.getElementById("university_name");
 const navBar=document.getElementById("navbar");
 
+const contactBtn = document.getElementById("contact")
+
 // ========== 로그인 로그아웃 ==========
 //auth 로그인 정보 가져오기
 let userInfo;
@@ -241,7 +243,7 @@ async function fetchImageUrls(imageData) {
   }
 }
 
-//1. url -> name
+//user-service와 통신해서 학교 이름 얻어오기
 function nameLoad() {
   const universityUrl = current_university_url;
   const req = {
@@ -262,7 +264,7 @@ function nameLoad() {
     });
 }
 
-//url -> id -> image
+//user, post-service와 통신해서 학교 아이디 게시글 정보 얻어오기
 function imageLoad() {
   const universityUrl = current_university_url;
   const req = {
@@ -281,6 +283,9 @@ function imageLoad() {
       fetchImageUrls(data.result);
   });
 }
+
+//문의하기 버튼 링크 설정하기
+contactBtn.signUpBtn.setAttribute("href", `${postReactionApiUrl}/contact`);
 
 window.addEventListener('DOMContentLoaded', function() {
   setSwiper();
