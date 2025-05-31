@@ -31,25 +31,16 @@ app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// app.use("/", require("./src/controllers/index.js")); //use -> 미들 웨어를 등록해주는 메서드
 app.use("/", require("./src/routes/startRoute.js")); //use -> 미들 웨어를 등록해주는 메서드
 
 //에러처리를 위한 미들웨어 생성
-
 app.use(errorController.logErrors);
 app.use(errorController.respondNoResourceFound);
 app.use(errorController.respondInternalEroor);
 
-//래빗mq
-//const mq = require("./src/rabbit/rabbitmq-api.js");
-//app.post("/send_msg", mq.send_message);
-//app.get("/get_msg", mq.recv_message);
-
-// const port = process.env.PORT;
-const port = 3001;
+const port = process.env.PORT;
 app.listen(port, ()=> {
     console.log('running')
 })
 
-//main branch 연결 테스트
 module.exports = app;

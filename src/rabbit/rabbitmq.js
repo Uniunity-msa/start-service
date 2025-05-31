@@ -3,12 +3,14 @@ const amqp = require("amqplib");
 const RECV_QUEUES = [
   'RecvStartUniversityName',
   'RecvStartUniversityID',
-  'RecvStartUniversityLocation'
+  'RecvStartUniversityLocation', 
+  'RecvPostList'
 ];
 const SEND_QUEUES = [
   'SendUniversityName',
   'SendUniversityID',
-  'SendUniversityLocation'
+  'SendUniversityLocation',
+  'SendPostList'
 ];
 
 let channel;
@@ -71,7 +73,26 @@ async function receiveUniversityData(queueName) {
 
   throw new Error(`${queueName} 큐에서 메시지를 받지 못했습니다.`);
 }
+
+//post-service로 university_id 수신
+async function sendUniversityID(university_id, sendQueueName) {
+  await channel.assertQueue(sendQueueName, { durable: false });
+
+  if (!channel) await connectRabbitMQ();
+  let recvQueueName = 'RecvPostList';
+  
+  console.log('rabbit의 sendUniversityID 실행');
+  channel.sendToQueue(
+    sendQueueName,  // 올바르게 인자로 받은 큐 이름 사용
+    Buffer.from(JSON.stringify({university_id})),
+    {
+      replyTo: recvQueueName,
+    }
+  );
+}
+
 module.exports = {
   sendUniversityURL,
+  sendUniversityID,
   receiveUniversityData
 };

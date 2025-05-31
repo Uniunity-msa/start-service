@@ -1,14 +1,6 @@
 "use strict"
 
-const University = require("../models/University");
-//const Partner = require("../models/Partner");
-// const User = require("../models/User");
-// const Council = require("../models/Council");
-// const Post = require("../models/Post");
-// const sendEmailWithAuthorization = require("../../mailer");
-// const bcrypt = require('bcrypt');
-// const Comment = require('../models/Comment');
-// const { getLatestPosts } = require("../public/js/post/post");
+const { sendUniversityURL, sendUniversityID, receiveUniversityData } = require('../rabbit/rabbitMQ');
 
 const output = {
     home: (req, res) => {
@@ -21,67 +13,45 @@ const output = {
 }
 
 //council 페이지
-//const council = {
-//    getUniversityLocation: async (req, res) => {
-//        try {
-//            const university_url = req.body.university_url;
+const council = {
+    //간접통신으로 학교 이름 가져오기
+    getUniversityName: async (req, res) => {
+        try {
+            const university_url = req.body.university_url;
+            //rabbitMQ로 user-service에 university_name, id 요청
+            await sendUniversityURL(university_url, 'SendUniversityName');
 
-            // RabbitMQ로 university_location 요청 및 수신
-//            await sendUniversityURL(university_url, 'SendUniversityLocation');
-//            const university_location = await receiveUniversityData('RecvStartUniversityLocation');
-//            console.log("university_location: ", university_location);
-//            return res.json(university_location);
-//
-//        } catch (err) {
-//            console.error('getUniversityLocation error:', err);
-//            return res.status(500).json({ error: 'Internal Server Error' });
-//        }
-//    },
-//    getUniversityName: async (req, res) => {
-//        try {
-//                const university_url = req.body.university_url;
-//
-//                await sendUniversityURL(university_url, 'SendUniversityName');
-//                const data = await receiveUniversityData('RecvStartUniversityName')
-//
-//                console.log("university_name: ", data.university_name);
-//                return res.json(data.university_name);
-//        }catch (err) {
-//                console.error('getUniversityName error:', err);
-//                return res.status(500).json({ error: 'Internal Server Error' });
-//            }
-//    }
-//}
+            //데이터 수신
+            const university_name = await receiveUniversityData('RecvStartUniversityName');
+            return res.json(university_name);
 
-//     showUniversityNameList: async (req, res) => {
-//         const university_name = new University();
-//         const response = await university_name.showUniversityNameList();
-//         return res.json(response);
-//     },
+        } catch (err) {
+            console.error('getUniversityName error:', err);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+    },
 
-//     getUniversityName: async (req, res) => {
-//         const council = new Council();
-//         const response = await council.getUniversityName(req.body.university_url);
-//         return res.json(response);
-//     },
-
-//     getCardNewsImageUrl: async (req, res) => {
-//         const council = new Council();
-//         const response = await council.getUniversityID(req.body.university_url);
-//         const response2 = await council.getCardNewsImageUrl(response);
-//         return res.json(response2);
-//     },
-
-//     getUniversityLocation: async (req, res) => {
-//         const partner = new Partner();
-//         const university_id = await partner.getUniversityID(req.body.university_url);
-//         const response = await partner.getUniversityLocation(university_id);
-//         return res.json(response);
-//     },
-// }
+    //통신해서 학교id, image_url, post_id 가져오기
+    getUniversityID: async (req, res) => {
+        try {
+            const university_url = req.body.university_url;
+            await sendUniversityURL(university_url, 'SendUniversityID');
+            const university_id = await receiveUniversityData('RecvStartUniversityID');
+            
+            await sendUniversityID(university_id, 'SendPostList');
+            const post_info = await receiveUniversityData('RecvPostList');
+            const result = post_info.post_info;
+            
+            return res.json({result});
+        } catch (err) {
+            console.log("getUniversityID error", err);
+            return res.status(500).json({ error: 'Internal Server Error' }); 
+        }
+    },
+}
 
 
 module.exports = {
     output,
-//    council
+    council
 };
