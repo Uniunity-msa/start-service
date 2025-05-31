@@ -12,35 +12,28 @@ const navBar=document.getElementById("navbar-brand");
 let universitySearchList = [];
 const userApiUrl = baseUrls.user;
 
-console.log("mainpage.js 시작");
-
-//============학교 이름들을 화면에 띄우기============
+//========== 학교 이름들을 화면에 띄우기 ==========
 const searchUniversityName = (suggestArr) => {
     ul.innerHTML = "";
     suggestArr.forEach((el, idx) => {
         // el : {universityname : "성신여자대학교"}
         universitySearchList.push(el);
-        //console.log(el.university_name);
         }
     )
 }
 
 const loadUnivesrsityData = async () => {
-    console.log("loadUnivesrsityData 실행");
     const res = await fetch(`${userApiUrl}/university/FindAllUniversityName`);
     const data = await res.json();
-    console.log(data);
     if (res.ok) {
         searchUniversityName(data.result);  // 리스트 저장
-        console.log("universitySearchList: \n");
-        console.log(universitySearchList);
         return;
     } else {
         ul.innerHTML = "<li>서버 오류로 점검 중입니다. 잠시 후 이용해주세요.</li>";
     }
 };
 
-//============ 로그인 로그아웃 ============
+//========== 로그인 로그아웃 ==========
 const handleLogout = async () => {
     try {
         const res = await fetch(`${userApiUrl}/auth/logout`, {
@@ -84,7 +77,6 @@ const loadloginData = async () => {
   const data = await res.json();
   userInfo = data; 
 };
-//============ 로그인 로그아웃 ============
 
 //mainpage 로드 후 loadData()실행
 window.addEventListener('DOMContentLoaded', function() {
@@ -92,8 +84,8 @@ window.addEventListener('DOMContentLoaded', function() {
     loadloginData();
 });
 
+//========== 클릭하면 학교리스트 보여주기 ==========
 const checkInput = () => {
-    console.log("checkInput 실행\n");
 
     const input = searchInput.value;
     while(ul.hasChildNodes()){
@@ -126,12 +118,9 @@ searchInput.addEventListener("keyup", checkInput);
 
  //input이 빈 문자열일 경우에 모든 학교리스트 반환(mousedown)
 searchInput.addEventListener("mousedown", (event) => {
-    console.log("searchInput.addEventListener 실행\n");
     while(ul.hasChildNodes()){
         ul.removeChild(ul.firstChild);
     }
-    console.log("universitySearchList: \n");
-    console.log(universitySearchList);
     universitySearchList.forEach((el)=>{
         const li=document.createElement("li");
             const a = document.createElement("a");
@@ -141,4 +130,5 @@ searchInput.addEventListener("mousedown", (event) => {
             a.href=`/council/${el.university_url}`;
     })
 });
+
 
