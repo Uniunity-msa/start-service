@@ -81,7 +81,6 @@ async function sendUniversityID(university_id, sendQueueName) {
   if (!channel) await connectRabbitMQ();
   let recvQueueName = 'RecvPostList';
   
-  console.log('rabbit의 sendUniversityID 실행');
   channel.sendToQueue(
     sendQueueName,  // 올바르게 인자로 받은 큐 이름 사용
     Buffer.from(JSON.stringify({university_id})),

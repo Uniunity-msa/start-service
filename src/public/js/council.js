@@ -14,6 +14,7 @@ const user_name = document.getElementById("user_name");
 const university_name = document.getElementById("university_name");
 const navBar=document.getElementById("navbar");
 
+// ========== 로그인 로그아웃 ==========
 //auth 로그인 정보 가져오기
 let userInfo;
 const userApiUrl = baseUrls.user;
@@ -65,66 +66,6 @@ const loadloginData = async () => {
   userInfo = data; 
 };
 
-// const loadloginData = async () => {
-//   const res = await fetch(`${userApiUrl}/auth/logout`, {
-//     credentials: "include", // 쿠키 포함
-//   });
-
-//   userInfo = await res.json(); // 유저 정보가 저장되는 변수
-// };
-
-// 페이지 로드 후 로그인 정보 획득
-// window.addEventListener('DOMContentLoaded', function () {
-//     loadloginData();
-// });
-
-//회원로그인 정보 불러오기
-// const loadloginData = () => {
-//   const url = `${apiUrl}/loginStatus`;
-//   fetch(url)
-//       .then((res) => res.json())
-//       .then(res => {
-//           userInfo=res;
-//           setLoginHeader(res);
-//       }
-//       )
-// }
-
-// const setLoginHeader = (res) => {
-//   navBar.setAttribute("href", `${apiUrl}`);
-//   if (res.loginStatus) {
-//       loginStatusBtn.setAttribute("href", `${apiUrl}/logout`);
-//       loginStatusBtn.innerText = "로그아웃"
-//       signUpBtn.setAttribute("href", `${apiUrl}/mypage`);
-//       signUpBtn.innerText = "마이페이지"
-//   }
-//   else {
-//       loginStatusBtn.setAttribute("href", `${apiUrl}/login`);
-//       loginStatusBtn.innerText = "로그인"
-//       signUpBtn.setAttribute("href", `${apiUrl}/signup/agreement`);
-//       signUpBtn.innerText = "회원가입"
-//   }
-
-// }
-
-
-// university_url 값을 받아오는 함수
-// function getUniversityUrl() {
-//   // 현재 페이지의 URL에서 경로(pathname) 부분을 추출
-//   const path = window.location.pathname;
-
-//   // 경로에서 universityUrl 값을 추출
-//   const pathParts = path.split('/');
-//   const universityUrl = pathParts[pathParts.length - 1];
-//   console.log("universityUrl: ", universityUrl);
-//   return universityUrl;
-// }
-// var current_university_url = getUniversityUrl();
-
-//const url = new URL(window.location.href);
-//  const universityUrl = url.pathname.split('/').pop();
-//  return universityUrl;
-
 // university_url 값을 받아오는 함수
 function getUniversityUrl() {
   const url = new URL(window.location.href);
@@ -136,7 +77,7 @@ var current_university_url = getUniversityUrl();
 function setCenter(map,latitude,longitude){            
   // 이동할 위도 경도 위치를 생성합니다 
   var moveLatLon = new kakao.maps.LatLng(latitude,longitude);
-                  
+
   // 지도 중심을 이동 시킵니다
   map.setCenter(moveLatLon);
 }
@@ -152,7 +93,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     };
 
     try {
-      const res = await fetch(`${apiUrl}/getUniversityLocation`, {
+      const res = await fetch(`${userApiUrl}/getUniversityLocation`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
