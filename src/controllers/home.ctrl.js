@@ -22,6 +22,7 @@ const council = {
 
             //데이터 수신
             const university_name = await receiveUniversityData('RecvStartUniversityName');
+            console.log("home getUniversityName: ", university_name);
             return res.json(university_name);
 
         } catch (err) {
@@ -40,6 +41,7 @@ const council = {
             await sendUniversityID(university_id, 'SendPostList');
             const post_info = await receiveUniversityData('RecvPostList');
             const result = post_info.post_info;
+            console.log("home getUniversityID: ", result);
             
             return res.json({result});
         } catch (err) {

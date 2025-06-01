@@ -15,6 +15,8 @@ const university_name = document.getElementById("university_name");
 const navBar=document.getElementById("navbar");
 
 const contactBtn = document.getElementById("contact")
+//문의하기 버튼 링크 설정하기
+contactBtn.signUpBtn.setAttribute("href", `${postReactionApiUrl}/contact`);
 
 // ========== 로그인 로그아웃 ==========
 //auth 로그인 정보 가져오기
@@ -259,6 +261,7 @@ function nameLoad() {
   })
     .then((res) => res.json())
     .then(res => {
+      console.log("nameLoad: ", res.university_name);
       Uniname.push(res.university_name);
       universityName.innerHTML = Uniname[0];
     });
@@ -280,12 +283,10 @@ function imageLoad() {
   })
   .then((res) => res.json())
   .then((data) => {
+      console.log("imageLoad: ", data.result);
       fetchImageUrls(data.result);
   });
 }
-
-//문의하기 버튼 링크 설정하기
-contactBtn.signUpBtn.setAttribute("href", `${postReactionApiUrl}/contact`);
 
 window.addEventListener('DOMContentLoaded', function() {
   setSwiper();
