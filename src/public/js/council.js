@@ -14,16 +14,17 @@ const user_name = document.getElementById("user_name");
 const university_name = document.getElementById("university_name");
 const navBar=document.getElementById("navbar");
 
-const contactBtn = document.getElementById("contact")
-//문의하기 버튼 링크 설정하기
-contactBtn.signUpBtn.setAttribute("href", `${postReactionApiUrl}/contact`);
+const userApiUrl = baseUrls.user;
+const postApiUrl = baseUrls.post;
+const postReactionApiUrl = baseUrls.postReaction;
+
+const contactBtn = document.getElementById("contact");
+// 문의하기 버튼 링크 설정하기
+contactBtn.setAttribute("href", `${postReactionApiUrl}/contact`);
 
 // ========== 로그인 로그아웃 ==========
 //auth 로그인 정보 가져오기
 let userInfo;
-const userApiUrl = baseUrls.user;
-const postApiUrl = baseUrls.post;
-const postReactionApiUrl = baseUrls.postReaction;
 
 // 로그아웃 처리 함수
 const handleLogout = async () => {
