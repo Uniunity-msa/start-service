@@ -1,5 +1,5 @@
 import loadKakaoMap from '/council/js/kakaomapLoader.js';
-import apiKeys from '/council/apiKey.js';
+import apiKeys from '/council/js/apiKey.js';
 import { apiUrl, baseUrls } from '/council/js/apiUrl.js';
 
 //로그인(로그아웃), 회원가입(마이페이지)버튼
