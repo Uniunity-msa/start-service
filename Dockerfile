@@ -17,5 +17,5 @@ COPY . .
 EXPOSE 3001
 
 # 6. 서버 실행
-# CMD ["node", "main.js"]
-CMD ["./wait-for.sh", "mysql_host", "3306", "node", "main.js"]]
+CMD ["node", "main.js"]
+# CMD ["./wait-for.sh", "mysql_host", "3306", "node", "main.js"]]
