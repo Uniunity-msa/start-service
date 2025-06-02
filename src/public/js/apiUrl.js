@@ -5,7 +5,7 @@ export const baseUrls = {
   post: "http://uniunity.store/post",
   postReaction: "http://uniunity.store/mypage",
   partner: "http://uniunity.store/partner",
-  auth: "http://uniunity.store/auth",
-  user: "http://uniunity.store/user",
+  user: "http://uniunity.store/user",  //user-service랑 직접통신
+  university: "http://uniunity.store/university",
   retailer: "http://uniunity.store/retailer"
 };

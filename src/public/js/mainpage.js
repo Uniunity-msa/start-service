@@ -11,6 +11,7 @@ const navBar=document.getElementById("navbar-brand");
 let universitySearchList = [];
 const userApiUrl = baseUrls.user;
 const postReactionApiUrl = baseUrls.postReaction;
+const universityApiUrl = baseUrls.university;
 
 //========== 학교 이름들을 화면에 띄우기 ==========
 const searchUniversityName = (suggestArr) => {
@@ -23,7 +24,7 @@ const searchUniversityName = (suggestArr) => {
 }
 
 const loadUnivesrsityData = async () => {
-    const res = await fetch(`${userApiUrl}/university/FindAllUniversityName`);
+    const res = await fetch(`${universityApiUrl}/FindAllUniversityName`);
     const data = await res.json();
     if (res.ok) {
         searchUniversityName(data.result);  // 리스트 저장
