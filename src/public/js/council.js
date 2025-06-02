@@ -1,7 +1,6 @@
-import loadKakaoMap from '/js/kakaomapLoader.js';
-import apiKeys from './apiKey.js';
-import { apiUrl } from '/js/apiUrl.js';
-import { baseUrls } from './apiUrl.js';
+import loadKakaoMap from '/council/js/kakaomapLoader.js';
+import apiKeys from '/council/apiKey.js';
+import { apiUrl, baseUrls } from '/council/js/apiUrl.js';
 
 //로그인(로그아웃), 회원가입(마이페이지)버튼
 const loginStatusBtn = document.getElementById("loginStatusBtn");

@@ -7,8 +7,8 @@ router.get("/mainPage",ctrl.output.home);
 
 //council 페이지
 router.get("/council/:university_url", ctrl.output.council);
-router.post("/getUniversityName", ctrl.council.getUniversityName);
-router.post("/getUniversityID", ctrl.council.getUniversityID);
-router.post("/getUniversityLocation", ctrl.council.getUniversityLocation);
+router.post("/council/getUniversityName", ctrl.council.getUniversityName);
+router.post("/council/getUniversityID", ctrl.council.getUniversityID);
+router.post("/council/getUniversityLocation", ctrl.council.getUniversityLocation);
 
 module.exports = router;

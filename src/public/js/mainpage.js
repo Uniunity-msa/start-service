@@ -1,8 +1,7 @@
 const ul = document.querySelector(".pop_rel_keywords");
 const searchInput = document.querySelector(".search_input");
 const relContainer = document.querySelector(".rel_search");
-import { apiUrl } from '/js/apiUrl.js';
-import { baseUrls } from './apiUrl.js';
+import { apiUrl, baseUrls } from '/council/js/apiUrl.js';
 
 //로그인(로그아웃), 회원가입(마이페이지)버튼
 const loginStatusBtn=document.getElementById("loginStatusBtn");
