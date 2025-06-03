@@ -24,7 +24,7 @@ const council = {
 
             //데이터 수신
             const university_name = await receiveUniversityData('RecvStartUniversityName');
-            console.log("home getUniversityName result: ", university_name);
+            console.log("home getUniversityName university_name: ", university_name);
             return res.json(university_name);
 
         } catch (err) {
@@ -36,9 +36,9 @@ const council = {
     //통신해서 학교id, image_url, post_id 가져오기
     getUniversityID: async (req, res) => {
         try {
-            console.log("home getUniversityName 시작");
+            console.log("home getUniversityID 시작");
             const university_url = req.body.university_url;
-            console.log("home getUniversityName university_url: ", university_url);
+            console.log("home getUniversityID university_url: ", university_url);
             await sendUniversityURL(university_url, 'SendUniversityID');
             const university_id = await receiveUniversityData('RecvStartUniversityID');
             
@@ -47,12 +47,12 @@ const council = {
                 return res.status(500).json({ error: 'Internal Server Error' }); 
             }
 
-            console.log("home getUniversityName university_id: ", university_id);
+            console.log("home getUniversityID university_id: ", university_id);
             await sendUniversityID(university_id, 'SendPostList');
             const post_info = await receiveUniversityData('RecvPostList');
             const result = post_info.post_info;
             
-            console.log("home getUniversityName result: ", result);
+            console.log("home getUniversityID result: ", result);
             return res.json({result});
         } catch (err) {
             console.log("getUniversityID error", err);
@@ -62,7 +62,7 @@ const council = {
 
     getUniversityLocation: async (req, res) => {
         try { 
-            console.log("home.ctrl의 getUniversityLocation ");
+            console.log("home getUniversityLocation ");
             const university_url = req.body.university_url;
             console.log("home getUniversityName university_url: ", university_url);
             await sendUniversityURL(university_url, 'SendUniversityLocation');
