@@ -13,9 +13,9 @@ const user_name = document.getElementById("user_name");
 const university_name = document.getElementById("university_name");
 const navBar=document.getElementById("navbar");
 
-// const contactBtn = document.getElementById("contact");
-// // 문의하기 버튼 링크 설정하기
-// contactBtn.setAttribute("href", `${baseUrls.postReaction}/contact`);
+const contactBtn = document.getElementById("contact");
+// 문의하기 버튼 링크 설정하기
+contactBtn.setAttribute("href", `${baseUrls.postReaction}/contact`);
 
 // ========== 로그인 로그아웃 ==========
 //auth 로그인 정보 가져오기
@@ -220,7 +220,7 @@ async function fetchImageUrls(imageData) {
           imgContainer.classList.add('swiper-slide');
 
           const imgLink = document.createElement('a');
-          imgLink.href = `${postApiUrl}/postviewer/${currentData.post_id}`; // 이미지 클릭 시 postviewer 페이지로 이동하는 URL 생성
+          imgLink.href = `${baseUrls.post}/postviewer/${currentData.post_id}`; // 이미지 클릭 시 postviewer 페이지로 이동하는 URL 생성
           imgLink.target = '_self';
 
           const imgElement = document.createElement('img');
