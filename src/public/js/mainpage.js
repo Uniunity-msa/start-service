@@ -11,7 +11,6 @@ const navBar=document.getElementById("navbar-brand");
 let universitySearchList = [];
 const userApiUrl = baseUrls.user;
 const postReactionApiUrl = baseUrls.postReaction;
-const universityApiUrl = baseUrls.university;
 
 //========== 학교 이름들을 화면에 띄우기 ==========
 const searchUniversityName = (suggestArr) => {
@@ -43,7 +42,7 @@ const handleLogout = async () => {
         });
 
         if (res.ok) {
-        // 로그아웃 성공 시 페이지 새로고침
+        // 로그아웃 성공 시 페이지 새로고침F
         window.location.reload(); // 또는 window.location.href = "/";
         } else {
             const data = await res.json();

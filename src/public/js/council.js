@@ -28,7 +28,7 @@ let userInfo;
 // 로그아웃 처리 함수
 const handleLogout = async () => {
   try {
-    const res = await fetch(`${userApiUrl}/auth/logout`, {
+    const res = await fetch(`${userApiUrl}/logout`, {
       method: "POST",
       credentials: "include"
     });
@@ -48,7 +48,7 @@ const handleLogout = async () => {
 
 // 작성자 회원 정보 불러오기
 const loadloginData = async () => {
-  const res = await fetch(`${userApiUrl}/auth/me`, {
+  const res = await fetch(`${userApiUrl}/me`, {
     credentials: "include", // 쿠키 포함
   });
   if (res.ok == true){
@@ -58,12 +58,12 @@ const loadloginData = async () => {
       e.preventDefault(); // 링크 동작 막기
       handleLogout();     // 로그아웃 요청
     });
-    signUpBtn.setAttribute("href", `${postReactionApiUrl}/mypage`);
+    signUpBtn.setAttribute("href", `${postReactionApiUrl}`);
     signUpBtn.innerText = "마이페이지"
   } else {
-    loginStatusBtn.setAttribute("href", `${userApiUrl}/auth/login`);
+    loginStatusBtn.setAttribute("href", `${userApiUrl}/login`);
     loginStatusBtn.innerText = "로그인"
-    signUpBtn.setAttribute("href", `${userApiUrl}/user/agreement`);
+    signUpBtn.setAttribute("href", `${userApiUrl}/agreement`);
     signUpBtn.innerText = "회원가입"
   }
   const data = await res.json();
