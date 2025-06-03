@@ -9,9 +9,6 @@ const signUpBtn=document.getElementById("signUpBtn");
 const navBar=document.getElementById("navbar-brand");
 
 let universitySearchList = [];
-const userApiUrl = baseUrls.user;
-const authApiUrl = baseUrls.auth;
-const postReactionApiUrl = baseUrls.postReaction;
 
 //========== 학교 이름들을 화면에 띄우기 ==========
 const searchUniversityName = (suggestArr) => {
@@ -24,7 +21,7 @@ const searchUniversityName = (suggestArr) => {
 }
 
 const loadUnivesrsityData = async () => {
-    const res = await fetch(`${userApiUrl}/university/findAllUniversityName`);
+    const res = await fetch(`${baseUrls.university}/findAllUniversityName`);
     const data = await res.json();
     if (res.ok) {
         searchUniversityName(data.result);  // 리스트 저장
@@ -37,7 +34,7 @@ const loadUnivesrsityData = async () => {
 //========== 로그인 로그아웃 ==========
 const handleLogout = async () => {
     try {
-        const res = await fetch(`${}/auth/logout`, {
+        const res = await fetch(`${baseUrls.auth}/logout`, {
         method: "POST",
         credentials: "include"
         });
@@ -57,7 +54,7 @@ const handleLogout = async () => {
 
 // 작성자 회원 정보 불러오기
 const loadloginData = async () => {
-  const res = await fetch(`${}/me`, {
+  const res = await fetch(`${baseUrls.auth}/me`, {
     credentials: "include", // 쿠키 포함
   });
   if (res.ok == true){
@@ -67,12 +64,12 @@ const loadloginData = async () => {
       e.preventDefault(); // 링크 동작 막기
       handleLogout();     // 로그아웃 요청
     });
-    signUpBtn.setAttribute("href", `${}`);
+    signUpBtn.setAttribute("href", `${baseUrls.postReaction}`);
     signUpBtn.innerText = "마이페이지"
   } else {
-    loginStatusBtn.setAttribute("href", `${}/login`);
+    loginStatusBtn.setAttribute("href", `${baseUrls.auth}/login`);
     loginStatusBtn.innerText = "로그인"
-    signUpBtn.setAttribute("href", `${}/agreement`);
+    signUpBtn.setAttribute("href", `${baseUrls.user}/agreement`);
     signUpBtn.innerText = "회원가입"
   }
   const data = await res.json();

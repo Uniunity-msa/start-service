@@ -13,10 +13,6 @@ const user_name = document.getElementById("user_name");
 const university_name = document.getElementById("university_name");
 const navBar=document.getElementById("navbar");
 
-const userApiUrl = baseUrls.user;
-const postApiUrl = baseUrls.post;
-const postReactionApiUrl = baseUrls.postReaction;
-
 const contactBtn = document.getElementById("contact");
 // 문의하기 버튼 링크 설정하기
 contactBtn.setAttribute("href", `${postReactionApiUrl}/contact`);
@@ -28,7 +24,7 @@ let userInfo;
 // 로그아웃 처리 함수
 const handleLogout = async () => {
   try {
-    const res = await fetch(`${userApiUrl}/logout`, {
+    const res = await fetch(`${baseUrls.auth}/logout`, {
       method: "POST",
       credentials: "include"
     });
@@ -48,7 +44,7 @@ const handleLogout = async () => {
 
 // 작성자 회원 정보 불러오기
 const loadloginData = async () => {
-  const res = await fetch(`${userApiUrl}/me`, {
+  const res = await fetch(`${baseUrls.auth}/me`, {
     credentials: "include", // 쿠키 포함
   });
   if (res.ok == true){
@@ -58,12 +54,12 @@ const loadloginData = async () => {
       e.preventDefault(); // 링크 동작 막기
       handleLogout();     // 로그아웃 요청
     });
-    signUpBtn.setAttribute("href", `${postReactionApiUrl}`);
+    signUpBtn.setAttribute("href", `${baseUrls.postReaction}`);
     signUpBtn.innerText = "마이페이지"
   } else {
-    loginStatusBtn.setAttribute("href", `${userApiUrl}/login`);
+    loginStatusBtn.setAttribute("href", `${baseUrls.auth}/login`);
     loginStatusBtn.innerText = "로그인"
-    signUpBtn.setAttribute("href", `${userApiUrl}/agreement`);
+    signUpBtn.setAttribute("href", `${baseUrls.user}/agreement`);
     signUpBtn.innerText = "회원가입"
   }
   const data = await res.json();
@@ -363,19 +359,19 @@ function generateDynamicURL(linkId, userschool) {
 
   // linkId에 따라 동적 값을 할당하는 로직을 구현합니다.
   if (linkId === "retailer") {
-    dynamicValue = "retailer/" + userschool;
-    next_url = baseUrls.partner;
+    dynamicValue = userschool;
+    next_url = baseUrls.retailer;
   } else if (linkId === "partner") {
-    dynamicValue = "partner/" + userschool;
+    dynamicValue = userschool;
     next_url = baseUrls.partner;
   } else if (linkId === "more_news") {
-    dynamicValue = "showPostListAll/" + userschool;
+    dynamicValue = "all/" + userschool;
     next_url = baseUrls.post;
   } else if (linkId === "more_retailer") {
-    dynamicValue = "retailer/" + userschool;
-    next_url = baseUrls.partner;
+    dynamicValue = userschool;
+    next_url = baseUrls.retailer;
   } else if (linkId === "news") {
-    dynamicValue = "showPostListAll/" + userschool;
+    dynamicValue = "all/" + userschool;
     next_url = baseUrls.post;
   }
 

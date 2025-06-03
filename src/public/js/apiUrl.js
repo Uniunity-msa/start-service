@@ -6,6 +6,7 @@ export const baseUrls = {
   partner: "http://uniunity.store/partner",
   auth: "http://uniunity.store/auth",
   user: "http://uniunity.store/user",
+  university: "http://uniunity.store/university",
   retailer: "http://uniunity.store/retailer", 
   postReaction: "http://uniunity.store/mypage", 
 };
