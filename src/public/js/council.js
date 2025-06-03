@@ -15,7 +15,7 @@ const navBar=document.getElementById("navbar");
 
 const contactBtn = document.getElementById("contact");
 // 문의하기 버튼 링크 설정하기
-contactBtn.setAttribute("href", `${postReactionApiUrl}/contact`);
+contactBtn.setAttribute("href", `${baseUrls.postReaction}/contact`);
 
 // ========== 로그인 로그아웃 ==========
 //auth 로그인 정보 가져오기
