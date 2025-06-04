@@ -423,7 +423,7 @@ async function updateDynamicLinks() {
 
 document.addEventListener("DOMContentLoaded", () => {
   var logo = document.getElementById("navbar");
-  if (contactBtn) {
+  if (logo) {
     logo.setAttribute("href", `${baseUrls.mainpage}`);
   }
 });
