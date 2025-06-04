@@ -2,7 +2,7 @@ export const apiUrl = 'http://uniunity.store/council';
 
 // 마이크로서비스별 API 주소
 export const baseUrls = {
-  mainpage: 'http://uniunity.store/mainpage', //start-service
+  mainpage: "http://uniunity.store/mainpage", //start-service
 
   auth: "http://uniunity.store/auth", //user-service
   user: "http://uniunity.store/user",
