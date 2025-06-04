@@ -361,9 +361,6 @@ function generateDynamicURL(linkId, userschool) {
   } else if (linkId === "news") {
     dynamicValue = "all/" + userschool;
     next_url = baseUrls.post;
-  } else if (linkId === "mainpage") {
-    dynamicValue = null;
-    next_url = baseUrls.mainpage;
   } else if (linkId === "contact") {
     dynamicValue = "contact/";
     next_url = baseUrls.postReaction;
@@ -385,7 +382,6 @@ async function updateDynamicLinks() {
   var link3 = document.getElementById("news");
   var link4 = document.getElementById("more_news");
   var link5 = document.getElementById("more_retailer");
-  var link6 = document.getElementById("navbar");
   var link7 = document.getElementById("contact");
 
   link1.addEventListener("click", function () {
@@ -418,15 +414,16 @@ async function updateDynamicLinks() {
     window.location.href = link;
   });
 
-  link6.addEventListener("click", function () {
-    // 버튼을 클릭하면 이동할 링크 주소를 설정하세요.
-    var link = generateDynamicURL("mainpage", userschool);
-    window.location.href = link;
-  });
-
   link7.addEventListener("click", function () {
     // 버튼을 클릭하면 이동할 링크 주소를 설정하세요.
     var link = generateDynamicURL("contact", userschool);
     window.location.href = link;
   });
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  var logo = document.getElementById("navbar");
+  if (contactBtn) {
+    logo.setAttribute("href", `${baseUrls.mainpage}`);
+  }
+});
