@@ -2,14 +2,6 @@ import loadKakaoMap from '/council/js/kakaomapLoader.js';
 import apiKeys from '/council/js/apiKey.js';
 import { apiUrl, baseUrls } from '/council/js/apiUrl.js';
 
-//mainpage로 돌아가기
-const navBar=document.getElementById("navbar");
-contactBtn.setAttribute("href", `${baseUrls.mainpage}`);
-
-// 문의하기 버튼 링크 설정하기
-const contactBtn = document.getElementById("contact");
-contactBtn.setAttribute("href", `${baseUrls.postReaction}/contact`);
-
 // ========== 로그인 로그아웃 ==========
 //로그인(로그아웃), 회원가입(마이페이지)버튼
 //auth 로그인 정보 가져오기
@@ -369,6 +361,12 @@ function generateDynamicURL(linkId, userschool) {
   } else if (linkId === "news") {
     dynamicValue = "all/" + userschool;
     next_url = baseUrls.post;
+  } else if (linkId === "mainpage") {
+    dynamicValue = "/";
+    next_url = baseUrls.mainpage;
+  } else if (linkId === "contact") {
+    dynamicValue = "contact/";
+    next_url = baseUrls.postReaction;
   }
 
   return `${next_url}/` + dynamicValue;
@@ -387,6 +385,8 @@ async function updateDynamicLinks() {
   var link3 = document.getElementById("news");
   var link4 = document.getElementById("more_news");
   var link5 = document.getElementById("more_retailer");
+  var link6 = document.getElementById("navbar");
+  var link7 = document.getElementById("contact");
 
   link1.addEventListener("click", function () {
     // 버튼을 클릭하면 이동할 링크 주소를 설정하세요.
@@ -415,6 +415,18 @@ async function updateDynamicLinks() {
   link5.addEventListener("click", function () {
     // 버튼을 클릭하면 이동할 링크 주소를 설정하세요.
     var link = generateDynamicURL("more_retailer", userschool);
+    window.location.href = link;
+  });
+
+  link6.addEventListener("click", function () {
+    // 버튼을 클릭하면 이동할 링크 주소를 설정하세요.
+    var link = generateDynamicURL("mainpage", userschool);
+    window.location.href = link;
+  });
+
+  link7.addEventListener("click", function () {
+    // 버튼을 클릭하면 이동할 링크 주소를 설정하세요.
+    var link = generateDynamicURL("contact", userschool);
     window.location.href = link;
   });
 }
