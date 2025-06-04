@@ -2,23 +2,19 @@ import loadKakaoMap from '/council/js/kakaomapLoader.js';
 import apiKeys from '/council/js/apiKey.js';
 import { apiUrl, baseUrls } from '/council/js/apiUrl.js';
 
-//로그인(로그아웃), 회원가입(마이페이지)버튼
-const loginStatusBtn = document.getElementById("loginStatusBtn");
-const signUpBtn = document.getElementById("signUpBtn");
-
-const user_email = document.getElementById("user_email");
-const user_nickname = document.getElementById("user_nickname");
-const user_type = document.getElementById("user_type");
-const user_name = document.getElementById("user_name");
-const university_name = document.getElementById("university_name");
+//mainpage로 돌아가기
 const navBar=document.getElementById("navbar");
+contactBtn.setAttribute("href", `${baseUrls.mainpage}`);
 
-const contactBtn = document.getElementById("contact");
 // 문의하기 버튼 링크 설정하기
+const contactBtn = document.getElementById("contact");
 contactBtn.setAttribute("href", `${baseUrls.postReaction}/contact`);
 
 // ========== 로그인 로그아웃 ==========
+//로그인(로그아웃), 회원가입(마이페이지)버튼
 //auth 로그인 정보 가져오기
+const loginStatusBtn = document.getElementById("loginStatusBtn");
+const signUpBtn = document.getElementById("signUpBtn");
 let userInfo;
 
 // 로그아웃 처리 함수
@@ -54,7 +50,7 @@ const loadloginData = async () => {
       e.preventDefault(); // 링크 동작 막기
       handleLogout();     // 로그아웃 요청
     });
-    signUpBtn.setAttribute("href", `${baseUrls.postReaction}`);
+    signUpBtn.setAttribute("href", `${baseUrls.postReaction}/mypage`);
     signUpBtn.innerText = "마이페이지"
   } else {
     loginStatusBtn.setAttribute("href", `${baseUrls.auth}/login`);
