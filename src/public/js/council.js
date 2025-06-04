@@ -362,7 +362,7 @@ function generateDynamicURL(linkId, userschool) {
     dynamicValue = "all/" + userschool;
     next_url = baseUrls.post;
   } else if (linkId === "mainpage") {
-    dynamicValue = "/";
+    dynamicValue = "";
     next_url = baseUrls.mainpage;
   } else if (linkId === "contact") {
     dynamicValue = "contact/";
