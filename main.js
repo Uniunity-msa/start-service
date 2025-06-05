@@ -6,12 +6,36 @@ const bodyParser = require("body-parser");
 const path = require('path');
 const db = require('./src/config/db.js');
 const app = express();
+const mysql = require('mysql2/promise');
+const amqp = require('amqplib');
 
 //에러 라우팅
 const errorController = require("./src/controllers/errorControllers.js");
 require('dotenv').config();
 
-//const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
+
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'OK' });
+});
+
+// Readiness Probe용 엔드포인트: DB & RabbitMQ 연결 검사
+app.get('/ready', async (req, res) => {
+  try {
+    const rabbitUrl = `amqp://${process.env.RABBITMQ_USER}:${process.env.RABBITMQ_PASSWORD}@${process.env.RABBITMQ_HOST}:${process.env.RABBITMQ_PORT}`;
+    const rabbitConn = await amqp.connect(rabbitUrl, { timeout: 2000 }); 
+    // 채널을 열었다가 바로 닫으면 연결 상태 확인 가능
+    const channel = await rabbitConn.createChannel();
+    await channel.close();
+    await rabbitConn.close();
+
+    // 둘 다 성공하면 READY
+    res.status(200).json({ status: 'READY' });
+  } catch (err) {
+    console.error('Readiness check failed:', err.message);
+    res.status(500).json({ status: 'NOT_READY', error: err.message });
+  }
+});
 
 // 앱 셋팅
 // 서버가 읽을 수 있도록 HTML 의 위치를 정의해줍니다.
