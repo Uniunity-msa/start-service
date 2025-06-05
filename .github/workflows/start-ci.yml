@@ -20,9 +20,18 @@ jobs:
     - name: Set Image Tag (Datetime)
       run: echo "IMAGE_TAG=$(TZ=Asia/Seoul date +'%Y%m%d%H%M')" >> $GITHUB_ENV
 
-    - name: Inject API Key File
+    - name: Generate apiKey.js from secrets
       run: |
-        echo "${{ secrets.API_KEY }}" > ./src/public/js/apiKey.js
+        mkdir -p ./src/public/js
+        cat <<EOF > ./src/public/js/apiKey.js
+        const apiKeys = {
+          KAKAO_API_KEY: "${{ secrets.KAKAO_API_KEY }}",
+          SERVICE_KEY: "${{ secrets.SERVICE_KEY }}",
+          ENDPOINT: "${{ secrets.ENDPOINT }}"
+        };
+    
+        export default apiKeys;
+        EOF
         echo "apiKey.js 파일 생성 완료"
 
     - name: Docker Hub Login
