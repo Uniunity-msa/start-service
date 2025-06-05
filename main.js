@@ -64,7 +64,8 @@ app.use(errorController.logErrors);
 app.use(errorController.respondNoResourceFound);
 app.use(errorController.respondInternalEroor);
 
-const port = process.env.PORT;
+// const port = process.env.PORT;
+const port = 3001;
 app.listen(port, ()=> {
     console.log('running')
 })
