@@ -243,6 +243,7 @@ function nameLoad() {
   })
     .then((res) => res.json())
     .then(res => {
+      console.log("학교 이름: ", res.university_name);
       Uniname.push(res.university_name);
       universityName.innerHTML = Uniname[0];
     });
