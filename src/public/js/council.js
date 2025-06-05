@@ -418,6 +418,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   var contact = document.getElementById("contact");
   if (contact) {
-    contact.setAttribute("href", `${baseUrls.postReaction}/contact`);
+    contact.setAttribute("href", `${baseUrls.postReaction}/mypage/contact`);
   }
 });
