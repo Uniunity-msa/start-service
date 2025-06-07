@@ -20,6 +20,7 @@ const council = {
             const correlationId = generateCorrelationId();
             //rabbitMQ로 user-service에 university_name, id 요청
             await sendUniversityURL(university_url, 'SendUniversityName', correlationId);
+            console.log("getUniversityName => correlationId: ", correlationId);
             //데이터 수신
             const university_name = await receiveUniversityData('RecvStartUniversityName', correlationId);
             console.log("getUniversityName => university_name: ", university_name);
