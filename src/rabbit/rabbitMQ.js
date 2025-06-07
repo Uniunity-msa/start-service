@@ -89,7 +89,7 @@ async function receiveUniversityData(queueName, correlationId) {
 }
 
 //post-service로 university_id 수신
-async function sendUniversityID(university_id, sendQueueName) {
+async function sendUniversityID(university_id, sendQueueName, correlationId) {
   await channel.assertQueue(sendQueueName, { durable: false });
 
   if (!channel) await connectRabbitMQ();
@@ -100,11 +100,12 @@ async function sendUniversityID(university_id, sendQueueName) {
     Buffer.from(JSON.stringify({university_id})),
     {
       replyTo: recvQueueName,
+      correlationId: correlationId,
     }
   );
 }
 
-// university data 수신
+// post data 수신
 async function receivePostData(queueName) {
   if (!channel) await connectRabbitMQ();
 
@@ -112,13 +113,13 @@ async function receivePostData(queueName) {
     throw new Error(`알 수 없는 수신 큐: ${queueName}`);
   }
 
-  // 최대 10번까지, 300ms 간격으로 메시지 수신 시도
+  // 최대 10번까지, 300ms 간격으로 메시지 수신 시도More actions
   for (let i = 0; i < 10; i++) {
     const msg = await channel.get(queueName, { noAck: false });
     if (msg) {
       const data = JSON.parse(msg.content.toString());
-      // 응답을 찾지 못한 경우 해당 메시지를 다시 큐에 넣기
-      channel.nack(msg, false, true);
+      channel.ack(msg);
+      return data;
     }
     // 메시지가 없으면 300ms 대기 후 재시도
     await new Promise(resolve => setTimeout(resolve, 300));

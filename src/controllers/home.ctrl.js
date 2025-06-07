@@ -45,8 +45,8 @@ const council = {
                 return res.status(500).json({ error: 'Internal Server Error' }); 
             }
 
-            await sendUniversityID(university_id.university_id, 'SendPostList');
-            const post_info = await receivePostData('RecvPostList');
+            await sendUniversityID(university_id.university_id, 'SendPostList', correlationId);
+            const post_info = await receiveUniversityData('RecvPostList', correlationId);
             console.log("getUniversityID => post_info: ", post_info);
             const result = post_info.post_info;
             
