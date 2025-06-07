@@ -38,11 +38,9 @@ const council = {
             const correlationId = generateCorrelationId();
             await sendUniversityURL(university_url, 'SendUniversityID', correlationId);
             const university_id = await receiveUniversityData('RecvStartUniversityID', correlationId);
-            console.log("getUniversityID => university_id: ", university_id);
             
             await sendUniversityID(university_id.university_id, 'SendPostList', correlationId);
             const post_info = await receiveUniversityData('RecvPostList', correlationId);
-            console.log("getUniversityID => post_info: ", post_info);
             const result = post_info;
             
             return res.json(result);
@@ -58,7 +56,6 @@ const council = {
             const correlationId = generateCorrelationId();
             await sendUniversityURL(university_url, 'SendUniversityLocation', correlationId);
             const university_location = await receiveUniversityData('RecvStartUniversityLocation', correlationId);
-            console.log("getUniversityLocation => university_location: ", university_location);
 
             return res.json(university_location);
         } catch (err) {
