@@ -1,6 +1,6 @@
 "use strict"
 
-const { sendUniversityURL, sendUniversityID, receiveUniversityData, generateCorrelationId } = require('../rabbit/rabbitMQ');
+const { sendUniversityURL, sendUniversityID, receiveUniversityData, generateCorrelationId, receivePostData } = require('../rabbit/rabbitMQ');
 
 const output = {
     home: (req, res) => {
@@ -45,7 +45,7 @@ const council = {
             }
 
             await sendUniversityID(university_id.university_id, 'SendPostList');
-            const post_info = await receiveUniversityData('RecvPostList');
+            const post_info = await receivePostData('RecvPostList');
             const result = post_info.post_info;
             
             return res.json({result});

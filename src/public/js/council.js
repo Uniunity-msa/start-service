@@ -122,10 +122,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   
         const stores = [];
         const positions = [];
-        
+
+        console.log(url);
         fetch(url)
           .then(res => res.json())
           .then(res => {
+            console.log(res);
             for (let i = 0; i < res.body.items.length; i++) {
               const item = res.body.items[i];
               stores.push({
