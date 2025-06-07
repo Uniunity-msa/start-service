@@ -8,7 +8,7 @@ import { apiUrl, baseUrls } from '/council/js/apiUrl.js';
 const loginStatusBtn = document.getElementById("loginStatusBtn");
 const signUpBtn = document.getElementById("signUpBtn");
 let userInfo;
-
+let map;
 // 로그아웃 처리 함수
 const handleLogout = async () => {
   try {
@@ -70,44 +70,40 @@ function setCenter(map,latitude,longitude){
   map.setCenter(moveLatLon);
 }
 
+// 학교별로 중심좌표 이동시키기
+function centerChange(){
+    const universityUrl = getUniversityUrl();
+    const req = {
+        university_url:universityUrl
+    };
+
+    fetch(`${apiUrl}/getUniversityLocation`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(req),
+    }).then((res) => res.json())
+    .then(res => {
+        setCenter(map, parseFloat(res.latitude), parseFloat(res.longitude));
+    })
+}
+
 const serviceKey = apiKeys.SERVICE_KEY;
 const endPoint = apiKeys.ENDPOINT;
 
-document.addEventListener("DOMContentLoaded", async () => {
-    var university_location = [];
-    const universityUrl = current_university_url;
-    const req = {
-      university_url: universityUrl
-    };
-
-    try {
-      const res = await fetch(`${apiUrl}/getUniversityLocation`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-        body: JSON.stringify(req),
-      });
-
-      const data = await res.json();
-      university_location[0] = data.latitude;
-      university_location[1] = data.longitude;
-    } catch (err) {
-      console.error("지도 정보 요청 중 에러:", err);
-      university_location[0] = 37.59169598260442; //초기위치
-      university_location[1] = 127.02220971655647;
-    }
-    
+document.addEventListener("DOMContentLoaded", () => {
     loadKakaoMap().then(() => {
       const container = document.getElementById('map');
       if (!container) return console.error('#map 요소가 없습니다.');
   
-      let map;
       map = new kakao.maps.Map(container, {
-          center: new kakao.maps.LatLng(university_location[0], university_location[1]), // 초기 위치
-          level: 3
-        });
-
+        center: new kakao.maps.LatLng(37.59169598260442, 127.02220971655647), // 초기 위치
+        level: 3
+      });
+      
+      centerChange();
+      // bounds_changed 이벤트 등록
       kakao.maps.event.addListener(map, 'bounds_changed', () => {
         const bounds = map.getBounds();
         const swLatlng = bounds.getSouthWest();
@@ -120,23 +116,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   
         const url = `${endPoint}storeListInRectangle?serviceKey=${serviceKey}&pageNo=1&numOfRows=10&minx=${minx}&miny=${miny}&maxx=${maxx}&maxy=${maxy}&type=json`;
   
-        const stores = [];
         const positions = [];
-
-        console.log(url);
+  
         fetch(url)
           .then(res => res.json())
           .then(res => {
-            console.log(res);
             for (let i = 0; i < res.body.items.length; i++) {
               const item = res.body.items[i];
-              stores.push({
-                storeName: item.bizesNm,
-                store_location: item.rdnmAdr,
-                storeClass: item.indsLclsNm,
-                storeItem: item.indsSclsNm,
-                ksicNm: item.ksicNm
-              });
+
               positions.push(new kakao.maps.LatLng(item.lat, item.lon));
             }
   
@@ -144,16 +131,6 @@ document.addEventListener("DOMContentLoaded", async () => {
               const marker = new kakao.maps.Marker({
                 map: map,
                 position: positions[i]
-              });
-  
-              kakao.maps.event.addListener(marker, 'click', () => {
-                for (let i = 0; i < storeInfoTextBox.length; i++) {
-                  storeInfoTextBox[i].style.display = "block";
-                }
-                storeName.innerHTML = stores[i].storeName;
-                storeAdr.innerHTML = stores[i].store_location;
-                storeClass.innerHTML = `${stores[i].storeClass} ${stores[i].storeItem}`;
-                storeItem.innerHTML = stores[i].ksicNm;
               });
             }
           })
