@@ -177,6 +177,7 @@ async function fetchImageUrls(imageData) {
       // for (let i = imageData.length - 1; i >= 0; i--) {
         for (let i = 0; i <= imageData.length - 1; i++) {
         const currentData = imageData[i]; // 현재 이미지 데이터
+        console.log("imageData[i]:", imageData[i]);
         // 이미지 데이터의 형태가 객체인지 확인
         if (currentData && currentData.img_url) {
           imageUrls.push(currentData.img_url); // 이미지를 배열에 추가
@@ -244,7 +245,8 @@ function imageLoad() {
   })
   .then((res) => res.json())
   .then((data) => {
-      fetchImageUrls(data.result);
+    console.log(data.result);
+    fetchImageUrls(data.result);
   });
 }
 

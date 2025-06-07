@@ -92,6 +92,7 @@ async function receiveUniversityData(queueName, correlationId) {
       console.log("data: ", data);
       // 요청 ID(correlationId)를 확인하여 응답을 매칭
       if (data.correlationId === correlationId) {
+        console.log("correlationId: ", correlationId);
         channel.ack(msg);  // 처리 완료된 메시지에 대해 ack
         return data;
       }
