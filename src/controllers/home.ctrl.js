@@ -1,6 +1,6 @@
 "use strict"
 
-const { sendUniversityURL, sendUniversityID, receiveUniversityData, generateCorrelationId, receivePostData } = require('../rabbit/rabbitMQ');
+const { sendUniversityURL, sendUniversityID, receiveUniversityData, generateCorrelationId } = require('../rabbit/rabbitMQ');
 
 const output = {
     home: (req, res) => {
