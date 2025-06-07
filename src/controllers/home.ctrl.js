@@ -1,6 +1,6 @@
 "use strict"
 
-const { sendUniversityURL, sendUniversityID, receiveUniversityData } = require('../rabbit/rabbitMQ');
+const { sendUniversityURL, sendUniversityID, receiveUniversityData, generateCorrelationId } = require('../rabbit/rabbitMQ');
 
 const output = {
     home: (req, res) => {
@@ -17,11 +17,12 @@ const council = {
     getUniversityName: async (req, res) => {
         try {
             const university_url = req.body.university_url;
+            const correlationId = generateCorrelationId();
             //rabbitMQ로 user-service에 university_name, id 요청
-            await sendUniversityURL(university_url, 'SendUniversityName');
+            await sendUniversityURL(university_url, 'SendUniversityName', correlationId);
 
             //데이터 수신
-            const university_name = await receiveUniversityData('RecvStartUniversityName');
+            const university_name = await receiveUniversityData('RecvStartUniversityName', correlationId);
             return res.json(university_name);
 
         } catch (err) {
@@ -34,15 +35,16 @@ const council = {
     getUniversityID: async (req, res) => {
         try {
             const university_url = req.body.university_url;
-            await sendUniversityURL(university_url, 'SendUniversityID');
-            const university_id = await receiveUniversityData('RecvStartUniversityID');
+            const correlationId = generateCorrelationId();
+            await sendUniversityURL(university_url, 'SendUniversityID', correlationId);
+            const university_id = await receiveUniversityData('RecvStartUniversityID', correlationId);
             
             if(university_id == null) {
                 console.error("id를 받아오지 못했습니다.");
                 return res.status(500).json({ error: 'Internal Server Error' }); 
             }
 
-            await sendUniversityID(university_id, 'SendPostList');
+            await sendUniversityID(university_id.university_id, 'SendPostList');
             const post_info = await receiveUniversityData('RecvPostList');
             const result = post_info.post_info;
             
@@ -56,8 +58,9 @@ const council = {
     getUniversityLocation: async (req, res) => {
         try { 
             const university_url = req.body.university_url;
-            await sendUniversityURL(university_url, 'SendUniversityLocation');
-            const university_location = await receiveUniversityData('RecvStartUniversityLocation');
+            const correlationId = generateCorrelationId();
+            await sendUniversityURL(university_url, 'SendUniversityLocation',correlationId);
+            const university_location = await receiveUniversityData('RecvStartUniversityLocation', correlationId);
 
             return res.json(university_location);
         } catch (err) {
