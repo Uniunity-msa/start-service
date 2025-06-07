@@ -20,9 +20,9 @@ const council = {
             const correlationId = generateCorrelationId();
             //rabbitMQ로 user-service에 university_name, id 요청
             await sendUniversityURL(university_url, 'SendUniversityName', correlationId);
-
             //데이터 수신
             const university_name = await receiveUniversityData('RecvStartUniversityName', correlationId);
+            console.log("getUniversityName => university_name: ", university_name);
             return res.json(university_name);
 
         } catch (err) {
@@ -38,6 +38,7 @@ const council = {
             const correlationId = generateCorrelationId();
             await sendUniversityURL(university_url, 'SendUniversityID', correlationId);
             const university_id = await receiveUniversityData('RecvStartUniversityID', correlationId);
+            console.log("getUniversityID => university_id: ", university_id);
             
             if(university_id == null) {
                 console.error("id를 받아오지 못했습니다.");
@@ -46,6 +47,7 @@ const council = {
 
             await sendUniversityID(university_id.university_id, 'SendPostList');
             const post_info = await receivePostData('RecvPostList');
+            console.log("getUniversityID => post_info: ", post_info);
             const result = post_info.post_info;
             
             return res.json({result});
@@ -61,6 +63,7 @@ const council = {
             const correlationId = generateCorrelationId();
             await sendUniversityURL(university_url, 'SendUniversityLocation', correlationId);
             const university_location = await receiveUniversityData('RecvStartUniversityLocation', correlationId);
+            console.log("getUniversityLocation => university_location: ", university_location);
 
             return res.json(university_location);
         } catch (err) {

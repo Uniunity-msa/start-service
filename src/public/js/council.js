@@ -208,7 +208,7 @@ async function fetchImageUrls(imageData) {
 
 //user-service와 통신해서 학교 이름 얻어오기
 function nameLoad() {
-  const universityUrl = current_university_url;
+  const universityUrl = getUniversityUrl();
   const req = {
     university_url: universityUrl
   };
