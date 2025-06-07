@@ -223,7 +223,6 @@ function nameLoad() {
   })
     .then((res) => res.json())
     .then(res => {
-      console.log("학교 이름: ", res.university_name);
       Uniname.push(res.university_name);
       universityName.innerHTML = Uniname[0];
     });
@@ -245,7 +244,6 @@ function imageLoad() {
   })
   .then((res) => res.json())
   .then((data) => {
-    console.log(data.result);
     fetchImageUrls(data.result);
   });
 }
