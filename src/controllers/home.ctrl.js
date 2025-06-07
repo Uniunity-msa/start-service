@@ -56,8 +56,8 @@ const council = {
             const university_url = req.body.university_url;
             const correlationId = generateCorrelationId();
             await sendUniversityURL(university_url, 'SendUniversityLocation', correlationId);
+            console.log("getUniversityLocation => correlationId: ", correlationId);
             const university_location = await receiveUniversityData('RecvStartUniversityLocation', correlationId);
-
             return res.json(university_location);
         } catch (err) {
             console.error('getUniversityLocation error:', err);
