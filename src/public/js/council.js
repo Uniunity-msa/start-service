@@ -231,7 +231,7 @@ function nameLoad() {
 
 //user, post-service와 통신해서 학교 아이디 게시글 정보 얻어오기
 function imageLoad() {
-  const universityUrl = current_university_url;
+  const universityUrl = getUniversityUrl();
   const req = {
     university_url: universityUrl
   };

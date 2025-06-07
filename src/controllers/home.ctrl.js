@@ -42,7 +42,7 @@ const council = {
             
             await sendUniversityID(university_id.university_id, 'SendPostList', correlationId);
             const post_info = await receiveUniversityData('RecvPostList', correlationId);
-            console.log("getUniversityID => post_info.post_info: ", post_info.post_info);
+            console.log("getUniversityID => post_info: ", post_info);
             const result = post_info.post_info;
             
             return res.json({result});
