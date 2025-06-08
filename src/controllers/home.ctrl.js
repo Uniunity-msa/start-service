@@ -20,10 +20,9 @@ const council = {
             const correlationId = generateCorrelationId();
             //rabbitMQ로 user-service에 university_name, id 요청
             await sendUniversityURL(university_url, 'SendUniversityName', correlationId);
-            console.log("getUniversityName => correlationId: ", correlationId);
             //데이터 수신
             const university_name = await receiveUniversityData('RecvStartUniversityName', correlationId);
-            console.log("getUniversityName => university_name: ", university_name);
+            console.log("getUniversityName 실행 => university_name: ", university_name);
             return res.json(university_name);
 
         } catch (err) {
@@ -39,10 +38,12 @@ const council = {
             const correlationId = generateCorrelationId();
             await sendUniversityURL(university_url, 'SendUniversityID', correlationId);
             const university_id = await receiveUniversityData('RecvStartUniversityID', correlationId);
-            
+            console.log("getUniversityID 실행 => university_id: ", university_id.university_id);
+
             await sendUniversityID(university_id.university_id, 'SendPostList', correlationId);
             const post_info = await receiveUniversityData('RecvPostList', correlationId);
             const result = post_info;
+            console.log("getUniversityID 실행 => post_info: ", result);
             
             return res.json(result);
         } catch (err) {
@@ -56,8 +57,8 @@ const council = {
             const university_url = req.body.university_url;
             const correlationId = generateCorrelationId();
             await sendUniversityURL(university_url, 'SendUniversityLocation', correlationId);
-            console.log("getUniversityLocation => correlationId: ", correlationId);
             const university_location = await receiveUniversityData('RecvStartUniversityLocation', correlationId);
+            console.log("getUniversityLocation => university_location: ", university_location.latitude, university_location.longitude);
             return res.json(university_location);
         } catch (err) {
             console.error('getUniversityLocation error:', err);
