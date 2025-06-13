@@ -675,9 +675,9 @@
     margin-left: auto;
   }
 
-/* #header_container{
-  color: plum;
-} */
+#header_container{
+  color: blueviolet;
+}
   
   @media (min-width: 576px) {
     .container-sm, .container {
