@@ -674,6 +674,10 @@
     margin-right: auto;
     margin-left: auto;
   }
+
+#header_container{
+  color: plum;
+}
   
   @media (min-width: 576px) {
     .container-sm, .container {
