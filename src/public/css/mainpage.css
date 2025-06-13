@@ -675,9 +675,9 @@
     margin-left: auto;
   }
 
-#header_container{
+/* #header_container{
   color: plum;
-}
+} */
   
   @media (min-width: 576px) {
     .container-sm, .container {
